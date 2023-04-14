@@ -1,6 +1,6 @@
 {
     "name": "disciplineobserver/disciplineobserver",
-    "description": "Discipline Observer pagina web para la visualizacion de los llamados de atencion para la institucion educativa san jose obrero",
+    "description": "Discipline Observer página web para la visualización de los llamados de atención para la Institución Educativa San José Obrero",
     "type": "project",
     "require": {
         "laminas/laminas-diactoros": "^2.17",

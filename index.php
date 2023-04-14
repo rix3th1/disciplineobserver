@@ -13,7 +13,7 @@ $map = $routerContainer->getMap();
 // Rutas
 $map->get('login.page', '/', [
   'App\Controllers\AuthController',
-  'show'
+  'showLoginPage'
 ]);
 
 $map->post('login.auth', '/', [
@@ -47,5 +47,5 @@ if ($route) {
   $controllerInstance->$method();
 } else {
   // Ruta no encontrada
-  echo 'Ruta no encontrada';
+  echo 'Página no encontrada';
 }

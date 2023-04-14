@@ -1,3 +1,4 @@
 # disciplineobserver
 
-Discipline Observer pagina web para la visualizacion de los llamados de atencion para la institucion educativa san jose obrero
+Discipline Observer página web para la visualización de los llamados de atención para la Institución Educativa San José Obrero
+
