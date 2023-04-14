@@ -1,0 +1,7 @@
+body {
+  padding: 140px 10px 0 10px;
+}
+
+img:hover {
+  opacity: .7;
+}
