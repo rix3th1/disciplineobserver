@@ -21,6 +21,21 @@ $map->post('login.auth', '/', [
   'authenticate'
 ]);
 
+$map->get('register.askdata', '/registrarme/datos', [
+  'App\Controllers\RegisterController',
+  'askData'
+]);
+
+$map->get('register.requestData', '/registrarme', [
+  'App\Controllers\RegisterController',
+  'requestData'
+]);
+
+$map->post('register.register', '/registrarme', [
+  'App\Controllers\RegisterController',
+  'register'
+]);
+
 // Obtener la ruta coincidente de las variables globales
 $route = $routerContainer->getMatcher()->match(
   ServerRequestFactory::fromGlobals(

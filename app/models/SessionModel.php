@@ -2,9 +2,26 @@
 
 namespace App\Models;
 
+use Exception;
+
 class SessionModel extends BaseModel {
-  public function auth()
+  public function auth(
+    $email,
+    $password
+  )
   {
-    return 'Authenticated word';
+    $userModelInstance = new UserModel();
+    $dataUser = $userModelInstance->getByEmail($email);
+    $securityModelInstance = new SecurityModel();
+
+    if ($dataUser && $securityModelInstance->verifyPassword($password, $dataUser->password)) {
+      $permissions = explode(',', $dataUser->permissions);
+      return [
+        'name' => $dataUser->name,
+        'permissions' => $permissions
+      ];
+    }
+
+    throw new Exception("El correo o la contraseña son incorrectas");    
   }
 }

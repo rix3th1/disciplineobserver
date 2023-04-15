@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use App\Models\SessionModel;
 
 class AuthController extends BaseController {
   public function showLoginPage()
@@ -10,20 +11,6 @@ class AuthController extends BaseController {
     echo $this->twig->render('login.twig', [
       'title' => 'Iniciar sesión'
     ]);
-  }
-
-  public function validateAuthData($identification, $email, $password) {
-    if (empty($identification)) {
-      throw new Exception('Seleccione la identificación');
-    }
-
-    if (empty($email)) {
-      throw new Exception('Ingrese el correo');
-    }
-
-    if (empty($password)) {
-      throw new Exception('Ingrese la contraseña');
-    }
   }
 
   public function authenticate()
@@ -40,15 +27,44 @@ class AuthController extends BaseController {
       $email = $data['email'];
       $password = $data['password'];
 
-      $this->validateAuthData($identification, $email, $password);
+      $this->validateAuthData(
+        $identification,
+        $email,
+        $password
+      );
 
+      $sessionModelInstance = new SessionModel();
+      $auth = $sessionModelInstance->auth(
+        $email,
+        $password
+      );
 
+      if ($auth) {
+        echo $this->twig->render('home.twig', [
+          'title' => 'Bienvenido al observador'
+        ]);
+      }
 
     } catch (Exception $e) {
       $error = $e->getMessage();
       echo $this->twig->render('login.twig', [
+        'title' => 'Error',
         'error' => $error
       ]);
+    }
+  }
+
+  public function validateAuthData($identification, $email, $password) {
+    if (empty($identification)) {
+      throw new Exception('Seleccione la identificación');
+    }
+
+    if (empty($email)) {
+      throw new Exception('Ingrese el correo');
+    }
+
+    if (empty($password)) {
+      throw new Exception('Ingrese la contraseña');
     }
   }
 }
