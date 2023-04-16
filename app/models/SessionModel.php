@@ -16,12 +16,31 @@ class SessionModel extends BaseModel {
 
     if ($dataUser && $securityModelInstance->verifyPassword($password, $dataUser->password)) {
       $permissions = explode(',', $dataUser->permissions);
-      return [
+      $this->sessionStart();
+      $_SESSION['user_discipline_observer'] = [
         'name' => $dataUser->name,
+        'lastname' => $dataUser->lastname,
+        'telephone' => $dataUser->telephone,
+        'email' => $dataUser->email,
+        'role' => $dataUser->role,
         'permissions' => $permissions
       ];
+      return true;
     }
 
     throw new Exception("El correo o la contraseña son incorrectas");    
+  }
+
+  public function sessionStart()
+  {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+      session_start();
+    }
+  }
+
+  public function logOut()
+  {
+    $this->sessionStart();
+    session_destroy();
   }
 }

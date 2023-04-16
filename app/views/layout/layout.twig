@@ -1,18 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/public/styles/bootstrap.min.css">
-  <link rel="stylesheet" href="/public/styles/style.css">
-  <title>Discipline Observer | {{title}}</title>
-</head>
-<body>
-  <div class="container">
-    {% block content %}
-      <!-- views -->
-    {% endblock %}
-  </div>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1.0">
+		{# Bootstrap styles #}
+		<link rel="stylesheet" href="/public/styles/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/styles/style.css">
+		<title>Discipline Observer |
+			{{title}}</title>
+	</head>
+	<body>
+		<div class="container">
+			<nav>
+				<ul>
+					{% if 'make_notation' in permissions %}
+						<li>
+							<a href="/hacer/anotaciones">Hacer una anotación en el observador</a>
+						</li>
+					{% endif %}
+
+					{% if 'cite_parents' in permissions %}
+						<li>
+							<a href="/hacer/anotaciones">Citar padres de familia</a>
+						</li>
+					{% endif %}
+
+					{% if 'view_cite_parents' in permissions %}
+						<li>
+							<a href="/hacer/anotaciones">Ver citación a padres</a>
+						</li>
+					{% endif %}
+
+					{% if 'view_observer' in permissions %}
+						<li>
+							<a href="/hacer/anotaciones">Ver observador</a>
+						</li>
+					{% endif %}
+
+					{% if permissions is defined %}
+						<li>
+							<a href="/inicio">Volver al menu</a>
+						</li>
+					{% endif %}
+
+					{% if permissions is defined %}
+						<li>
+							<a href="/salir">Cerrar sesión</a>
+						</li>
+					{% endif %}
+				</ul>
+			</nav>
+
+			{% block content %}
+				<!-- views -->
+			{% endblock %}
+
+		</div>
+
+		{# Bootstrap scripts #}
+		<script src="/public/scripts/bootstrap.bundle.min.js"></script>
+	</body>
 </html>

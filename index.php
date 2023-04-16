@@ -21,7 +21,12 @@ $map->post('login.auth', '/', [
   'authenticate'
 ]);
 
-$map->get('register.askdata', '/registrarme/datos', [
+$map->get('login.out', '/salir', [
+  'App\Controllers\AuthController',
+  'logOut'
+]);
+
+$map->get('register.askdata', '/registro/datos-personales', [
   'App\Controllers\RegisterController',
   'askData'
 ]);
@@ -34,6 +39,11 @@ $map->get('register.requestData', '/registrarme', [
 $map->post('register.register', '/registrarme', [
   'App\Controllers\RegisterController',
   'register'
+]);
+
+$map->get('home.welcome', '/inicio', [
+  'App\Controllers\HomeController',
+  'showHomePage'
 ]);
 
 // Obtener la ruta coincidente de las variables globales

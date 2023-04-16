@@ -60,9 +60,9 @@ class RegisterController extends BaseController {
         $role
       );
 
-      echo $this->twig->render('login.twig', [
+      echo $this->twig->render('requestdata.twig', [
         'title' => 'Registro exitoso',
-        'success' => 'Usted se ha registrado exitosamente, por favor inicia sesión'
+        'success' => 'Registrado exitosamente, por favor inicie sesión'
       ]);
 
     } catch (Exception $e) {

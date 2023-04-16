@@ -40,9 +40,8 @@ class AuthController extends BaseController {
       );
 
       if ($auth) {
-        echo $this->twig->render('home.twig', [
-          'title' => 'Bienvenido al observador'
-        ]);
+        header('Location: /inicio');
+        exit;
       }
 
     } catch (Exception $e) {
@@ -52,6 +51,13 @@ class AuthController extends BaseController {
         'error' => $error
       ]);
     }
+  }
+
+  public function logOut()
+  {
+    $sessionModelInstance = new SessionModel();
+    $sessionModelInstance->logOut();
+    header('Location: /');
   }
 
   public function validateAuthData($identification, $email, $password) {
