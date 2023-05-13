@@ -14,7 +14,7 @@ class AuthMiddleware {
   public function handle()
   {
     // Verifica si el usuario está autenticado
-    if (!isset($_SESSION['user_discipline_observer'])) {
+    if (!isset($_SESSION['user_discipline_observer']) || empty($_SESSION['user_discipline_observer'])) {
       header('Location: /');
       exit;
     }

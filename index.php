@@ -13,10 +13,15 @@ $map = $routerContainer->getMap();
 // Rutas
 $map->get('login.page', '/', [
   'App\Controllers\AuthController',
+  'showRequestPerson'
+]);
+
+$map->post('login.requestdata', '/', [
+  'App\Controllers\AuthController',
   'showLoginPage'
 ]);
 
-$map->post('login.auth', '/', [
+$map->post('login.auth', '/auth', [
   'App\Controllers\AuthController',
   'authenticate'
 ]);
@@ -44,6 +49,36 @@ $map->post('register.register', '/registrarme', [
 $map->get('home.welcome', '/inicio', [
   'App\Controllers\HomeController',
   'showHomePage'
+]);
+
+$map->get('make.notation', '/hacer/anotaciones', [
+  'App\Controllers\MakeNotationController',
+  'makeNotation'
+]);
+
+$map->post('save.notation', '/hacer/anotaciones', [
+  'App\Controllers\MakeNotationController',
+  'saveNotation'
+]);
+
+$map->get('make.citation', '/citacion/padres', [
+  'App\Controllers\CiteParentsController',
+  'citeParents'
+]);
+
+$map->get('save.citation', '/citacion/padres', [
+  'App\Controllers\CiteParentsController',
+  'saveCitation'
+]);
+
+$map->get('view.cite.parents', '/ver/citacion/padres', [
+  'App\Controllers\ViewCiteParentsController',
+  'viewCitations'
+]);
+
+$map->get('view.observer', '/ver/observador', [
+  'App\Controllers\ViewObserverController',
+  'viewObserver'
 ]);
 
 // Obtener la ruta coincidente de las variables globales

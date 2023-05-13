@@ -6,51 +6,75 @@
 		<meta
 		name="viewport" content="width=device-width, initial-scale=1.0">
 		{# Bootstrap styles #}
-		<link rel="stylesheet" href="/public/styles/bootstrap.min.css">
+		<link rel="shortcut icon" href="/public/img/observer.png" type="image/x-icon">
+		<link rel="stylesheet" href="/public/styles/bootstrap.css">
 		<link rel="stylesheet" href="/public/styles/style.css">
+		<link rel="stylesheet" href="/public/styles/all.min.css">
 		<title>Discipline Observer |
 			{{title}}</title>
 	</head>
 	<body>
-		<div class="container">
-			<nav>
-				<ul>
-					{% if 'make_notation' in permissions %}
-						<li>
-							<a href="/hacer/anotaciones">Hacer una anotación en el observador</a>
-						</li>
-					{% endif %}
+		<div class="container-fluid">
+			<nav class="navbar navbar-expand-sm navbar-dark border-bottom fixed-top bg-observer">
+				<div class="container-fluid mx-2">
+					<a href="/" class="navbar-brand">
+						<img class="img-fluid rounded-1" src="/public/img/observer.png" alt="disciplineobserver" width="80" height="80">
+					</a>
+					<div class="collapse navbar-collapse">
+						<h2 class="display-3 fw-bold pe-5 mx-auto">EL OBSERVADOR</h2>
+					</div>
+				</div>
+			</nav>
 
-					{% if 'cite_parents' in permissions %}
-						<li>
-							<a href="/hacer/anotaciones">Citar padres de familia</a>
-						</li>
-					{% endif %}
-
-					{% if 'view_cite_parents' in permissions %}
-						<li>
-							<a href="/hacer/anotaciones">Ver citación a padres</a>
-						</li>
-					{% endif %}
-
-					{% if 'view_observer' in permissions %}
-						<li>
-							<a href="/hacer/anotaciones">Ver observador</a>
-						</li>
-					{% endif %}
-
+			<nav class="navbar navbar-expand-xl navbar-dark border-top fixed-top bg-observer">
+				<div class="container-fluid mx-2">
 					{% if permissions is defined %}
-						<li>
-							<a href="/inicio">Volver al menu</a>
-						</li>
-					{% endif %}
+						<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarDisciplineObserver">
+							<span class="navbar-toggler-icon"></span>
+						</button>
 
-					{% if permissions is defined %}
-						<li>
-							<a href="/salir">Cerrar sesión</a>
-						</li>
+						<div class="collapse navbar-collapse" id="navbarDisciplineObserver">
+
+							<ul class="navbar-nav nav nav-pills nav-fill my-4 my-lg-0">
+								{% if 'make_notation' in permissions %}
+									<li class="nav-item">
+										<a class="nav-link{% if aria_current == 'make-notation' %} active{% endif %}" href="/hacer/anotaciones">Hacer una anotación en el observador</a>
+									</li>
+								{% endif %}
+
+								{% if 'cite_parents' in permissions %}
+									<li class="nav-item">
+										<a class="nav-link{% if aria_current == 'cite-parents' %} active{% endif %}" href="/citacion/padres">Citar padres de familia</a>
+									</li>
+								{% endif %}
+
+								{% if 'view_cite_parents' in permissions %}
+									<li class="nav-item">
+										<a class="nav-link{% if aria_current == 'view-cite-parents' %} active{% endif %}" href="/ver/citacion/padres">Ver citación a padres</a>
+									</li>
+								{% endif %}
+
+								{% if 'view_observer' in permissions %}
+									<li class="nav-item">
+										<a class="nav-link{% if aria_current == 'view-observer' %} active{% endif %}" href="/ver/observador">Ver observador</a>
+									</li>
+								{% endif %}
+
+								{% if permissions is defined %}
+									<li class="nav-item">
+										<a class="nav-link" href="/inicio">Volver al menu</a>
+									</li>
+								{% endif %}
+
+								{% if permissions is defined %}
+									<li class="nav-item">
+										<a class="nav-link" href="/salir">Cerrar sesión</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
 					{% endif %}
-				</ul>
+				</div>
 			</nav>
 
 			{% block content %}

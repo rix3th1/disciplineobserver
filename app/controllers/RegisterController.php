@@ -8,14 +8,14 @@ use App\Models\UserModel;
 class RegisterController extends BaseController {
   public function askData()
   {
-    echo $this->twig->render('askdata.twig', [
+    echo $this->twig->render('askdata-register.twig', [
       'title' => 'Datos personales'
     ]);
   }
 
   public function requestData()
   {
-    echo $this->twig->render('requestdata.twig', [
+    echo $this->twig->render('requestdata-register.twig', [
       'title' => 'Crear una cuenta'
     ]);
   }
@@ -60,14 +60,14 @@ class RegisterController extends BaseController {
         $role
       );
 
-      echo $this->twig->render('requestdata.twig', [
+      echo $this->twig->render('requestdata-register.twig', [
         'title' => 'Registro exitoso',
         'success' => 'Registrado exitosamente, por favor inicie sesión'
       ]);
 
     } catch (Exception $e) {
       $error = $e->getMessage();
-      echo $this->twig->render('requestdata.twig', [
+      echo $this->twig->render('requestdata-register.twig', [
         'title' => 'Error',
         'error' => $error
       ]);

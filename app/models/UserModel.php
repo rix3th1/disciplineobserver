@@ -5,7 +5,7 @@ namespace App\Models;
 class UserModel extends BaseModel {
   public function create(
     $_id,
-    $name,
+    $name, 
     $lastname,
     $telephone,
     $email,
@@ -13,8 +13,7 @@ class UserModel extends BaseModel {
     $role
   )
   {
-    $statement = $this->db->prepare("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $permissions = $this->definePermissions($role);
+    $statement = $this->db->prepare("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)");
     $securityModelInstance = new SecurityModel();
     $password = $securityModelInstance->hashPassword($password);
     
@@ -25,24 +24,14 @@ class UserModel extends BaseModel {
       $telephone,
       $email,
       $password,
-      $role,
-      $permissions
+      $role
     ]);
   }
 
-  public function getByEmail($email)
+  public function findByEmail($email)
   {
-    $statement = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+    $statement = $this->db->prepare("SELECT users.name, users.lastname, users.telephone, users.email, users.password, users.role as role_id, roles.role, roles.permissions FROM users INNER JOIN roles ON users.role = roles._id WHERE users.email = ?");
     $statement->execute([$email]);
     return $statement->fetchObject();
-  }
-
-  public function definePermissions($role)
-  {
-    return $role === "parent"
-    ?
-    "view_observer,view_cite_parents"
-    :
-    "make_notation,cite_parents,view_observer,view_cite_parents";
   }
 }

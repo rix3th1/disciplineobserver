@@ -1,0 +1,42 @@
+{% set aria_current = 'cite-parents' %}
+
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<div class="text-center my-3">
+				<h1 class="display-2 fw-bold">Citación de padre de familia</h1>
+			</div>
+			<div class="text-center">
+				<h2 class="display-6">Elige el curso del estudiante en cuestión</h2>
+			</div>
+		</div>
+		<div class="col-md-6 mx-auto">
+			<div class="card card-body border-0">
+				<form class="row g-3 text-center">
+					{% if grades is defined %}
+						<div class="col-md-12">
+							<div class="form-floating">
+								<select name="grade" class="form-select form-select-lg bg-secondary" required>
+									<option value="">Seleccione</option>
+									{% for grade in grades %}
+										<option value="{{grade._id}}">{{grade.grade}}
+											({{grade._id}})</option>
+									{% endfor %}
+								</select>
+								<label for="grade" class="form-label">Curso del estudiante</label>
+							</div>
+						</div>
+					{% endif %}
+					<div class="col-md-12">
+						<div class="form-floating">
+							<input type="number" name="_id" class="form-control form-control-lg bg-secondary" placeholder="Ingrese la cédula" required>
+							<label for="_id" class="form-label">Documento de identidad del estudiante</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

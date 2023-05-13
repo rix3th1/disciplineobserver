@@ -1,0 +1,56 @@
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-5 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+			<div class="card card-body border-0">
+				<form method="post" class="row g-3">
+					<h1 class="mt-3">Crear cuenta</h1>
+					<div class="col-md-12">
+						<div class="form-floating">
+							<select name="identification" class="form-select" required>
+								<option value="">Seleccione</option>
+								{# <option value="teacher">Docente</option> #}
+								<option value="parent">Padre de familia</option>
+							</select>
+							<label for="identification" class="form-label">Seleccione su identificación</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="email" name="email" class="form-control" placeholder="Ingrese el correo" required>
+							<label for="email" class="form-label">Email</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="password" name="password" class="form-control" placeholder="Ingresa la contraseña" required>
+							<label for="password" class="form-label">Contraseña</label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						{% if success is not defined %}
+							<a href="/registro/datos-personales" class="btn btn-secondary btn-lg mb-2">Volver</a>
+							<button class="btn btn-primary btn-lg mb-2">Registrarme</button>
+						{% endif %}
+						{% if success %}
+							<a href="/" class="btn btn-success btn-lg mb-2">Ir a iniciar sesión</a>
+						{% endif %}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -10,19 +10,10 @@ class HomeController extends BaseController {
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
     $userLogged = $_SESSION['user_discipline_observer'];
-    $roleInfo = '';
-
-    if ($userLogged['role'] === 'parent') {
-      $roleInfo = 'Padre de familia';
-    }
-
-    if ($userLogged['name'] === 'teacher') {
-      $roleInfo = 'Docente';
-    }
-
+    
     echo $this->twig->render('home.twig', [
       'title' => 'Inicio',
-      'roleInfo' => $roleInfo,
+      'roleInfo' => $userLogged['role'],
       'permissions' => $userLogged['permissions']
     ]);
   }

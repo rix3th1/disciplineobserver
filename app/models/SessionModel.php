@@ -11,13 +11,19 @@ class SessionModel extends BaseModel {
   )
   {
     $userModelInstance = new UserModel();
-    $dataUser = $userModelInstance->getByEmail($email);
+    $dataUser = $userModelInstance->findByEmail($email);
     $securityModelInstance = new SecurityModel();
+
+    if ($dataUser) {
+      if ($dataUser->role_id !== $_POST['post']) {
+        throw new Exception("Señor $dataUser->role el cargo que seleccionó es incorrecto"); 
+      }
+    }
 
     if ($dataUser && $securityModelInstance->verifyPassword($password, $dataUser->password)) {
       $permissions = explode(',', $dataUser->permissions);
       $this->sessionStart();
-      $_SESSION['user_discipline_observer'] = [
+      return $_SESSION['user_discipline_observer'] = [
         'name' => $dataUser->name,
         'lastname' => $dataUser->lastname,
         'telephone' => $dataUser->telephone,
@@ -25,7 +31,6 @@ class SessionModel extends BaseModel {
         'role' => $dataUser->role,
         'permissions' => $permissions
       ];
-      return true;
     }
 
     throw new Exception("El correo o la contraseña son incorrectas");    

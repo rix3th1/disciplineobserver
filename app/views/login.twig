@@ -2,57 +2,45 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-4 mx-auto">
-			{% if error is defined %}
-				<div class="alert alert-danger text-center">
-					Error: {{error}}
+		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
 				</div>
 			{% endif %}
-			<div class="card card-body">
-				<div class="text-center mt-2">
-					<img src="" alt="disciplineobserver" width="72" height="57">
-					<h1 class="mt-3">Discipline Observer</h1>
-					<div class="m-5">
-						Página web para la visualización de los llamados de atención para la Institución Educativa
-						<strong>San José Obrero.</strong>
+			<div class="container">
+				<div class="card card-body border-0">
+					<div class="text-center mt-2">
+						<h1 class="">{{title}}</h1>
+						<p class="fw-normal">Inicia sesión para continuar</p>
+						<img class="img-fluid rounded-1" src="/public/img/observer.png" alt="disciplineobserver" width="100" height="100">
+					</div>
+					<div class="container px-lg-5">
+						<form method="post" action="/auth" class="row g-5 px-5 mt-1">
+							<input type="hidden" name="post" value="{{post}}">
+							<div class="col-md-12">
+								<label for="email" class="form-label text-primary fw-light">
+									CORREO ELECTRÓNICO
+								</label>
+								<input type="email" name="email" class="form-control bg-secondary fw-light" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
+							</div>
+
+							<div class="col-md-12">
+								<label for="password" class="form-label text-primary fw-light">
+									CLAVE
+								</label>
+								<input type="password" name="password" class="form-control bg-secondary fw-light" placeholder="Ingrese la contraseña" autocomplete="off" required>
+							</div>
+
+							<div class="col-md-12 text-center">
+								<button class="btn btn-primary btn-lg fw-bold">
+									Ingresar
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
-				<form method="post" class="row g-3">
-					<div class="col-md-12">
-						<div class="form-floating">
-							<select name="identification" class="form-select" required>
-								<option value="">Seleccione</option>
-								<option value="teacher">Docente</option>
-								<option value="parent">Padre de familia</option>
-							</select>
-							<label for="identification" class="form-label">Seleccione su identificación</label>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-floating">
-							<input type="email" name="email" class="form-control" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
-							<label for="email" class="form-label">
-								Email:
-							</label>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-floating">
-							<input type="password" name="password" class="form-control" placeholder="Ingrese la contraseña" autocomplete="off" required>
-							<label for="password" class="form-label">
-								Contraseña:
-							</label>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<a href="/registro/datos-personales" class="btn btn-link btn-lg w-100">¿Aun no tienes cuenta?</a>
-					</div>
-					<div class="col-md-12">
-						<button class="btn btn-primary btn-lg w-100 mb-2">
-							Iniciar sesión
-						</button>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>
