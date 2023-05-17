@@ -22,6 +22,10 @@
 					</a>
 					<div class="collapse navbar-collapse">
 						<h2 class="display-3 fw-bold pe-5 mx-auto">EL OBSERVADOR</h2>
+						
+						{% if permissions is defined %}
+							<img class="img-fluid rounded-circle" src="/public/img/avatar.png" alt="avatar" width="60" height="60">
+						{% endif %}
 					</div>
 				</div>
 			</nav>

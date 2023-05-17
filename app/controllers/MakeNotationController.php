@@ -42,13 +42,13 @@ class MakeNotationController extends BaseController
   public function saveNotation()
   {
     try {
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
-
       if (!$_POST || !$_GET) {
         http_response_code(400);
         throw new Exception('petición incorrecta');
       }
+
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handle();
 
       if (empty($_GET['_id'])) {
         throw new Exception('Ingrese el número de documento del estudiante');

@@ -5,7 +5,8 @@
     "require": {
         "laminas/laminas-diactoros": "^2.17",
         "aura/router": "^3.2",
-        "twig/twig": "^3.5"
+        "twig/twig": "^3.5",
+        "sendgrid/sendgrid": "^8.0"
     },
     "license": "MIT",
     "authors": [

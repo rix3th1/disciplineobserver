@@ -14,7 +14,7 @@
 					{% if observerStudent is defined %}
 						{% for studentData in observerStudent %}
 							<div class="row g-1 pb-3">
-								<div class="col-xl">
+								<div class="col-xl-3">
 									<div class="card border-0">
 										<div class="card-header rounded-1 bg-primary text-center mb-1">
 											<span class="h5">Anotación ({{studentData.number}})</span>
@@ -25,7 +25,7 @@
 									</div>
 								</div>
 
-								<div class="col-xl">
+								<div class="col-xl-3">
 									<div class="card border-0">
 										<div class="card-header rounded-1 bg-primary text-center mb-1">
 											<span class="h5">Nombre y Curso</span>
@@ -36,7 +36,7 @@
 									</div>
 								</div>
 
-								<div class="col-xl">
+								<div class="col-xl-3">
 									<div class="card border-0">
 										<div class="card-header rounded-1 bg-primary text-center mb-1">
 											<span class="h5">Documento de Identidad</span>
@@ -47,13 +47,35 @@
 									</div>
 								</div>
 
-								<div class="col-xl">
+								<div class="col-xl-3">
 									<div class="card border-0">
 										<div class="card-header rounded-1 bg-primary text-center mb-1">
 											<span class="h5">Testimonio del Estudiante</span>
 										</div>
 										<div class="card-body p-0">
 											<textarea name="testimony" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.testimony}}</textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-6">
+									<div class="card border-0">
+										<div class="card-header rounded-1 bg-primary text-center mb-1">
+											<span class="h5">Aviso al padre de familia</span>
+										</div>
+										<div class="card-body p-0">
+											<textarea name="notice" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.msg_parent}}</textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-6">
+									<div class="card border-0">
+										<div class="card-header rounded-1 bg-primary text-center mb-1">
+											<span class="h5">Testimonio del Estudiante</span>
+										</div>
+										<div class="card-body p-0">
+											<textarea name="email" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.email_parent}}</textarea>
 										</div>
 									</div>
 								</div>

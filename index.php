@@ -66,7 +66,7 @@ $map->get('make.citation', '/citacion/padres', [
   'citeParents'
 ]);
 
-$map->get('save.citation', '/citacion/padres', [
+$map->post('save.citation', '/citacion/padres', [
   'App\Controllers\CiteParentsController',
   'saveCitation'
 ]);

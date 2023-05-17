@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Middleware\AuthMiddleware;
-use App\Models\GradesModel;
+use App\Models\{ GradesModel, CitationsModel };
 
 class ViewCiteParentsController extends BaseController
 {
@@ -28,27 +28,14 @@ class ViewCiteParentsController extends BaseController
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
     $userLogged = $_SESSION['user_discipline_observer'];
-    $_id = $_GET['_id'];
+
+    $citationsModelInstance = new CitationsModel();
+    $citationFound = $citationsModelInstance->findCitationsByStudent($_GET['_id']);
 
     echo $this->twig->render('visualizing-citations.twig', [
       'title' => 'Ver citaciones a padres de familia en el Observador',
       'permissions' => $userLogged['permissions'],
-      'observerStudent' => [
-        [
-          'number' => 1,
-          'notation' => 'adsadsada',
-          'student' => 'adsadsada',
-          '_id' => $_id,
-          'testimony' => 'adsadsada'
-        ],
-        [
-          'number' => 2,
-          'notation' => 'adsadsada',
-          'student' => 'adsadsada',
-          '_id' => $_id,
-          'testimony' => 'adsadsada'
-        ]
-      ]
+      'observerStudent' => $citationFound
     ]);
   }
 
