@@ -1,3 +1,6 @@
-body {
-  background: #000;
+body > .container-fluid {
+  background-image: url('/public/img/bg.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

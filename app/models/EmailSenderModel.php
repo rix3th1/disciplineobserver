@@ -16,7 +16,9 @@ class EmailSenderModel
     $email->addTo($to);
     $email->addContent("text/html", "<strong>$content</strong>");
     
-    $sendgrid = new SendGrid(getenv('SENDGRID_API_KEY'));
+    $envModelInstance = new EnvModel();
+    $sendgridApiKey = $envModelInstance->reader('SENDGRID_API_KEY');
+    $sendgrid = new SendGrid($sendgridApiKey);
     
     try {
       $response = $sendgrid->send($email);
