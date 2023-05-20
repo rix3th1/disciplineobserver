@@ -16,7 +16,7 @@ class EmailSenderModel
     $email->addTo($to);
     $email->addContent("text/html", "<strong>$content</strong>");
     
-    $sendgrid = new SendGrid('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');
+    $sendgrid = new SendGrid();
     
     try {
       $response = $sendgrid->send($email);
