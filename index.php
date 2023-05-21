@@ -13,11 +13,6 @@ $map = $routerContainer->getMap();
 // Rutas
 $map->get('login.page', '/', [
   'App\Controllers\AuthController',
-  'showRequestPerson'
-]);
-
-$map->post('login.requestdata', '/', [
-  'App\Controllers\AuthController',
   'showLoginPage'
 ]);
 

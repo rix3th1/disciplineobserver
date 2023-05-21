@@ -22,7 +22,7 @@ class EmailSenderModel
     
     try {
       $response = $sendgrid->send($email);
-      var_dump($response);
+      return $response;
       // print $response->statusCode() . "\n";
       // print_r($response->headers());
       // print $response->body() . "\n";

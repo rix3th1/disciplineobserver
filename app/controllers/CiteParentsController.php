@@ -26,8 +26,10 @@ class CiteParentsController extends BaseController
     echo $this->twig->render('cite-parents.twig', [
       'title' => 'Citar padres de familia',
       'permissions' => $userLogged['permissions'],
+      'success' => $_SESSION['success_msg'] ?? NULL,
       'grades' => $grades
     ]);
+    $_SESSION['success_msg'] = NULL;
   }
 
   public function citingParents()
@@ -114,8 +116,8 @@ class CiteParentsController extends BaseController
         throw new Exception('Ocurrió un error al enviar la citacion a ' . $_POST['email']);
       }
       
-      // $_SESSION['success_msg'] = 'Citación realizada correctamente a ' . $_POST['email'];
-      // header('Location: /citacion/padres');
+      $_SESSION['success_msg'] = 'Citación enviada a ' . $_POST['email'];
+      header('Location: /citacion/padres');
 
     } catch (Exception $e) {
       $error = $e->getMessage();
