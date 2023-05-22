@@ -13,6 +13,18 @@
 			</div>
 		</div>
 		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
 			<div class="card card-body border-0">
 				<form class="row g-3 text-center">
 					{% if grades is defined %}

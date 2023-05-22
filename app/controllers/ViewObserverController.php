@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
+use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ GradesModel, NotationsModel };
+use App\Models\{ GradesModel, NotationsModel, StudentsModel };
 
 class ViewObserverController extends BaseController
 {
@@ -25,18 +26,39 @@ class ViewObserverController extends BaseController
 
   public function visualizingObserver()
   {
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
-    
-    $notationsModelInstance = new NotationsModel();
-    $notationFound = $notationsModelInstance->findNotationsByStudent($_GET['_id']);
+    try {
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handle();
+      $userLogged = $_SESSION['user_discipline_observer'];
 
-    echo $this->twig->render('visualizing-observer.twig', [
-      'title' => 'Ver Observador del estudiante',
-      'permissions' => $userLogged['permissions'],
-      'observerStudent' => $notationFound
-    ]);
+      $studentsModelInstance = new StudentsModel();
+      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+      
+      $notationsModelInstance = new NotationsModel();
+      $notationFound = $notationsModelInstance->findNotationsByStudent($_GET['_id']);
+
+      echo $this->twig->render('visualizing-observer.twig', [
+        'title' => 'Ver Observador del estudiante',
+        'permissions' => $userLogged['permissions'],
+        'observerStudent' => $notationFound
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $gradesModelInstance = new GradesModel();
+      $grades = $gradesModelInstance->getAllGrades();
+      $userLogged = $_SESSION['user_discipline_observer'];
+
+      echo $this->twig->render('view-observer.twig', [
+        'title' => 'Error',
+        'permissions' => $userLogged['permissions'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
 
   public function viewObserver()

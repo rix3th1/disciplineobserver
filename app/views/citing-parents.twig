@@ -62,7 +62,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="_id" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" {% if _id is defined %} disabled {% endif %} required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
+										<textarea name="_id" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
 										<label for="_id" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -110,7 +110,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required style="min-height: 100px;"></textarea>
+										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _emailParent is defined %}{{_emailParent}}{% endif %}</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>

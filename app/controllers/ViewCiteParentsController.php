@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
+use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ GradesModel, CitationsModel };
+use App\Models\{ GradesModel, CitationsModel, StudentsModel };
 
 class ViewCiteParentsController extends BaseController
 {
@@ -25,18 +26,39 @@ class ViewCiteParentsController extends BaseController
 
   public function visualizingCitations()
   {
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
+    try {
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handle();
+      $userLogged = $_SESSION['user_discipline_observer'];
 
-    $citationsModelInstance = new CitationsModel();
-    $citationFound = $citationsModelInstance->findCitationsByStudent($_GET['_id']);
+      $studentsModelInstance = new StudentsModel();
+      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
 
-    echo $this->twig->render('visualizing-citations.twig', [
-      'title' => 'Ver citaciones a padres de familia en el Observador',
-      'permissions' => $userLogged['permissions'],
-      'observerStudent' => $citationFound
-    ]);
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+
+      $citationsModelInstance = new CitationsModel();
+      $citationFound = $citationsModelInstance->findCitationsByStudent($_GET['_id']);
+
+      echo $this->twig->render('visualizing-citations.twig', [
+        'title' => 'Ver citaciones a padres de familia en el Observador',
+        'permissions' => $userLogged['permissions'],
+        'observerStudent' => $citationFound
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $gradesModelInstance = new GradesModel();
+      $grades = $gradesModelInstance->getAllGrades();
+      $userLogged = $_SESSION['user_discipline_observer'];
+
+      echo $this->twig->render('view-cite-parents.twig', [
+        'title' => 'Error',
+        'permissions' => $userLogged['permissions'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
 
   public function viewCitations()

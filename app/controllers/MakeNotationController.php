@@ -25,18 +25,39 @@ class MakeNotationController extends BaseController
 
   public function makingNotation()
   {
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
-    $gradesModelInstance = new GradesModel();
-    $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
+    try {
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handle();
+      $userLogged = $_SESSION['user_discipline_observer'];
+      $gradesModelInstance = new GradesModel();
+      $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
 
-    echo $this->twig->render('making-notation.twig', [
-      'title' => 'Anotación en el Observador',
-      'permissions' => $userLogged['permissions'],
-      '_studentInfo' => '[Nombre del estudiante] de ' . $grade->grade . ' grado',
-      '_id' => $_GET['_id']
-    ]);
+      $studentsModelInstance = new StudentsModel();
+      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+
+      echo $this->twig->render('making-notation.twig', [
+        'title' => 'Anotación en el Observador',
+        'permissions' => $userLogged['permissions'],
+        '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
+        '_id' => $_GET['_id']
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $userLogged = $_SESSION['user_discipline_observer'];
+      $gradesModelInstance = new GradesModel();
+      $grades = $gradesModelInstance->getAllGrades();
+
+      echo $this->twig->render('make-notation.twig', [
+        'title' => 'Error',
+        'permissions' => $userLogged['permissions'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
 
   public function saveNotation()
@@ -70,7 +91,7 @@ class MakeNotationController extends BaseController
       $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
 
       if (!$studentFound) {
-        $newStudent = $studentsModelInstance->create($_GET['_id'], $_POST['student']);
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
       }
 
       $notationsModelInstance = new NotationsModel();

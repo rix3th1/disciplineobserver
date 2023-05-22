@@ -34,18 +34,40 @@ class CiteParentsController extends BaseController
 
   public function citingParents()
   {
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
-    $gradesModelInstance = new GradesModel();
-    $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
+    try {
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handle();
+      $userLogged = $_SESSION['user_discipline_observer'];
+      $gradesModelInstance = new GradesModel();
+      $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
 
-    echo $this->twig->render('citing-parents.twig', [
-      'title' => 'Citación de padres de familia',
-      'permissions' => $userLogged['permissions'],
-      '_studentInfo' => '[Nombre del estudiante] de ' . $grade->grade . ' grado',
-      '_id' => $_GET['_id']
-    ]);
+      $studentsModelInstance = new StudentsModel();
+      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+
+      echo $this->twig->render('citing-parents.twig', [
+        'title' => 'Citación de padres de familia',
+        'permissions' => $userLogged['permissions'],
+        '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
+        '_emailParent' => $studentFound->email_parent,
+        '_id' => $_GET['_id']
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $gradesModelInstance = new GradesModel();
+      $grades = $gradesModelInstance->getAllGrades();
+      $userLogged = $_SESSION['user_discipline_observer'];
+
+      echo $this->twig->render('cite-parents.twig', [
+        'title' => 'Error',
+        'permissions' => $userLogged['permissions'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
 
   public function saveCitation()
@@ -87,7 +109,7 @@ class CiteParentsController extends BaseController
       $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
 
       if (!$studentFound) {
-        $newStudent = $studentsModelInstance->create($_GET['_id'], $_POST['student']);
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
       }
 
       $notationsModelInstance = new NotationsModel();
