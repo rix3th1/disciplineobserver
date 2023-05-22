@@ -10,8 +10,10 @@
 		<link rel="stylesheet" href="/public/styles/bootstrap.css">
 		<link rel="stylesheet" href="/public/styles/style.css">
 		<link rel="stylesheet" href="/public/styles/all.min.css">
-		{% if wallpaper %}
-			<link rel="stylesheet" href="/public/styles/wallpaper.css">
+		{% if wallpaper == 'bg' %}
+			<link rel="stylesheet" href="/public/styles/bg.css">
+		{% elseif wallpaper == 'color' %}
+			<link rel="stylesheet" href="/public/styles/color.css">
 		{% endif %}
 		
 		<title>Discipline Observer |

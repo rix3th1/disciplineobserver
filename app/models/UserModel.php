@@ -34,4 +34,15 @@ class UserModel extends BaseModel {
     $statement->execute([$email]);
     return $statement->fetchObject();
   }
+
+  public function updatePassword($email, $password)
+  {
+    $statement = $this->db->prepare("UPDATE users SET password = ? WHERE email = ?");
+    $securityModelInstance = new SecurityModel();
+    $passwordHash = $securityModelInstance->hashPassword($password);
+    return $statement->execute([
+      $passwordHash,
+      $email
+    ]);
+  }
 }

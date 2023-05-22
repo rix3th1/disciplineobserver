@@ -16,7 +16,7 @@ class SessionModel extends BaseModel {
 
     if ($dataUser) {
       if ($dataUser->role_id !== $_POST['post']) {
-        throw new Exception("Señor $dataUser->role el cargo que seleccionó es incorrecto"); 
+        throw new Exception("El cargo que seleccionó es incorrecto"); 
       }
     }
 

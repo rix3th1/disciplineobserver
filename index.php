@@ -76,6 +76,21 @@ $map->get('view.observer', '/ver/observador', [
   'viewObserver'
 ]);
 
+$map->get('passsword.change.page', '/cambiar/contrasena', [
+  'App\Controllers\UserController',
+  'changePassword'
+]);
+
+$map->post('passsword.change', '/cambiar/contrasena', [
+  'App\Controllers\UserController',
+  'updatingPassword'
+]);
+
+$map->post('password.verification.code', '/verificar/codigo', [
+  'App\Controllers\UserController',
+  'verifyVerificationCode'
+]);
+
 // Obtener la ruta coincidente de las variables globales
 $route = $routerContainer->getMatcher()->match(
   ServerRequestFactory::fromGlobals(
