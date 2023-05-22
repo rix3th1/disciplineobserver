@@ -12,14 +12,13 @@ class ViewObserverController extends BaseController
   {
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
 
     $gradesModelInstance = new GradesModel();
     $grades = $gradesModelInstance->getAllGrades();
     
     echo $this->twig->render('view-observer.twig', [
       'title' => 'Ver observador',
-      'permissions' => $userLogged['permissions'],
+      'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
     ]);
   }
@@ -29,7 +28,6 @@ class ViewObserverController extends BaseController
     try {
       $authMiddlewareInstance = new AuthMiddleware();
       $authMiddlewareInstance->handle();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       $studentsModelInstance = new StudentsModel();
       $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
@@ -43,18 +41,17 @@ class ViewObserverController extends BaseController
 
       echo $this->twig->render('visualizing-observer.twig', [
         'title' => 'Ver Observador del estudiante',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'observerStudent' => $notationFound
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       echo $this->twig->render('view-observer.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
         'grades' => $grades
       ]);

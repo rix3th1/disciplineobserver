@@ -12,14 +12,13 @@ class ViewCiteParentsController extends BaseController
   {
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
 
     $gradesModelInstance = new GradesModel();
     $grades = $gradesModelInstance->getAllGrades();
     
     echo $this->twig->render('view-cite-parents.twig', [
       'title' => 'Ver citaciones a padres de familia',
-      'permissions' => $userLogged['permissions'],
+      'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
     ]);
   }
@@ -29,7 +28,6 @@ class ViewCiteParentsController extends BaseController
     try {
       $authMiddlewareInstance = new AuthMiddleware();
       $authMiddlewareInstance->handle();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       $studentsModelInstance = new StudentsModel();
       $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
@@ -43,18 +41,17 @@ class ViewCiteParentsController extends BaseController
 
       echo $this->twig->render('visualizing-citations.twig', [
         'title' => 'Ver citaciones a padres de familia en el Observador',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'observerStudent' => $citationFound
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       echo $this->twig->render('view-cite-parents.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
         'grades' => $grades
       ]);

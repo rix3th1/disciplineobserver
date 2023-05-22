@@ -18,14 +18,13 @@ class CiteParentsController extends BaseController
   {
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
-    
+
     $gradesModelInstance = new GradesModel();
     $grades = $gradesModelInstance->getAllGrades();
 
     echo $this->twig->render('cite-parents.twig', [
       'title' => 'Citar padres de familia',
-      'permissions' => $userLogged['permissions'],
+      'userLogged' => $_SESSION['user_discipline_observer'],
       'success' => $_SESSION['success_msg'] ?? NULL,
       'grades' => $grades
     ]);
@@ -37,7 +36,7 @@ class CiteParentsController extends BaseController
     try {
       $authMiddlewareInstance = new AuthMiddleware();
       $authMiddlewareInstance->handle();
-      $userLogged = $_SESSION['user_discipline_observer'];
+
       $gradesModelInstance = new GradesModel();
       $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
 
@@ -50,7 +49,7 @@ class CiteParentsController extends BaseController
 
       echo $this->twig->render('citing-parents.twig', [
         'title' => 'Citación de padres de familia',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_emailParent' => $studentFound->email_parent,
         '_id' => $_GET['_id']
@@ -59,11 +58,10 @@ class CiteParentsController extends BaseController
       $error = $e->getMessage();
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       echo $this->twig->render('cite-parents.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
         'grades' => $grades
       ]);
@@ -143,11 +141,10 @@ class CiteParentsController extends BaseController
 
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       echo $this->twig->render('citing-parents.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
       ]);
     }

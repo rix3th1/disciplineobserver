@@ -3,9 +3,10 @@
 {% block content %}
 	<div class="row">
 		<div class="px-4 my-5 pt-3 text-center">
-			<img src="/public/img/san_jose_obrero.png" class="img-fluid mb-4" alt="disciplineobserver" width="300" height="100" loading="lazy">
+			<img src="/public/img/san_jose_obrero.png" class="img-fluid mb-4" alt="disciplineobserver" width="300" height="100">
 			<h1 class="display-3 fw-bold">Bienvenido Señor
-				{{roleInfo}}</h1>
+				{{userLogged.role}}
+			</h1>
 		</div>
 	</div>
 {% endblock %}

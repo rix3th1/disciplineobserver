@@ -9,12 +9,10 @@ class HomeController extends BaseController {
   {
     $authMiddlewareInstance = new AuthMiddleware();
     $authMiddlewareInstance->handle();
-    $userLogged = $_SESSION['user_discipline_observer'];
     
     echo $this->twig->render('home.twig', [
       'title' => 'Inicio',
-      'roleInfo' => $userLogged['role'],
-      'permissions' => $userLogged['permissions']
+      'userLogged' => $_SESSION['user_discipline_observer']
     ]);
   }
 }

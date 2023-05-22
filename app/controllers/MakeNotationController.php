@@ -10,13 +10,12 @@ class MakeNotationController extends BaseController
 {
   public function showMakeNotationPage()
   {
-    $userLogged = $_SESSION['user_discipline_observer'];
     $gradesModelInstance = new GradesModel();
     $grades = $gradesModelInstance->getAllGrades();
 
     echo $this->twig->render('make-notation.twig', [
       'title' => 'Hacer anotaciones en el observador',
-      'permissions' => $userLogged['permissions'],
+      'userLogged' => $_SESSION['user_discipline_observer'],
       'success' => $_SESSION['success_msg'] ?? NULL,
       'grades' => $grades
     ]);
@@ -28,7 +27,7 @@ class MakeNotationController extends BaseController
     try {
       $authMiddlewareInstance = new AuthMiddleware();
       $authMiddlewareInstance->handle();
-      $userLogged = $_SESSION['user_discipline_observer'];
+
       $gradesModelInstance = new GradesModel();
       $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
 
@@ -41,19 +40,18 @@ class MakeNotationController extends BaseController
 
       echo $this->twig->render('making-notation.twig', [
         'title' => 'Anotación en el Observador',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_id' => $_GET['_id']
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $userLogged = $_SESSION['user_discipline_observer'];
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
 
       echo $this->twig->render('make-notation.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
         'grades' => $grades
       ]);
@@ -109,11 +107,10 @@ class MakeNotationController extends BaseController
 
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $userLogged = $_SESSION['user_discipline_observer'];
 
       echo $this->twig->render('making-notation.twig', [
         'title' => 'Error',
-        'permissions' => $userLogged['permissions'],
+        'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
       ]);
     }

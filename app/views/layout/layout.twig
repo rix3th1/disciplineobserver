@@ -28,8 +28,8 @@
 					<div class="collapse navbar-collapse">
 						<h2 class="display-3 fw-bold pe-5 mx-auto">EL OBSERVADOR</h2>
 						
-						{% if permissions is defined %}
-							<img class="img-fluid rounded-circle" src="/public/img/avatar.png" alt="avatar" width="60" height="60">
+						{% if userLogged is defined %}
+							<img class="img-fluid rounded-circle" src="/public/img/avatar.png" alt="avatar" width="60" height="60" data-bs-toggle="tooltip" data-bs-title="{{userLogged.name}} {{userLogged.lastname}}, {{userLogged.role}}">
 						{% endif %}
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 
 			<nav class="navbar navbar-expand-xl navbar-dark border-top fixed-top bg-observer">
 				<div class="container-fluid mx-2">
-					{% if permissions is defined %}
+					{% if userLogged.permissions is defined %}
 						<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarDisciplineObserver">
 							<span class="navbar-toggler-icon"></span>
 						</button>
@@ -45,37 +45,37 @@
 						<div class="collapse navbar-collapse" id="navbarDisciplineObserver">
 
 							<ul class="navbar-nav nav nav-pills nav-fill my-4 my-lg-0">
-								{% if 'make_notation' in permissions %}
+								{% if 'make_notation' in userLogged.permissions %}
 									<li class="nav-item">
 										<a class="nav-link{% if aria_current == 'make-notation' %} active{% endif %}" href="/hacer/anotaciones">Hacer una anotación en el observador</a>
 									</li>
 								{% endif %}
 
-								{% if 'cite_parents' in permissions %}
+								{% if 'cite_parents' in userLogged.permissions %}
 									<li class="nav-item">
 										<a class="nav-link{% if aria_current == 'cite-parents' %} active{% endif %}" href="/citacion/padres">Citar padres de familia</a>
 									</li>
 								{% endif %}
 
-								{% if 'view_cite_parents' in permissions %}
+								{% if 'view_cite_parents' in userLogged.permissions %}
 									<li class="nav-item">
 										<a class="nav-link{% if aria_current == 'view-cite-parents' %} active{% endif %}" href="/ver/citacion/padres">Ver citación a padres</a>
 									</li>
 								{% endif %}
 
-								{% if 'view_observer' in permissions %}
+								{% if 'view_observer' in userLogged.permissions %}
 									<li class="nav-item">
 										<a class="nav-link{% if aria_current == 'view-observer' %} active{% endif %}" href="/ver/observador">Ver observador</a>
 									</li>
 								{% endif %}
 
-								{% if permissions is defined %}
+								{% if userLogged.permissions is defined %}
 									<li class="nav-item">
 										<a class="nav-link" href="/inicio">Volver al menu</a>
 									</li>
 								{% endif %}
 
-								{% if permissions is defined %}
+								{% if userLogged.permissions is defined %}
 									<li class="nav-item">
 										<a class="nav-link" href="/salir">Cerrar sesión</a>
 									</li>
@@ -94,5 +94,11 @@
 
 		{# Bootstrap scripts #}
 		<script src="/public/scripts/bootstrap.bundle.min.js"></script>
+		{% if userLogged is defined %}
+			<script>
+				const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+				const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+			</script>
+		{% endif %}
 	</body>
 </html>
