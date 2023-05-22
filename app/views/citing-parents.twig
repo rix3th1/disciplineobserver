@@ -87,7 +87,7 @@
 							</div>
 						</div>
 
-						<div class="col-xl-6">
+						<div class="col-xl-4">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
 									<span class="h5">Aviso al padre de familia</span>
@@ -103,7 +103,7 @@
 							</div>
 						</div>
 
-						<div class="col-xl-6">
+						<div class="col-xl-4">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
 									<span class="h5">Correo del padre de familia</span>
@@ -111,6 +111,22 @@
 								<div class="card-body p-0">
 									<div class="form-floating">
 										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _emailParent is defined %}{{_emailParent}}{% endif %}</textarea>
+										<label for="email" class="form-label">
+											<i class="fa fa-pencil-alt"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-4">
+							<div class="card border-0">
+								<div class="card-header rounded-1 bg-primary text-center mb-1">
+									<span class="h5">Nombre del padre de familia</span>
+								</div>
+								<div class="card-body p-0">
+									<div class="form-floating">
+										<textarea name="name_parent" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _nameParent is defined %}{{_nameParent}}{% endif %}</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>

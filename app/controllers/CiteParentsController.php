@@ -63,6 +63,7 @@ class CiteParentsController extends BaseController
         'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_emailParent' => $studentFound->email_parent,
+        '_nameParent' => $studentFound->name_parent,
         '_id' => $_GET['_id']
       ]);
     } catch (Exception $e) {

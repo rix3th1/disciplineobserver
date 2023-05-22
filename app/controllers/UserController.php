@@ -32,7 +32,7 @@ class UserController extends BaseController {
       $sessionModelInstance->sessionStart();
 
       // Verificar que el email ingresado no haya sido enviado previamente
-      if ($_SESSION['verification_pending']['email'] !== $_GET['email']) {
+      if ($_SESSION['verification_pending']['email'] ?? NULL !== $_GET['email']) {
 
         // Generar un código de verificación único
         $min = 100000;

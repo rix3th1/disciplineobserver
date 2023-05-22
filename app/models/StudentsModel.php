@@ -15,7 +15,7 @@ class StudentsModel extends BaseModel
   public function getByIdStudent($_id)
   {
     // Obtenemos el estudiante por su id
-    $statement = $this->db->prepare("SELECT student, email_parent FROM students WHERE _id = ?");
+    $statement = $this->db->prepare("SELECT student, email_parent, name_parent FROM students WHERE _id = ?");
     // Ejecutamos la consulta y retornamos el resultado
     $statement->execute([$_id]);
     // Retornamos al estudiante

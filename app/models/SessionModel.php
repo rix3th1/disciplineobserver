@@ -14,7 +14,7 @@ class SessionModel extends BaseModel {
     // Creamos una instancia del Modelo User
     $userModelInstance = new UserModel();
     // Buscar el usuario por el email
-    $dataUser = $userModelInstance->findByEmail($email);
+    $dataUser = $userModelInstance->getByEmail($email);
     $securityModelInstance = new SecurityModel();
 
     // Verificamos que el usuario exista

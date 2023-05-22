@@ -32,12 +32,32 @@ class UserModel extends BaseModel {
     ]);
   }
 
-  public function findByEmail($email)
+  public function getByEmail($email)
   {
-    // Vamos a buscar al usuario por su email
+    // Vamos a obtener al usuario por su email
     $statement = $this->db->prepare("SELECT users.name, users.lastname, users.telephone, users.email, users.password, users.role as role_id, roles.role, roles.permissions FROM users INNER JOIN roles ON users.role = roles._id WHERE users.email = ?");
     // Ejecutamos la consulta
     $statement->execute([$email]);
+    // Retornamos el usuario
+    return $statement->fetchObject();
+  }
+
+  public function findByEmail($email)
+  {
+    // Vamos a buscar al usuario por su email
+    $statement = $this->db->prepare("SELECT _id FROM users WHERE email = ?");
+    // Ejecutamos la consulta
+    $statement->execute([$email]);
+    // Retornamos el usuario
+    return $statement->fetchObject();
+  }
+
+  public function findById($_id)
+  {
+    // Vamos a buscar al usuario por su documento de identidad
+    $statement = $this->db->prepare("SELECT email FROM users WHERE _id = ?");
+    // Ejecutamos la consulta
+    $statement->execute([$_id]);
     // Retornamos el usuario
     return $statement->fetchObject();
   }

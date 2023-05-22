@@ -16,7 +16,7 @@ class RegisterController extends BaseController {
   }
 
   public function requestData()
-  {
+  { 
     // Mostramos la vista del formulario de crear la cuenta
     echo $this->twig->render('requestdata-register.twig', [
       'title' => 'Crear una cuenta'
@@ -32,19 +32,53 @@ class RegisterController extends BaseController {
         throw new Exception('petición incorrecta');
       }
 
-      // Validamos los datos
-      $this->validateData(
-        $_GET['_id'],
-        $_GET['name'],
-        $_GET['lastname'],
-        $_GET['telephone'],
-        $_POST['email'],
-        $_POST['password'],
-        $_POST['identification']
-      );
+      // Validamos que los datos sean correctos
+      if (empty($_GET['_id'])) {
+        throw new Exception("Ingrese la cédula");  
+      }
+
+      if (strlen($_GET['_id']) < 8 || strlen($_GET['_id']) > 10) {
+        throw new Exception("El valor de la cédula es incorrecto");
+      }
+
+      if (empty($_GET['name'])) {
+        throw new Exception('Ingrese los nombres');
+      }
+
+      if (empty($_GET['lastname'])) {
+        throw new Exception('Ingrese los apellidos');
+      }
+
+      if (empty($_GET['telephone'])) {
+        throw new Exception('Ingrese el teléfono');
+      }
+
+      if (strlen($_GET['telephone']) !== 10) {
+        throw new Exception("El número de telefono debe tener 10 dígitos");
+      }
+
+      if (empty($_POST['email'])) {
+        throw new Exception('Ingrese el correo');
+      }
+
+      if (empty($_POST['password'])) {
+        throw new Exception('Ingrese la contraseña');
+      }
+
+      if (empty($_POST['identification'])) {
+        throw new Exception('Seleccione la identificación');
+      }
+
+      // Creamos una instancia de UserModel
+      $userModelInstance = new UserModel();
+      $userFound = $userModelInstance->findById($_GET['_id']);
+      $emailExists = $userModelInstance->findByEmail($_POST['email']);
+      
+      if ($userFound || $emailExists) {
+        throw new Exception("El usuario o el correo ya existen");
+      }
 
       // Creamos el usuario
-      $userModelInstance = new UserModel();
       $userModelInstance->create(
         $_GET['_id'],
         $_GET['name'],
@@ -67,46 +101,6 @@ class RegisterController extends BaseController {
         'title' => 'Error',
         'error' => $error
       ]);
-    }
-  }
-
-  public function validateData(
-    $_id,
-    $name,
-    $lastname,
-    $telephone,
-    $email,
-    $password,
-    $role
-  )
-  {
-    // Validamos que los datos sean correctos
-    if (empty($_id)) {
-      throw new Exception("Ingrese la cédula");  
-    }
-
-    if (empty($name)) {
-      throw new Exception('Ingrese los nombres');
-    }
-
-    if (empty($lastname)) {
-      throw new Exception('Ingrese los apellidos');
-    }
-
-    if (empty($telephone)) {
-      throw new Exception('Ingrese el teléfono');
-    }
-
-    if (empty($email)) {
-      throw new Exception('Ingrese el correo');
-    }
-
-    if (empty($password)) {
-      throw new Exception('Ingrese la contraseña');
-    }
-
-    if (empty($role)) {
-      throw new Exception('Seleccione la identificación');
     }
   }
 }

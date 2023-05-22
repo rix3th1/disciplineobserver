@@ -17,7 +17,7 @@ class CitationsModel extends BaseModel
     // Establecemos un contador de citaciones
     $statement = $this->db->query("SET @row_number = 0");
     // Preparamos la consulta
-    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, citations._id, notations.notation, students.student, notations.testimony, citations.msg_parent, citations.email_parent FROM citations INNER JOIN students ON citations._id = students._id INNER JOIN notations ON citations._id = notations._id AND citations.created_at = notations.created_at WHERE students._id = ? ORDER BY notations.created_at DESC");
+    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, citations._id, notations.notation, students.student, notations.testimony, citations.msg_parent, citations.email_parent, students.name_parent FROM citations INNER JOIN students ON citations._id = students._id INNER JOIN notations ON citations._id = notations._id AND citations.created_at = notations.created_at WHERE students._id = ? ORDER BY notations.created_at DESC");
     // Ejecutamos la consulta
     $statement->execute([$_id]);
     // Retornamos los resultados

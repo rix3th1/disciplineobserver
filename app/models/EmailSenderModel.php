@@ -12,15 +12,21 @@ class EmailSenderModel
   public function sendEmail($subject, $to, $content)
   {
     // Instanciamos la clase Mail
-    $email = new Mail(); 
+    $email = new Mail();
+
+    // Instanciamos la clase EnvModel para leer las variables de entorno
+    $envModelInstance = new EnvModel();
+
     // Configuramos el email
-    $email->setFrom("rsystfip@gmail.com", "RSystfip");
+    $email->setFrom(
+      $envModelInstance->reader('FROM_EMAIL'),
+      $envModelInstance->reader('FROM_NAME')
+    );
     $email->setSubject($subject);
     $email->addTo($to);
     $email->addContent("text/html", "<strong>$content</strong>");
     
-    // Instanciamos la clase EnvModel para leer una variable de entorno
-    $envModelInstance = new EnvModel();
+    
     // Obtenemos la API KEY de Sendgrid
     $sendgridApiKey = $envModelInstance->reader('SENDGRID_API_KEY');
     // Instanciamos la clase SendGrid
