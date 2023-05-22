@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+// Importar modelos
 use Exception;
 use App\Models\UserModel;
 
 class RegisterController extends BaseController {
   public function askData()
   {
+    // Mostramos la vista de tomar los datos personales
     echo $this->twig->render('askdata-register.twig', [
       'title' => 'Datos personales'
     ]);
@@ -15,6 +17,7 @@ class RegisterController extends BaseController {
 
   public function requestData()
   {
+    // Mostramos la vista del formulario de crear la cuenta
     echo $this->twig->render('requestdata-register.twig', [
       'title' => 'Crear una cuenta'
     ]);
@@ -23,43 +26,36 @@ class RegisterController extends BaseController {
   public function register()
   {
     try {
-      $get = $_GET;
-      $post = $_POST;
-
-      if (!$get || !$post) {
+      // Validamos que se haya enviado los datos
+      if (!$_GET || !$_POST) {
         http_response_code(400);
         throw new Exception('petición incorrecta');
       }
 
-      $_id = $get['_id'];
-      $name = $get['name'];
-      $lastname = $get['lastname'];
-      $telephone = $get['telephone'];
-      $email = $post['email'];
-      $password = $post['password'];
-      $role = $post['identification'];
-
+      // Validamos los datos
       $this->validateData(
-        $_id,
-        $name,
-        $lastname,
-        $telephone,
-        $email,
-        $password,
-        $role
+        $_GET['_id'],
+        $_GET['name'],
+        $_GET['lastname'],
+        $_GET['telephone'],
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['identification']
       );
 
+      // Creamos el usuario
       $userModelInstance = new UserModel();
       $userModelInstance->create(
-        $_id,
-        $name,
-        $lastname,
-        $telephone,
-        $email,
-        $password,
-        $role
+        $_GET['_id'],
+        $_GET['name'],
+        $_GET['lastname'],
+        $_GET['telephone'],
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['identification']
       );
 
+      // Mostramos el mensaje de registro exitoso
       echo $this->twig->render('requestdata-register.twig', [
         'title' => 'Registro exitoso',
         'success' => 'Registrado exitosamente, por favor inicie sesión'
@@ -84,6 +80,7 @@ class RegisterController extends BaseController {
     $role
   )
   {
+    // Validamos que los datos sean correctos
     if (empty($_id)) {
       throw new Exception("Ingrese la cédula");  
     }
