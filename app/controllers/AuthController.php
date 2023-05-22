@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
+// Importar modelos
 use Exception;
 use App\Models\SessionModel;
 
 class AuthController extends BaseController {
   public function showLoginPage()
   {
+    // Mostramos la página de inicio, el login
     echo $this->twig->render('login.twig', [
       'title' => 'Accede'
     ]);
@@ -16,11 +18,13 @@ class AuthController extends BaseController {
   public function authenticate()
   {
     try {
+      // Validamos que el usuario haya enviado los datos
       if (!$_POST) {
         http_response_code(400);
         throw new Exception('petición incorrecta');
       }
 
+      // Validamos que los datos sean correctos
       if (empty($_POST['post'])) {
         throw new Exception('Ingrese el cargo');
       }
@@ -33,12 +37,14 @@ class AuthController extends BaseController {
         throw new Exception('Ingrese la contraseña');
       }
 
+      // Autenticamos al usuario
       $sessionModelInstance = new SessionModel();
       $auth = $sessionModelInstance->auth(
         $_POST['email'],
         $_POST['password']
       );
 
+      // Si el usuario se autenticá, redirigimos al inicio
       if ($auth) {
         header('Location: /inicio');
         exit;
@@ -55,8 +61,10 @@ class AuthController extends BaseController {
 
   public function logOut()
   {
+    // Cerramos la sesión
     $sessionModelInstance = new SessionModel();
     $sessionModelInstance->logOut();
+    // Redirigimos al inicio
     header('Location: /');
   }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+// Importar la clase Twig
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 class BaseController {
+  // Definimos una instancia de Twig
   protected $twig;
 
   public function __construct()
