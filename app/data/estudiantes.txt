@@ -1,0 +1,16 @@
+INSERT INTO `students`(`id`, `student`, `identificacion`, `curso`) VALUES
+(1, 'casandra montereal', '1352467890','septimo'),
+(2, 'mario monstes', '1345623456','noveno'),
+(3, 'armando Ramirez', '113234578','quito'),
+(4, 'nicolas urueña', '1112450266','tercero'),
+(5, 'Andrés  sanches', '100267889', 'segundo'),
+(6, 'gisel Rodigez', '1322345678','septimo'),
+(7, 'alondra  montenegro', '1005667892','noveno'),
+(8, 'valentina valencia', '1073926578','quito'),
+(9, 'anderson hernandez', '1112740266','tercero'),
+(10, 'natalia  archuri', '1003048789', 'segundo'),
+(11, 'demian archure', '1198456732','septimo'),
+(12, 'geraldin mariales', '1003456778','noveno'),
+(13, 'katherine montiel', '1113926578','quito'),
+(14, 'jaqueline casablanca', '1002740266','tercero'),
+(15, 'Andrea Soto', '100789865', 'segundo');
