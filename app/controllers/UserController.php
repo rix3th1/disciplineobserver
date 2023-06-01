@@ -97,13 +97,16 @@ class UserController extends BaseController {
 
       // Actualizar la contraseña en la base de datos
       $userModelInstance = new UserModel();
-      $passwordChanged = $userModelInstance->updatePassword($_SESSION['verification_pending']['email'], $_POST['password']);
+      $passwordChanged = $userModelInstance->updatePassword($_SESSION['verification_pending']['email'] ?? NULL, $_POST['password']);
 
       // Si la contraseña fue actualizada mostramos la página de exito
       if ($passwordChanged) {
         echo $this->twig->render('success-password.twig', [
           'title' => '¿Has olvidado la contraseña?'
         ]);
+        
+        // Limpiar la sesión  de verificación pendiente
+        $_SESSION['verification_pending'] = [];
       }
 
     } catch (Exception $e) {
@@ -126,9 +129,6 @@ class UserController extends BaseController {
       if ((int) $_SESSION['verification_pending']['code'] !== (int) $_POST['verification_code']) {
         throw new Exception("El codigo de verificación es incorrecto");
       }
-
-      // Limpiar la sesión de verificación pendiente
-      $_SESSION['verification_pending'] = [];
 
       // Como fué correcto, mostrar la página de cambio de contraseña
       $this->showPasswordPage();

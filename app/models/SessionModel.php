@@ -6,6 +6,13 @@ namespace App\Models;
 use Exception;
 
 class SessionModel extends BaseModel {
+  public function getAllRoles() {
+    // Seleccionamos todos los roles
+    $statement = $this->db->query("SELECT * FROM roles");
+    // Retornamos los roles
+    return $statement->fetchAll();
+  }
+
   public function auth(
     $email,
     $password

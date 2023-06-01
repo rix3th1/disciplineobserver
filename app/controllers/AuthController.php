@@ -9,9 +9,14 @@ use App\Models\SessionModel;
 class AuthController extends BaseController {
   public function showLoginPage()
   {
+    // Obtenemos todos los roles
+    $sessionModelInstance = new SessionModel();
+    $roles = $sessionModelInstance->getAllRoles();
+
     // Mostramos la página de inicio, el login
     echo $this->twig->render('login.twig', [
-      'title' => 'Accede'
+      'title' => 'Accede',
+      'roles' => $roles
     ]);
   }
 
@@ -52,9 +57,13 @@ class AuthController extends BaseController {
 
     } catch (Exception $e) {
       $error = $e->getMessage();
+      $sessionModelInstance = new SessionModel();
+      $roles = $sessionModelInstance->getAllRoles();
+    
       echo $this->twig->render('login.twig', [
         'title' => 'Error',
-        'error' => $error
+        'error' => $error,
+        'roles' => $roles
       ]);
     }
   }

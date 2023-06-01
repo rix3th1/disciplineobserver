@@ -4,6 +4,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `citations` (
   `_id` int(11) NOT NULL,
+  `citation_date` datetime NOT NULL,
   `msg_parent` text NOT NULL,
   `email_parent` varchar(50) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -58,7 +59,7 @@ CREATE TABLE `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `students` (`_id`, `student`, `grade`, `name_parent`, `email_parent`) VALUES
-(1111122448, 'Ricardo Andrés Rojas Rico', '11th', 'Persona xyz', 'rojasricor@gmail.com');
+(1111122448, 'Ricardo Andrés Rojas Rico', '11th', 'Joe Mcmillan', 'rojasricor@gmail.com');
 
 CREATE TABLE `users` (
   `_id` int(11) NOT NULL,
@@ -71,7 +72,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
-(1111122448, 'Ricardo Andrés', 'Rojas Rico', '3173926578', 'rojasricor@gmail.com', '$2y$10$TPTBpf8ExiOTlJPRY.IfwO1EDUBulCoGhC9yBCqAjLrcOoqX.Ud/i', 'teacher');
+(1111122448, 'Ricardo Andrés', 'Rojas Rico', '3173926578', 'rojasricor@gmail.com', '$2y$10$cB4iYyfw9VJCwl72OfxNqeXpjTDMsmNLslOvp2SUqCaBOe3bDy4Fi', 'rector');
 
 
 ALTER TABLE `citations`
