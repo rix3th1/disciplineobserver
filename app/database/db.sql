@@ -40,12 +40,13 @@ CREATE TABLE `notations` (
 CREATE TABLE `roles` (
   `_id` varchar(15) NOT NULL,
   `role` varchar(30) NOT NULL,
-  `permissions` set('make_notation','cite_parents','view_observer','view_cite_parents') NOT NULL
+  `permissions` set('make_notation','cite_parents','view_observer','view_cite_parents','admin_students','admin_teachers') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `roles` (`_id`, `role`, `permissions`) VALUES
 ('parent', 'Padre de Familia', 'view_observer,view_cite_parents'),
-('rector', 'Rector', 'make_notation,cite_parents,view_observer,view_cite_parents'),
+('rector', 'Rector', 'make_notation,cite_parents,view_observer,view_cite_parents,admin_students,admin_teachers'),
+('secretary', 'Secretaria', 'make_notation,cite_parents,view_observer,view_cite_parents,admin_students,admin_teachers'),
 ('teacher', 'Docente', 'make_notation,cite_parents,view_observer,view_cite_parents');
 
 CREATE TABLE `students` (
@@ -66,7 +67,7 @@ CREATE TABLE `users` (
   `telephone` varchar(15) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(80) NOT NULL,
-  `role` enum('teacher','parent') NOT NULL
+  `role` enum('teacher','parent','rector','secretary') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
