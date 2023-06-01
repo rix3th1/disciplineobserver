@@ -46,7 +46,11 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="student" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>{% if _studentInfo is defined %}{{_studentInfo}}{% endif %}</textarea>
+										<textarea name="student" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>
+											{% if _studentInfo is defined %}
+												{{_studentInfo}}
+											{% endif %}
+										</textarea>
 										<label for="student" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -62,7 +66,11 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="_id" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
+										<textarea name="_id" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>
+											{% if _id is defined %}
+												{{_id}}
+											{% endif %}
+										</textarea>
 										<label for="_id" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -110,7 +118,11 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _emailParent is defined %}{{_emailParent}}{% endif %}</textarea>
+										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>
+											{% if _emailParent is defined %}
+												{{_emailParent}}
+											{% endif %}
+										</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -126,7 +138,11 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="name_parent" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _nameParent is defined %}{{_nameParent}}{% endif %}</textarea>
+										<textarea name="name_parent" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>
+											{% if _nameParent is defined %}
+												{{_nameParent}}
+											{% endif %}
+										</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -136,7 +152,10 @@
 						</div>
 
 						<div class="col-md-12 text-center">
-							<button class="btn btn-primary btn-lg mt-5">Hacer anotación</button>
+							<button class="btn btn-primary btn-lg mt-5">
+								Hacer citación
+								<i class="fa fa-envelope"></i>
+							</button>
 						</div>
 					</form>
 				</div>

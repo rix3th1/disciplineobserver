@@ -5,38 +5,51 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta
 		name="viewport" content="width=device-width, initial-scale=1.0">
+
 		{# Bootstrap styles #}
 		<link rel="shortcut icon" href="/public/img/observer.png" type="image/x-icon">
 		<link rel="stylesheet" href="/public/styles/bootstrap.css">
 		<link rel="stylesheet" href="/public/styles/style.css">
-		<link rel="stylesheet" href="/public/styles/all.min.css">
+		<link
+		rel="stylesheet" href="/public/styles/all.min.css">
+
+		{# Sí es el login mostramos el fondo de inicio de sesión, sino mostramos el de recuperar contraseña #}
 		{% if wallpaper == 'bg' %}
 			<link rel="stylesheet" href="/public/styles/bg.css">
 		{% elseif wallpaper == 'color' %}
 			<link rel="stylesheet" href="/public/styles/color.css">
 		{% endif %}
-		
-		<title>Discipline Observer | {{title}}</title>
+
+		<title>Discipline Observer |
+			{{title}}</title>
 	</head>
 	<body>
-		<div class="container-fluid">
+		<div
+			class="container-fluid">
+
+			{# Nabvar brand #}
 			<nav class="navbar navbar-expand-sm navbar-dark border-bottom fixed-top bg-observer">
 				<div class="container-fluid mx-2">
 					<a href="/" class="navbar-brand">
 						<img class="img-fluid rounded-1" src="/public/img/observer.png" alt="disciplineobserver" width="80" height="80">
 					</a>
+
 					<div class="collapse navbar-collapse">
 						<h2 class="display-3 fw-bold pe-5 mx-auto">EL OBSERVADOR</h2>
-						
+
 						{% if userLogged is defined %}
 							<img class="img-fluid rounded-circle" src="/public/img/avatar.png" alt="avatar" width="60" height="60" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{{userLogged.name}} {{userLogged.lastname}}, <b>{{userLogged.role}}</b>">
 						{% endif %}
+
 					</div>
 				</div>
 			</nav>
 
+			{# Navbar funciones del observador #}
 			<nav class="navbar navbar-expand-xl navbar-dark border-top fixed-top bg-observer">
+
 				<div class="container-fluid mx-2">
+
 					{% if userLogged.permissions is defined %}
 						<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarDisciplineObserver">
 							<span class="navbar-toggler-icon"></span>
@@ -45,60 +58,100 @@
 						<div class="collapse navbar-collapse" id="navbarDisciplineObserver">
 
 							<ul class="navbar-nav nav nav-pills nav-fill my-4 my-lg-0">
+
+								{% if 'admin_students' in userLogged.permissions or 'admin_teachers' in userLogged.permissions %}
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+											<i class="fa fa-user-shield"></i>
+											Administración
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a class="dropdown-item" href="/">
+													<i class="fa fa-graduation-cap"></i>
+													Docentes
+												</a>
+											</li>
+											<li><hr class="dropdown-divider"></li>
+											<li>
+												<a class="dropdown-item" href="/">
+													<i class="fa fa-user-graduate"></i>
+													Estudiantes
+												</a>
+											</li>
+										</ul>
+									</li>
+								{% endif %}
+
+
 								{% if 'make_notation' in userLogged.permissions %}
 									<li class="nav-item">
-										<a class="nav-link{% if aria_current == 'make-notation' %} active{% endif %}" href="/hacer/anotaciones">Hacer una anotación en el observador</a>
+										<a class="nav-link{% if aria_current == 'make-notation' %} active{% endif %}" href="/hacer/anotaciones">
+											<i class="fa fa-comment"></i>
+											Hacer una anotación en el observador</a>
 									</li>
 								{% endif %}
 
 								{% if 'cite_parents' in userLogged.permissions %}
 									<li class="nav-item">
-										<a class="nav-link{% if aria_current == 'cite-parents' %} active{% endif %}" href="/citacion/padres">Citar padres de familia</a>
+										<a class="nav-link{% if aria_current == 'cite-parents' %} active{% endif %}" href="/citacion/padres">
+											<i class="fa fa-envelope"></i>
+											Citar padres de familia</a>
 									</li>
 								{% endif %}
 
 								{% if 'view_cite_parents' in userLogged.permissions %}
 									<li class="nav-item">
-										<a class="nav-link{% if aria_current == 'view-cite-parents' %} active{% endif %}" href="/ver/citacion/padres">Ver citación a padres</a>
+										<a class="nav-link{% if aria_current == 'view-cite-parents' %} active{% endif %}" href="/ver/citacion/padres">
+											<i class="fa fa-eye"></i>
+											Ver citación a padres</a>
 									</li>
 								{% endif %}
 
 								{% if 'view_observer' in userLogged.permissions %}
 									<li class="nav-item">
-										<a class="nav-link{% if aria_current == 'view-observer' %} active{% endif %}" href="/ver/observador">Ver observador</a>
+										<a class="nav-link{% if aria_current == 'view-observer' %} active{% endif %}" href="/ver/observador">
+											<i class="fa fa-search"></i>
+											Ver observador</a>
 									</li>
 								{% endif %}
 
 								{% if userLogged.permissions is defined %}
 									<li class="nav-item">
-										<a class="nav-link" href="/inicio">Volver al menu</a>
+										<a class="nav-link" href="/inicio">
+											<i class="fa fa-home"></i>
+											Volver al menu</a>
 									</li>
 								{% endif %}
 
 								{% if userLogged.permissions is defined %}
 									<li class="nav-item">
-										<a class="nav-link" href="/salir">Cerrar sesión</a>
+										<a class="nav-link" href="/salir">
+											<i class="fa fa-sign-out-alt"></i>
+											Cerrar sesión</a>
 									</li>
 								{% endif %}
 							</ul>
+
 						</div>
 					{% endif %}
+
 				</div>
 			</nav>
 
 			{% block content %}
-				<!-- views -->
+				<!-- Aquí van las demas vistas del observador -->
 			{% endblock %}
 
 		</div>
 
 		{# Bootstrap scripts #}
 		<script src="/public/scripts/bootstrap.bundle.min.js"></script>
+
+		{# Sí el usuario está loggeado incluimos este script que activa los tooltips de bootstrap para mostrar información al pasar el mouse #}
 		{% if userLogged is defined %}
-			<script>
-				const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-				const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-			</script>
+			<script src="/public/scripts/addons.js"></script>
 		{% endif %}
+
 	</body>
 </html>
