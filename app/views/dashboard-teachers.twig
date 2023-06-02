@@ -9,7 +9,7 @@
 				<h1 class="display-2 fw-bold">Administración Docentes</h1>
 			</div>
 		</div>
-		<div class="col-md-12">
+		<div class="col-md-10">
 			{% if error %}
 				<div class="alert alert-primary text-center">
 					Error:
@@ -24,11 +24,19 @@
 			{% endif %}
 		</div>
 
-		<div class="col-md-12">
+		<div class="col-md-10">
 			<form>
-				<input type="search" class="form-control bg-secondary" placeholder="Buscar por nombre o documento" required>
+				<input name="search" value="{{search}}" type="search" class="form-control bg-secondary fw-light" placeholder="Buscar por nombre o documento" spellcheck="false" autofocus>
 			</form>
+		</div>
 
+		<div class="col-md-2 my-auto text-center">
+			<a href="/administrar/agregar/profesores" class="btn btn-primary btn-sm">
+				<i class="fa fa-plus"></i>
+			</a>
+		</div>
+
+		<div class="col-md-12">
 			<table class="table table-hover table-borderless text-center">
 				<caption>Cuenta de profesores.</caption>
 				<thead>
@@ -40,19 +48,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1111122448</td>
-						<td>rojasricor@gmail.com</td>
-						<td>Ricardo Andrés Rojas Rico</td>
-						<td>
-							<a href="/administrar/editar/profesores" class="btn btn-warning">
-								<i class="fa fa-pencil-alt"></i>
-							</a>
-							<a href="/administrar/eliminar/profesores" class="btn btn-danger">
-								<i class="fa fa-trash"></i>
-							</a>
-						</td>
-					</tr>
+					{% for teacher in teachers %}
+						<tr>
+							<td>{{teacher._id}}</td>
+							<td>{{teacher.email}}</td>
+							<td>{{teacher.name}}
+								{{teacher.lastname}}</td>
+							<td>
+								<form action="/administrar/editar/profesores" method="post" class="d-inline">
+									<input type="hidden" name="_id" value="{{teacher._id}}">
+									<button class="btn btn-warning">
+										<i class="fa fa-pencil-alt"></i>
+									</button>
+								</form>
+
+								<form action="/administrar/eliminar/profesores" method="post" class="d-inline">
+									<input type="hidden" name="_id" value="{{teacher._id}}">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>

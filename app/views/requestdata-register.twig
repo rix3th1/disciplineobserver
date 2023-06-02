@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-5 mx-auto">
+		<div class="col-md-5 mx-auto mt-5">
 			{% if error %}
 				<div class="alert alert-primary text-center">
 					Error:
@@ -22,8 +22,9 @@
 						<div class="form-floating">
 							<select name="identification" class="form-select bg-secondary" required>
 								<option value="">Seleccione</option>
-								<option value="teacher" disabled>Docente</option>
-								<option value="parent">Padre de familia</option>
+								{% for role in roles %}
+									<option value="{{role._id}}" {% if role.disabled %} disabled {% endif %}>{{role.role}}</option>
+								{% endfor %}
 							</select>
 							<label for="identification" class="form-label">Seleccione su identificación</label>
 						</div>
@@ -42,11 +43,12 @@
 					</div>
 					<div class="col-md-12">
 						{% if success is not defined %}
-							<a href="/registro/datos-personales" class="btn btn-secondary btn-lg mb-2">Volver</a>
-							<button class="btn btn-primary btn-lg mb-2">Registrarme</button>
+							<button type="button" class="btn btn-secondary btn-lg mb-2" onclick="window.history.go(-1);">Volver</button>
+							<button type="submit" class="btn btn-primary btn-lg mb-2">Registrar</button>
 						{% endif %}
 						{% if success %}
 							<a href="/" class="btn btn-success btn-lg mb-2">Ir a iniciar sesión</a>
+							<a href="/administrar/profesores" class="btn btn-primary btn-lg mb-2">Ok</a>
 						{% endif %}
 					</div>
 				</form>

@@ -23,7 +23,7 @@ class EmailSenderModel {
     );
     $email->setSubject($subject);
     $email->addTo($to);
-    $email->addContent("text/html", "<strong>$content</strong>");
+    $email->addContent("text/html", $content);
     
     
     // Obtenemos la API KEY de Sendgrid

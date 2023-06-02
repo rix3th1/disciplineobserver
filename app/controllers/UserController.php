@@ -12,7 +12,7 @@ class UserController extends BaseController {
   {
     // Mostrar la página de solicitud de email
     echo $this->twig->render('request-email.twig', [
-      'title' => '¿Has olvidado la contraseña?'
+      'title' => 'Reestablecer la contraseña'
     ]);
   }
 
@@ -63,7 +63,7 @@ class UserController extends BaseController {
 
       // Mostrar la página de verificación del código
       echo $this->twig->render('request-code.twig', [
-        'title' => '¿Has olvidado la contraseña?',
+        'title' => 'Reestablecer la contraseña',
         'email' => $_SESSION['verification_pending']['email'] ?? ''
       ]);
     } catch (Exception $e) {
@@ -80,7 +80,7 @@ class UserController extends BaseController {
   {
     // Mostrar la página de cambio de contraseña
     echo $this->twig->render('change-password.twig', [
-      'title' => '¿Has olvidado la contraseña?'
+      'title' => 'Reestablecer la contraseña'
     ]);
   }
 
@@ -102,7 +102,7 @@ class UserController extends BaseController {
       // Si la contraseña fue actualizada mostramos la página de exito
       if ($passwordChanged) {
         echo $this->twig->render('success-password.twig', [
-          'title' => '¿Has olvidado la contraseña?'
+          'title' => 'Reestablecer la contraseña'
         ]);
         
         // Limpiar la sesión  de verificación pendiente

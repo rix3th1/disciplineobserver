@@ -35,13 +35,13 @@ $map->get('login.out', '/salir', [
 // Ruta get para el registro de datos personales al crear una cuenta
 $map->get('register.askdata', '/registro/datos-personales', [
   'App\Controllers\RegisterController',
-  'askData'
+  'showAskDataView'
 ]);
 
 // Ruta get para completar el formulario de crear una cuenta
 $map->get('register.requestData', '/registrarme', [
   'App\Controllers\RegisterController',
-  'requestData'
+  'showRequestDataView'
 ]);
 
 // Ruta post para crear una cuenta
@@ -120,6 +120,32 @@ $map->get('admin.teachers', '/administrar/profesores', [
 $map->get('admin.students', '/administrar/estudiantes', [
   'App\Controllers\AdminStudentsController',
   'showDashboardStudents'
+]);
+
+
+$map->get('admin.teachers.add', '/administrar/agregar/profesores', [
+  'App\Controllers\AdminTeachersController',
+  'showAddTeacherView'
+]);
+
+$map->get('admin.students.add', '/administrar/agregar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'showAddStudentView'
+]);
+
+$map->post('admin.teachers.edit', '/administrar/editar/profesores', [
+  'App\Controllers\AdminTeachersController',
+  'editTeacher'
+]);
+
+$map->post('admin.students.edit', '/administrar/editar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'editStudent'
+]);
+
+$map->post('admin.teachers.delete', '/administrar/eliminar/profesores', [
+  'App\Controllers\AdminTeachersController',
+  'deleteTeacher'
 ]);
 
 // Obtener la ruta coincidente de las variables globales
