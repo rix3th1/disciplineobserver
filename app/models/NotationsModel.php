@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-class NotationsModel extends BaseModel
-{
+class NotationsModel extends BaseModel {
   public function create($_id, $notation, $grade, $testimony)
   {
     // Consulta para crear una anotación

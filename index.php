@@ -110,6 +110,18 @@ $map->post('password.verification.code', '/verificar/codigo', [
   'verifyVerificationCode'
 ]);
 
+// Ruta get para administrar a los profesores del colegio
+$map->get('admin.teachers', '/administrar/profesores', [
+  'App\Controllers\AdminTeachersController',
+  'showDashboardTeachers'
+]);
+
+// Ruta get para administrar a los alumnos del colegio
+$map->get('admin.students', '/administrar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'showDashboardStudents'
+]);
+
 // Obtener la ruta coincidente de las variables globales
 $route = $routerContainer->getMatcher()->match(
   // Obtener las variables globales

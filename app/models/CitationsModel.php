@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-class CitationsModel extends BaseModel
-{
+class CitationsModel extends BaseModel {
   public function create($_id, $msg_parent, $email_parent)
   {
     // Preparamos la consulta

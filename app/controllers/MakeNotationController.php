@@ -7,8 +7,7 @@ use Exception;
 use App\Middleware\AuthMiddleware;
 use App\Models\{ GradesModel, StudentsModel, NotationsModel };
 
-class MakeNotationController extends BaseController
-{
+class MakeNotationController extends BaseController {
   public function showMakeNotationPage()
   {
     // Obtener todos los grados

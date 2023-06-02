@@ -7,8 +7,7 @@ use Exception;
 use SendGrid;
 use SendGrid\Mail\Mail;
 
-class EmailSenderModel
-{
+class EmailSenderModel {
   public function sendEmail($subject, $to, $content)
   {
     // Instanciamos la clase Mail

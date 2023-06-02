@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-class StudentsModel extends BaseModel
-{
+class StudentsModel extends BaseModel {
   public function create($_id, $student,  $email_parent, $name_parent)
   {
     // Vamos a crear un nuevo estudiante en la base de datos

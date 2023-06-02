@@ -7,8 +7,7 @@ use Exception;
 use App\Middleware\AuthMiddleware;
 use App\Models\{ GradesModel, CitationsModel, StudentsModel };
 
-class ViewCiteParentsController extends BaseController
-{
+class ViewCiteParentsController extends BaseController {
   public function showViewCiteParentsPage()
   {
     // Validar si el usuario está logueado

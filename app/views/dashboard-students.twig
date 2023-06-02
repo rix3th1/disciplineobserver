@@ -1,0 +1,28 @@
+{% set aria_current = ['admin', 'students'] %}
+
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<div class="text-center my-3">
+				<h1 class="display-2 fw-bold">Administración Estudiantes</h1>
+			</div>
+		</div>
+		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+
+		</div>
+	</div>
+{% endblock %}

@@ -13,8 +13,7 @@ use App\Models\{
   EmailSenderModel
 };
 
-class CiteParentsController extends BaseController
-{
+class CiteParentsController extends BaseController {
   public function showCiteParentsPage()
   {
     // Validar que el usuario este logueado

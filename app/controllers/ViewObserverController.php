@@ -7,8 +7,7 @@ use Exception;
 use App\Middleware\AuthMiddleware;
 use App\Models\{ GradesModel, NotationsModel, StudentsModel };
 
-class ViewObserverController extends BaseController
-{
+class ViewObserverController extends BaseController {
   public function showViewObserverPage()
   {
     // Validar que el usuario esté logueado
