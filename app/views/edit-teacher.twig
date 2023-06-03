@@ -1,0 +1,59 @@
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-5 mx-auto mt-5">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+			<div class="card card-body border shadow">
+				<form action="/administrar/actualizar/profesores" method="post" class="row g-3">
+					<h1 class="mt-3">{{teacher.name}}
+						{{teacher.lastname}}</h1>
+					<input type="hidden" name="_id" value="{{teacher._id}}">
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="text" name="name" value="{{teacher.name}}" class="form-control bg-secondary" placeholder="Ingresa tus nombres" required>
+							<label for="name" class="form-label">Nombres</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="text" name="lastname" value="{{teacher.lastname}}" class="form-control bg-secondary" placeholder="Ingresa tus apellidos" required>
+							<label for="lastname" class="form-label">Apellidos</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="number" name="telephone" value="{{teacher.telephone}}" class="form-control bg-secondary" placeholder="Ingresa el télefono" required>
+							<label for="name" class="form-label">Télefono</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="email" name="email" value="{{teacher.email}}" class="form-control bg-secondary" placeholder="Ingrese el correo" required>
+							<label for="email" class="form-label">Email</label>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<a href="/administrar/profesores" class="btn btn-secondary btn-lg mb-2">Volver</a>
+						<button type="submit" class="btn btn-primary btn-lg mb-2">Actualizar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

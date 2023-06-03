@@ -122,7 +122,6 @@ $map->get('admin.students', '/administrar/estudiantes', [
   'showDashboardStudents'
 ]);
 
-
 $map->get('admin.teachers.add', '/administrar/agregar/profesores', [
   'App\Controllers\AdminTeachersController',
   'showAddTeacherView'
@@ -135,12 +134,22 @@ $map->get('admin.students.add', '/administrar/agregar/estudiantes', [
 
 $map->post('admin.teachers.edit', '/administrar/editar/profesores', [
   'App\Controllers\AdminTeachersController',
-  'editTeacher'
+  'showEditTeacherView'
 ]);
 
 $map->post('admin.students.edit', '/administrar/editar/estudiantes', [
   'App\Controllers\AdminStudentsController',
-  'editStudent'
+  'showEditStudentView'
+]);
+
+$map->post('admin.teachers.update', '/administrar/actualizar/profesores', [
+  'App\Controllers\AdminTeachersController',
+  'updateTeacher'
+]);
+
+$map->post('admin.students.update', '/administrar/actualizar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'updateStudent'
 ]);
 
 $map->post('admin.teachers.delete', '/administrar/eliminar/profesores', [

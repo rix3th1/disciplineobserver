@@ -117,6 +117,10 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese el correo del padre de familia');
       }
 
+      if (empty($_POST['citation_date'])) {
+        throw new Exception('Ingrese la fecha de la citación');
+      }
+
       // Validar que el estudiante exista en la base de datos del observador
       $studentsModelInstance = new StudentsModel();
       $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
@@ -139,6 +143,7 @@ class CiteParentsController extends BaseController {
       $citationsModelInstance = new CitationsModel();
       $newCitation = $citationsModelInstance->create(
         $_GET['_id'],
+        $_POST['citation_date'],
         $_POST['notice'],
         $_POST['email']
       );
