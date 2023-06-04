@@ -28,6 +28,10 @@ class AuthMiddleware {
 
   public function handlePermissionsAdmin()
   {
+    if ($_GET['auth'] === 'false') {
+      return;
+    }
+
     // Verificamos que el usuario este logueado
     if ($_GET['auth'] ?? 'true' === 'true') {
       // Verificamos que el usuario este logueado
