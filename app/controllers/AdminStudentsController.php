@@ -4,18 +4,236 @@ namespace App\Controllers;
 
 use Exception;
 use App\Middleware\AuthMiddleware;
+use App\Models\{ StudentsModel, GradesModel };
 
 class AdminStudentsController extends BaseController {
-  public function showDashboardStudents()
-  {
+  protected $authMiddlewareInstance;
+  protected $studentsModelInstance;
+
+  public function __construct() {
+    // Llamamos al constructor del padre
+    parent::__construct();
+
+    // Instanciar el modelo de estudiantes
+    $this->studentsModelInstance = new StudentsModel();
+
+    // Instanciar el middleware de autenticación
+    $this->authMiddlewareInstance = new AuthMiddleware();
+
     // verificar que el usuario este logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
+    $this->authMiddlewareInstance->handle();
+  }
+
+  public function showDashboardStudents($data = [])
+  {
+    // Sí la búsqueda esta vacía, obtener todos los estudiantes
+    if (empty($_GET['search'])) {
+      // obtener todos los estudiantes
+      $students = $this->studentsModelInstance->getAllStudents();
+    }
+
+    // Sí no esta vacía, obtener un estudiante por la búsqueda
+    if (!empty($_GET['search'])) {
+      // obtener un estudiante por la bésqueda
+      $students = $this->studentsModelInstance->getStudentBySearch($_GET['search']);
+    }
+
+    // renderizar el pánel de administración de los estudiantes
+    echo $this->twig->render('dashboard-students.twig', array_merge([
+      'title' => 'Estudiantes',
+      'userLogged' => $_SESSION['user_discipline_observer'],
+      'students' => $students,
+      'search' => $_GET['search'] ?? ''
+    ], $data));
+  }
+
+  public function updateStudent()
+  {
+    try {
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
+
+      // Validar que los datos realmente fueron enviados
+      if (!$_POST) {
+        http_response_code(400);
+        throw new Exception('petición incorrecta');
+      }
+
+      // Validamos que los datos sean correctos
+      if (empty($_POST['_id'])) {
+        throw new Exception("Ingrese la cédula");  
+      }
+
+      if (strlen($_POST['_id']) < 8 || strlen($_POST['_id']) > 10) {
+        throw new Exception("El valor de la cédula es incorrecto");
+      }
+
+      if (empty($_POST['student'])) {
+        throw new Exception('Ingrese los nombres del estudiante');
+      }
+
+      if (empty($_POST['grade'])) {
+        throw new Exception('Seleccione el grado del estudiante');
+      }
+
+      if (empty($_POST['name_parent'])) {
+        throw new Exception('Ingrese el nombre del padre de familia acudiente');
+      }
+
+      if (empty($_POST['email_parent'])) {
+        throw new Exception('Ingrese el correo del padre de familia acudiente');
+      }
+
+      $studentEdited = $this->studentsModelInstance->updateStudent(
+        $_POST['_id'],
+        $_POST['student'],
+        $_POST['grade'],
+        $_POST['name_parent'],
+        $_POST['email_parent']
+      );
+
+      if ($studentEdited) {
+        return $this->showEditStudentView([
+          'success' => 'Datos actualizados exitosamente'
+        ]);
+      }
+
+      throw new Exception("Error al editar los datos del Estudiante");    
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+
+      $this->showEditStudentView([
+        'title' => 'Error',
+        'error' => $error
+      ]);
+    }
+  }
+
+  public function showEditStudentView($data = [])
+  {
+    $studentData = $this->studentsModelInstance->getByIdStudent($_POST['_id']);
     
-    // renderizar la vista home, donde se da la bienvenida
-    echo $this->twig->render('dashboard-students.twig', [
+    // Obtener todos los grados
+    $gradesModelInstance = new GradesModel();
+    $grades = $gradesModelInstance->getAllGrades();
+
+    echo $this->twig->render('edit-student.twig', array_merge([
       'title' => 'Profesores',
-      'userLogged' => $_SESSION['user_discipline_observer']
-    ]);
+      'userLogged' => $_SESSION['user_discipline_observer'],
+      'student' => $studentData,
+      'grades' => $grades
+    ], $data));
+  }
+
+  public function showAddStudentView($data = [])
+  {
+    // Obtener todos los grados
+    $gradesModelInstance = new GradesModel();
+    $grades = $gradesModelInstance->getAllGrades();
+
+    echo $this->twig->render('students-register.twig', array_merge([
+      'title' => 'Datos personales',
+      'userLogged' => $_SESSION['user_discipline_observer'],
+      'grades' => $grades
+    ], $data));
+  }
+
+  public function addStudent()
+  {
+    try {
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
+
+      // Validar que los datos realmente fueron enviados
+      if (!$_POST) {
+        http_response_code(400);
+        throw new Exception('petición incorrecta');
+      }
+
+      // Validamos que los datos sean correctos
+      if (empty($_POST['_id'])) {
+        throw new Exception("Ingrese la cédula");  
+      }
+
+      if (strlen($_POST['_id']) < 8 || strlen($_POST['_id']) > 10) {
+        throw new Exception("El valor de la cédula es incorrecto");
+      }
+
+      if (empty($_POST['student'])) {
+        throw new Exception('Ingrese los nombres del estudiante');
+      }
+
+      if (empty($_POST['grade'])) {
+        throw new Exception('Seleccione el grado del estudiante');
+      }
+
+      if (empty($_POST['name_parent'])) {
+        throw new Exception('Ingrese el nombre del padre de familia acudiente');
+      }
+
+      if (empty($_POST['email_parent'])) {
+        throw new Exception('Ingrese el correo del padre de familia acudiente');
+      }
+
+      $userFound = $this->studentsModelInstance->getByIdStudent($_POST['_id']);
+      
+      if ($userFound) {
+        throw new Exception("El estudiante ya existe en la base de datos");
+      }
+
+      $studentCreated = $this->studentsModelInstance->create(
+        $_POST['_id'],
+        $_POST['student'],
+        $_POST['grade'],
+        $_POST['name_parent'],
+        $_POST['email_parent']
+      );
+
+      if ($studentCreated) {
+        return $this->showAddStudentView([
+          'success' => 'Estudiante guardado exitosamente'
+        ]);
+      }
+
+      throw new Exception("Error al guardar los datos del Estudiante");    
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+
+      $this->showAddStudentView([
+        'title' => 'Error',
+        'error' => $error
+      ]);
+    }
+  }
+
+  public function deleteStudent()
+  {
+    try {
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
+
+      // Validar que los datos realmente fueron enviados
+      if (!$_POST) {
+        http_response_code(400);
+        throw new Exception('petición incorrecta');
+      }
+
+      $studentDeleted = $this->studentsModelInstance->deleteStudent($_POST['_id']);
+
+      if ($studentDeleted) {
+        return $this->showDashboardStudents([
+          'success' => 'Estudiante eliminado correctamente',
+        ]);
+      }
+
+      throw new Exception('Error al eliminar el estudiante');
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+
+      $this->showDashboardStudents([
+        'title' => 'Error',
+        'error' => $error
+      ]);
+    }
   }
 }

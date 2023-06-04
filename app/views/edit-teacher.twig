@@ -1,3 +1,5 @@
+{% set aria_current = ['admin', 'teachers'] %}
+
 {% extends '/layout/layout.twig' %}
 
 {% block content %}
@@ -22,28 +24,28 @@
 					<input type="hidden" name="_id" value="{{teacher._id}}">
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="name" value="{{teacher.name}}" class="form-control bg-secondary" placeholder="Ingresa tus nombres" required>
+							<input type="text" name="name" value="{{teacher.name}}" class="form-control bg-secondary" placeholder="Ingresa tus nombres" autocomplete="off" spellcheck="false" required>
 							<label for="name" class="form-label">Nombres</label>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="lastname" value="{{teacher.lastname}}" class="form-control bg-secondary" placeholder="Ingresa tus apellidos" required>
+							<input type="text" name="lastname" value="{{teacher.lastname}}" class="form-control bg-secondary" placeholder="Ingresa tus apellidos" autocomplete="off" spellcheck="false" required>
 							<label for="lastname" class="form-label">Apellidos</label>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="number" name="telephone" value="{{teacher.telephone}}" class="form-control bg-secondary" placeholder="Ingresa el télefono" required>
+							<input type="number" name="telephone" value="{{teacher.telephone}}" class="form-control bg-secondary" placeholder="Ingresa el télefono" autocomplete="off" required>
 							<label for="name" class="form-label">Télefono</label>
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="email" name="email" value="{{teacher.email}}" class="form-control bg-secondary" placeholder="Ingrese el correo" required>
+							<input type="email" name="email" value="{{teacher.email}}" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" required>
 							<label for="email" class="form-label">Email</label>
 						</div>
 					</div>

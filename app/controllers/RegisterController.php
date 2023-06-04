@@ -77,21 +77,9 @@ class RegisterController extends BaseController {
         throw new Exception('petición incorrecta');
       }
 
-      // Verificamos que el usuario este logueado
-      if ($_GET['auth'] === 'true') {
-        // Verificamos que el usuario este logueado
-        $authMiddlewareInstance = new AuthMiddleware();
-        $authMiddlewareInstance->handle();
-
-        // Verificamos que el usuario sea un administrador y su rol sea el apropiado
-        if ($_SESSION['user_discipline_observer']['role'] !== 'Secretaria' && $_SESSION['user_discipline_observer']['role'] !== 'Rector') {
-          throw new Exception("No estás autorizado para realizar esta acción");
-        }
-
-        if (!in_array('admin_students', $_SESSION['user_discipline_observer']['permissions']) && !in_array('admin_teachers', $_SESSION['user_discipline_observer']['permissions'])) {
-          throw new Exception("No tienes permisos para realizar esta acción");
-        }
-      }
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $authMiddlewareInstance = new AuthMiddleware();
+      $authMiddlewareInstance->handlePermissionsAdmin();
 
       // Validamos que los datos sean correctos
       if (empty($_GET['_id'])) {

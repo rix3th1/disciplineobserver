@@ -1,3 +1,7 @@
+{% if userLogged %}
+	{% set aria_current = ['admin', 'teachers'] %}
+{% endif %}
+
 {% extends '/layout/layout.twig' %}
 
 {% block content %}

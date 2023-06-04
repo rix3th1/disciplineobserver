@@ -1,0 +1,66 @@
+{% set aria_current = ['admin', 'students'] %}
+
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-5 mx-auto mt-5">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+			<div class="card card-body border shadow">
+				<form action="/administrar/actualizar/estudiantes" method="post" class="row g-3">
+					<h1 class="mt-3">{{student.student}}</h1>
+					<input type="hidden" name="_id" value="{{student._id}}">
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="text" name="student" value="{{student.student}}" class="form-control bg-secondary" placeholder="Ingresa el nombre del estudiante" autocomplete="off" spellcheck="false" required>
+							<label for="student" class="form-label">Nombres estudiante</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<select name="grade" class="form-select bg-secondary" required>
+								<option value="">Seleccione</option>
+								{% for grade in grades %}
+									<option value="{{grade._id}}" {% if grade._id == student.grade %} selected {% endif %}>{{grade.grade}}
+										({{grade._id}})</option>
+								{% endfor %}
+							</select>
+							<label for="grade" class="form-label">Curso del estudiante</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="text" name="name_parent" value="{{student.name_parent}}" class="form-control bg-secondary" placeholder="Ingresa el nombre del acudiente" autocomplete="off" spellcheck="false" required>
+							<label for="name_parent" class="form-label">Nombre acudiente</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="email" name="email_parent" value="{{student.email_parent}}" class="form-control bg-secondary" placeholder="Ingrese el correo del acudiente" autocomplete="off" required>
+							<label for="email_parent" class="form-label">Email acudiente</label>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<a href="/administrar/estudiantes" class="btn btn-secondary btn-lg mb-2">Volver</a>
+						<button type="submit" class="btn btn-primary btn-lg mb-2">Actualizar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

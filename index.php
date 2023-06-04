@@ -132,6 +132,11 @@ $map->get('admin.students.add', '/administrar/agregar/estudiantes', [
   'showAddStudentView'
 ]);
 
+$map->post('admin.students.create', '/administrar/agregar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'addStudent'
+]);
+
 $map->post('admin.teachers.edit', '/administrar/editar/profesores', [
   'App\Controllers\AdminTeachersController',
   'showEditTeacherView'
@@ -155,6 +160,11 @@ $map->post('admin.students.update', '/administrar/actualizar/estudiantes', [
 $map->post('admin.teachers.delete', '/administrar/eliminar/profesores', [
   'App\Controllers\AdminTeachersController',
   'deleteTeacher'
+]);
+
+$map->post('admin.students.delete', '/administrar/eliminar/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'deleteStudent'
 ]);
 
 // Obtener la ruta coincidente de las variables globales

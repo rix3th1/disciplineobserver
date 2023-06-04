@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\TeachersModel;
+use App\Models\{ TeachersModel, UserModel };
 
 class AdminTeachersController extends RegisterController {
   protected $teachersModelInstance;
@@ -20,13 +20,13 @@ class AdminTeachersController extends RegisterController {
 
     // Instanciar el middleware de autenticación
     $this->authMiddlewareInstance = new AuthMiddleware();
+
+    // verificar que el usuario este logueado
+    $this->authMiddlewareInstance->handle();
   }
 
   public function showDashboardTeachers($data = [])
   {
-    // verificar que el usuario este logueado
-    $this->authMiddlewareInstance->handle();
-
     // Sí la búsqueda esta vacía, obtener todos los profesores
     if (empty($_GET['search'])) {
       // obtener todos los profesores
@@ -39,7 +39,7 @@ class AdminTeachersController extends RegisterController {
       $teachers = $this->teachersModelInstance->getTeacherBySearch($_GET['search']);
     }
 
-    // renderizar la vista home, donde se da la bienvenida
+    // renderizar el pánel de administración de los profesores
     echo $this->twig->render('dashboard-teachers.twig', array_merge([
       'title' => 'Profesores',
       'userLogged' => $_SESSION['user_discipline_observer'],
@@ -51,8 +51,8 @@ class AdminTeachersController extends RegisterController {
   public function updateTeacher()
   {
     try {
-      // verificar que el usuario este logueado
-      $this->authMiddlewareInstance->handle();
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
 
       // Validar que los datos realmente fueron enviados
       if (!$_POST) {
@@ -60,7 +60,36 @@ class AdminTeachersController extends RegisterController {
         throw new Exception('petición incorrecta');
       }
 
-      $teacherCreated = $this->teachersModelInstance->updateTeacher(
+      // Validamos que los datos sean correctos
+      if (empty($_POST['_id'])) {
+        throw new Exception("Ingrese la cédula");  
+      }
+
+      if (strlen($_POST['_id']) < 8 || strlen($_POST['_id']) > 10) {
+        throw new Exception("El valor de la cédula es incorrecto");
+      }
+
+      if (empty($_POST['name'])) {
+        throw new Exception('Ingrese los nombres');
+      }
+
+      if (empty($_POST['lastname'])) {
+        throw new Exception('Ingrese los apellidos');
+      }
+
+      if (empty($_POST['telephone'])) {
+        throw new Exception('Ingrese el teléfono');
+      }
+
+      if (strlen($_POST['telephone']) !== 10) {
+        throw new Exception("El número de telefono debe tener 10 dígitos");
+      }
+
+      if (empty($_POST['email'])) {
+        throw new Exception('Ingrese el correo');
+      }
+
+      $teacherEdited = $this->teachersModelInstance->updateTeacher(
         $_POST['_id'],
         $_POST['name'],
         $_POST['lastname'],
@@ -68,7 +97,7 @@ class AdminTeachersController extends RegisterController {
         $_POST['email']
       );
 
-      if ($teacherCreated) {
+      if ($teacherEdited) {
         return $this->showEditTeacherView([
           'success' => 'Datos actualizados exitosamente'
         ]);
@@ -98,9 +127,6 @@ class AdminTeachersController extends RegisterController {
 
   public function showAddTeacherView()
   {
-    // verificar que el usuario este logueado
-    $this->authMiddlewareInstance->handle();
-
     $this->showAskDataView([
       'userLogged' => $_SESSION['user_discipline_observer']
     ]);
@@ -109,8 +135,8 @@ class AdminTeachersController extends RegisterController {
   public function deleteTeacher()
   {
     try {
-      // verificar que el usuario este logueado
-      $this->authMiddlewareInstance->handle();
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
 
       // Validar que los datos realmente fueron enviados
       if (!$_POST) {
