@@ -72,7 +72,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
-(1111122448, 'Ricardo Andrés', 'Rojas Rico', '3173926578', 'rojasricor@gmail.com', '$2y$10$cB4iYyfw9VJCwl72OfxNqeXpjTDMsmNLslOvp2SUqCaBOe3bDy4Fi', 'rector');
+(1111122448, 'Ricardo Andrés', 'Rojas Rico', '3173926578', 'rojasricor@gmail.com', '$2y$10$45.eYqwqNk8fBENaE.c/VuiFs31jikvTEm2aTRcJYtFc92yBPlcH2', 'rector');
 
 
 ALTER TABLE `citations`
@@ -104,7 +104,7 @@ ALTER TABLE `notations`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `students`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122449;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122451;
 
 ALTER TABLE `users`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122451;
