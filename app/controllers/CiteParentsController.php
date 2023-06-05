@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 // Importar modelos
 use Exception;
+use Datetime;
 use App\Middleware\AuthMiddleware;
 use App\Models\{
   GradesModel,
@@ -148,16 +149,18 @@ class CiteParentsController extends BaseController {
         $_POST['email']
       );
 
+      $citationDate = new Datetime($_POST['citation_date']);
+
       // Enviar correo al padre de familia
       $emailSenderModelInstance = new EmailSenderModel();
-      $citacionSended = $emailSenderModelInstance->sendEmail(
+      $citationSended = $emailSenderModelInstance->sendEmail(
         'Citación padre de familia - Alumno ' . $_POST['student'] . ' Grado ' . $_GET['grade'] . ' San José Obrero, Espinal - Tolima, Discipline Observer',
         $_POST['email'],
-        $_POST['notice'] . "<br><strong>Hora de citación: " . $_POST['citation_date'] . "</strong>."
+        $_POST['notice'] . "<br><strong>Fecha de citación: " . $citationDate->format('Y-m-d') . " a las " . $citationDate->format('H:i') . "</strong>."
       );
 
       // Si no se creo la notación o la citación, mostrar mensaje de error
-      if (!$newNotation && !$newCitation && !$citacionSended) {
+      if (!$newNotation && !$newCitation && !$citationSended) {
         throw new Exception('Ocurrió un error al enviar la citacion a ' . $_POST['email']);
       }
       
