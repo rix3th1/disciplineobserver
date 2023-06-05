@@ -39,16 +39,16 @@ CREATE TABLE `notations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 CREATE TABLE `roles` (
-  `_id` varchar(15) NOT NULL,
+  `_id` enum('teacher','parent','rector','secretary') NOT NULL,
   `role` varchar(30) NOT NULL,
   `permissions` set('make_notation','cite_parents','view_observer','view_cite_parents','admin_students','admin_teachers') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `roles` (`_id`, `role`, `permissions`) VALUES
+('teacher', 'Docente', 'make_notation,cite_parents,view_observer,view_cite_parents'),
 ('parent', 'Padre de Familia', 'view_observer,view_cite_parents'),
 ('rector', 'Rector', 'make_notation,cite_parents,view_observer,view_cite_parents,admin_students,admin_teachers'),
-('secretary', 'Secretaria', 'make_notation,cite_parents,view_observer,view_cite_parents,admin_students,admin_teachers'),
-('teacher', 'Docente', 'make_notation,cite_parents,view_observer,view_cite_parents');
+('secretary', 'Secretaria', 'make_notation,cite_parents,view_observer,view_cite_parents,admin_students,admin_teachers');
 
 CREATE TABLE `students` (
   `_id` int(11) NOT NULL,
@@ -72,6 +72,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
+(65701167, 'Amaya Head', 'Drake', '3173926578', 'rrojas48@itfip.edu.co', '$2y$10$QcJBAwGOrTlmamfDIyybbu7IRHqKDwGAOvKkdnIL4d0p6DMdgEM0G', 'parent'),
 (1111122448, 'Ricardo Andrés', 'Rojas Rico', '3173926578', 'rojasricor@gmail.com', '$2y$10$45.eYqwqNk8fBENaE.c/VuiFs31jikvTEm2aTRcJYtFc92yBPlcH2', 'rector');
 
 
@@ -79,25 +80,22 @@ ALTER TABLE `citations`
   ADD KEY `_id` (`_id`);
 
 ALTER TABLE `grades`
-  ADD PRIMARY KEY (`_id`),
-  ADD KEY `_id` (`_id`);
+  ADD PRIMARY KEY (`_id`);
 
 ALTER TABLE `notations`
   ADD KEY `_id` (`_id`) USING BTREE,
   ADD KEY `grade` (`grade`);
 
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`_id`),
-  ADD UNIQUE KEY `_id` (`_id`);
+  ADD PRIMARY KEY (`_id`);
 
 ALTER TABLE `students`
   ADD PRIMARY KEY (`_id`),
-  ADD UNIQUE KEY `_id` (`_id`),
   ADD KEY `grade` (`grade`);
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`_id`),
-  ADD UNIQUE KEY `_id` (`_id`);
+  ADD KEY `role` (`role`);
 
 
 ALTER TABLE `notations`
@@ -110,6 +108,15 @@ ALTER TABLE `users`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122451;
 
 
+ALTER TABLE `citations`
+  ADD CONSTRAINT `citations_ibfk_1` FOREIGN KEY (`_id`) REFERENCES `students` (`_id`);
+
+ALTER TABLE `notations`
+  ADD CONSTRAINT `notations_ibfk_1` FOREIGN KEY (`_id`) REFERENCES `students` (`_id`);
+
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`grade`) REFERENCES `grades` (`_id`);
+
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`_id`);
 COMMIT;
