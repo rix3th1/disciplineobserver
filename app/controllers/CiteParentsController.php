@@ -153,7 +153,7 @@ class CiteParentsController extends BaseController {
       $citacionSended = $emailSenderModelInstance->sendEmail(
         'Citación padre de familia - Alumno ' . $_POST['student'] . ' Grado ' . $_GET['grade'] . ' San José Obrero, Espinal - Tolima, Discipline Observer',
         $_POST['email'],
-        $_POST['notice']
+        $_POST['notice'] . "<br><strong>Hora de citación: " . $_POST['citation_date'] . "</strong>."
       );
 
       // Si no se creo la notación o la citación, mostrar mensaje de error
