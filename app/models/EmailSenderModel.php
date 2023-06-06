@@ -8,33 +8,39 @@ use SendGrid;
 use SendGrid\Mail\Mail;
 
 class EmailSenderModel {
-  public function sendEmail($subject, $to, $content)
+  protected Mail $email;
+  protected EnvModel $envModelInstance;
+  
+  public function __construct()
   {
     // Instanciamos la clase Mail
-    $email = new Mail();
+    $this->email = new Mail;
 
     // Instanciamos la clase EnvModel para leer las variables de entorno
-    $envModelInstance = new EnvModel();
+    $this->envModelInstance = new EnvModel;
+  }
 
+  public function sendEmail(string $subject, string $to, string $content): object | bool
+  {
     // Configuramos el email
-    $email->setFrom(
-      $envModelInstance->reader('FROM_EMAIL'),
-      $envModelInstance->reader('FROM_NAME')
+    $this->email->setFrom(
+      $this->envModelInstance->reader('FROM_EMAIL'),
+      $this->envModelInstance->reader('FROM_NAME')
     );
-    $email->setSubject($subject);
-    $email->addTo($to);
-    $email->addContent("text/html", $content);
+    $this->email->setSubject($subject);
+    $this->email->addTo($to);
+    $this->email->addContent("text/html", $content);
     
     
     // Obtenemos la API KEY de Sendgrid
-    $sendgridApiKey = $envModelInstance->reader('SENDGRID_API_KEY');
+    $sendgridApiKey = $this->envModelInstance->reader('SENDGRID_API_KEY');
     // Instanciamos la clase SendGrid
     $sendgrid = new SendGrid($sendgridApiKey);
     
     // Vamos a intentar enviar el email
     try {
       // Enviamos el email
-      $response = $sendgrid->send($email);
+      $response = $sendgrid->send($this->email);
       // Retornamos la respuesta
       return $response;
       // print $response->statusCode() . "\n";

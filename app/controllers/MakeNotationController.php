@@ -5,14 +5,55 @@ namespace App\Controllers;
 // Importar modelos
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ GradesModel, StudentsModel, NotationsModel };
+use App\Models\{
+  GradesModel,
+  StudentsModel,
+  NotationsModel
+};
 
 class MakeNotationController extends BaseController {
-  public function showMakeNotationPage()
+  protected AuthMiddleware $authMiddlewareInstance;
+  protected GradesModel $gradesModelInstance;
+  protected StudentsModel $studentsModelInstance;
+  protected NotationsModel $notationsModelInstance;
+
+  public function __construct()
+  {
+    // Llamar al constructor del padre
+    parent::__construct();
+
+    // Instanciar modelos
+    $this->authMiddlewareInstance = new AuthMiddleware;
+    $this->gradesModelInstance = new GradesModel;
+    $this->studentsModelInstance = new StudentsModel;
+    $this->notationsModelInstance = new NotationsModel;
+
+    // Validamos que el usuario este logueado
+    $this->authMiddlewareInstance->handle();
+  }
+
+  public function makeNotation(): void
+  {
+    /**
+     * Si el grade y el _id estan vacios, mostramos la pagina de pedir el grado
+     * y el documento de identidad del estudiante
+     */
+    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+      $this->showMakeNotationPage();
+      return;
+    }
+
+    /**
+     * Si el grado y el documento de identidad existen, mostramos la página de hacer
+     * anotaciones en el observador
+     */
+    $this->makingNotation();
+  }
+  
+  public function showMakeNotationPage(): void
   {
     // Obtener todos los grados
-    $gradesModelInstance = new GradesModel();
-    $grades = $gradesModelInstance->getAllGrades();
+    $grades = $this->gradesModelInstance->getAllGrades();
 
     // Renderizar la vista de pedir documento de identidad y grado
     echo $this->twig->render('request-student.twig', [
@@ -27,20 +68,14 @@ class MakeNotationController extends BaseController {
     $_SESSION['success_msg'] = NULL;
   }
 
-  public function makingNotation()
+  public function makingNotation(): void
   {
     try {
-      // Validar que el usuario este logueado
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
-
       // Obtener el nombre del grado por el id del grado
-      $gradesModelInstance = new GradesModel();
-      $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
+      $grade = $this->gradesModelInstance->getByIdGrade($_GET['grade']);
 
       // Verificar que el estudiante exista
-      $studentsModelInstance = new StudentsModel();
-      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+      $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
       // Si el estudiante no existe, mostramos mensaje de error
       if (!$studentFound) {
@@ -56,8 +91,7 @@ class MakeNotationController extends BaseController {
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $gradesModelInstance = new GradesModel();
-      $grades = $gradesModelInstance->getAllGrades();
+      $grades = $this->gradesModelInstance->getAllGrades();
 
       echo $this->twig->render('request-student.twig', [
         'current_template' => 'make-notation',
@@ -69,7 +103,7 @@ class MakeNotationController extends BaseController {
     }
   }
 
-  public function saveNotation()
+  public function saveNotation(): void
   {
     try {
       // Validar que los datos realmente fueron enviados
@@ -77,10 +111,6 @@ class MakeNotationController extends BaseController {
         http_response_code(400);
         throw new Exception('petición incorrecta');
       }
-
-      // Verificar que el usuario este logueado
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
 
       // Validar que los datos enviados son correctos
       if (empty($_GET['_id'])) {
@@ -100,8 +130,7 @@ class MakeNotationController extends BaseController {
       }
 
       // Verificar si el estudiante está en la base de datos
-      $studentsModelInstance = new StudentsModel();
-      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+      $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
       // Si el estudiante no existe, mostramos mensaje de error
       if (!$studentFound) {
@@ -109,8 +138,7 @@ class MakeNotationController extends BaseController {
       }
 
       // Vamos a crear la anotación en el observador
-      $notationsModelInstance = new NotationsModel();
-      $newNotation = $notationsModelInstance->create(
+      $newNotation = $this->notationsModelInstance->create(
         $_GET['_id'],
         $_POST['notation'],
         $_GET['grade'],
@@ -134,26 +162,5 @@ class MakeNotationController extends BaseController {
         'error' => $error,
       ]);
     }
-  }
-
-  public function makeNotation()
-  {
-    // Validamos que el usuario este logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-
-    /**
-     * Si el grade y el _id estan vacios, mostramos la pagina de pedir el grado
-     * y el documento de identidad del estudiante
-     */
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
-      return $this->showMakeNotationPage();
-    }
-
-    /**
-     * Si el grado y el documento de identidad existen, mostramos la página de hacer
-     * anotaciones en el observador
-     */
-    $this->makingNotation();
   }
 }

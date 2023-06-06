@@ -3,7 +3,13 @@
 namespace App\Models;
 
 class StudentsModel extends BaseModel {
-  public function create($_id, $student, $grade, $name_parent, $email_parent,)
+  public function create(
+    string $_id,
+    string $student,
+    string $grade,
+    string $name_parent,
+    string $email_parent
+  ): bool
   {
     // Vamos a crear un nuevo estudiante en la base de datos
     $statement = $this->db->prepare("INSERT INTO students (_id, student, grade, name_parent, email_parent) VALUES (?, ?, ?, ?, ?)");
@@ -17,13 +23,13 @@ class StudentsModel extends BaseModel {
     ]);
   }
 
-  public function getAllStudents()
+  public function getAllStudents(): array
   {
     $statement = $this->db->query("SELECT * FROM students");
     return $statement->fetchAll();
   }
 
-  public function getStudentBySearch($search)
+  public function getStudentBySearch(string $search): array
   {
     $statement = $this->db->prepare("SELECT * FROM students WHERE (_id = ? OR student LIKE ? OR grade LIKE ?)");
     $statement->execute([
@@ -34,7 +40,7 @@ class StudentsModel extends BaseModel {
     return $statement->fetchAll();
   }
 
-  public function getByIdStudent($_id)
+  public function getByIdStudent(string $_id): object | bool
   {
     // Obtenemos el estudiante por su id
     $statement = $this->db->prepare("SELECT _id, student, grade, name_parent, email_parent FROM students WHERE _id = ?");
@@ -44,7 +50,13 @@ class StudentsModel extends BaseModel {
     return $statement->fetchObject();
   }
 
-  public function updateStudent($_id, $student, $grade, $name_parent, $email_parent)
+  public function updateStudent(
+    string $_id,
+    string $student,
+    string $grade,
+    string $name_parent,
+    string $email_parent
+  ): bool
   {
     $statement = $this->db->prepare("UPDATE students SET student = ?, grade = ?, name_parent = ?, email_parent = ? WHERE _id = ?");
     return $statement->execute([
@@ -56,7 +68,7 @@ class StudentsModel extends BaseModel {
     ]);
   }
 
-  public function deleteStudent($_id)
+  public function deleteStudent(string $_id): bool
   {
     $statement = $this->db->prepare("DELETE FROM students WHERE _id = ?");
     return $statement->execute([$_id]);

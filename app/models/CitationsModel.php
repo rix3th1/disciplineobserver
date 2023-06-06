@@ -3,7 +3,12 @@
 namespace App\Models;
 
 class CitationsModel extends BaseModel {
-  public function create($_id, $citation_date, $msg_parent, $email_parent)
+  public function create(
+    string $_id,
+    string $citation_date,
+    string $msg_parent,
+    string $email_parent
+  ): bool
   {
     // Preparamos la consulta
     $statement = $this->db->prepare("INSERT INTO citations(_id, citation_date, msg_parent, email_parent) VALUES (?, ?, ?, ?)");
@@ -16,7 +21,7 @@ class CitationsModel extends BaseModel {
     ]);
   }
   
-  public function findCitationsByStudent($_id)
+  public function findCitationsByStudent(string $_id): array
   {
     // Establecemos un contador de citaciones
     $statement = $this->db->query("SET @row_number = 0");

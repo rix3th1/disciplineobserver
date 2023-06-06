@@ -4,27 +4,34 @@ namespace App\Controllers;
 
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ StudentsModel, GradesModel };
+use App\Models\{
+  StudentsModel,
+  GradesModel
+};
 
 class AdminStudentsController extends BaseController {
-  protected $authMiddlewareInstance;
-  protected $studentsModelInstance;
+  protected AuthMiddleware $authMiddlewareInstance;
+  protected StudentsModel $studentsModelInstance;
+  protected GradesModel $gradesModelInstance;
 
   public function __construct() {
     // Llamamos al constructor del padre
     parent::__construct();
 
     // Instanciar el modelo de estudiantes
-    $this->studentsModelInstance = new StudentsModel();
+    $this->studentsModelInstance = new StudentsModel;
+
+    // Instanciar el modelo de grados
+    $this->gradesModelInstance = new GradesModel;
 
     // Instanciar el middleware de autenticación
-    $this->authMiddlewareInstance = new AuthMiddleware();
+    $this->authMiddlewareInstance = new AuthMiddleware;
 
     // verificar que el usuario este logueado
     $this->authMiddlewareInstance->handle();
   }
 
-  public function showDashboardStudents($data = [])
+  public function showDashboardStudents(array $data = []): void
   {
     // Sí la búsqueda esta vacía, obtener todos los estudiantes
     if (empty($_GET['search'])) {
@@ -47,7 +54,7 @@ class AdminStudentsController extends BaseController {
     ], $data));
   }
 
-  public function updateStudent()
+  public function updateStudent(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -93,9 +100,10 @@ class AdminStudentsController extends BaseController {
       );
 
       if ($studentEdited) {
-        return $this->showEditStudentView([
+        $this->showEditStudentView([
           'success' => 'Datos actualizados exitosamente'
         ]);
+        return;
       }
 
       throw new Exception("Error al editar los datos del Estudiante");    
@@ -109,13 +117,12 @@ class AdminStudentsController extends BaseController {
     }
   }
 
-  public function showEditStudentView($data = [])
+  public function showEditStudentView(array $data = []): void
   {
     $studentData = $this->studentsModelInstance->getByIdStudent($_POST['_id']);
     
     // Obtener todos los grados
-    $gradesModelInstance = new GradesModel();
-    $grades = $gradesModelInstance->getAllGrades();
+    $grades = $this->gradesModelInstance->getAllGrades();
 
     echo $this->twig->render('edit-student.twig', array_merge([
       'title' => 'Profesores',
@@ -125,11 +132,10 @@ class AdminStudentsController extends BaseController {
     ], $data));
   }
 
-  public function showAddStudentView($data = [])
+  public function showAddStudentView(array $data = []): void
   {
     // Obtener todos los grados
-    $gradesModelInstance = new GradesModel();
-    $grades = $gradesModelInstance->getAllGrades();
+    $grades = $this->gradesModelInstance->getAllGrades();
 
     echo $this->twig->render('students-register.twig', array_merge([
       'title' => 'Datos personales',
@@ -138,7 +144,7 @@ class AdminStudentsController extends BaseController {
     ], $data));
   }
 
-  public function addStudent()
+  public function addStudent(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -190,9 +196,10 @@ class AdminStudentsController extends BaseController {
       );
 
       if ($studentCreated) {
-        return $this->showAddStudentView([
+        $this->showAddStudentView([
           'success' => 'Estudiante guardado exitosamente'
         ]);
+        return;
       }
 
       throw new Exception("Error al guardar los datos del Estudiante");    
@@ -206,7 +213,7 @@ class AdminStudentsController extends BaseController {
     }
   }
 
-  public function deleteStudent()
+  public function deleteStudent(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -221,9 +228,10 @@ class AdminStudentsController extends BaseController {
       $studentDeleted = $this->studentsModelInstance->deleteStudent($_POST['_id']);
 
       if ($studentDeleted) {
-        return $this->showDashboardStudents([
+        $this->showDashboardStudents([
           'success' => 'Estudiante eliminado correctamente',
         ]);
+        return;
       }
 
       throw new Exception('Error al eliminar el estudiante');

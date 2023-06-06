@@ -7,14 +7,16 @@ use Exception;
 use App\Models\SessionModel;
 
 class AuthMiddleware {
+  protected SessionModel $sessionModelInstance;
+  
   // Constructor que inicia la sesión
   public function __construct()
   {
-    $sessionModelInstance = new SessionModel();
-    $sessionModelInstance->sessionStart();
+    $this->sessionModelInstance = new SessionModel;
+    $this->sessionModelInstance->sessionStart();
   }
 
-  public function handle()
+  public function handle(): void
   {
     // Verifica si el usuario está autenticado
     if (!isset($_SESSION['user_discipline_observer']) || empty($_SESSION['user_discipline_observer'])) {
@@ -26,7 +28,7 @@ class AuthMiddleware {
     // Si está autenticado, continuamos
   }
 
-  public function handlePermissionsAdmin()
+  public function handlePermissionsAdmin(): void
   {
     if ($_GET['auth'] === 'false') {
       return;

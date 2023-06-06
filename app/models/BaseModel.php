@@ -7,23 +7,25 @@ use PDO;
 
 class BaseModel {
   // Definimos una variable que guarda la conexión a la base de datos
-  protected $db;
+  protected PDO $db;
+  protected EnvModel $env;
 
   // Creamos el constructor de la clase que conecta a la base de datos
   public function __construct() {
+    // Creamos una instancia de la clase EnvModel
+    $this->env = new EnvModel();
+
+    // Guardamos la conexión a la base de datos en la variable $db
     $this->db = $this->getDatabase();
   }
 
-  public function getDatabase()
+  public function getDatabase(): PDO
   {
-    // Creamos una instancia de la clase EnvModel
-    $env = new EnvModel();
-
     // Leemos las variables de entorno
-    $password = $env->reader('MYSQL_PSW');
-    $username = $env->reader('MYSQL_USER');
-    $dbname = $env->reader('MYSQL_DB');
-    $host = $env->reader('MYSQL_HOST');
+    $password = $this->env->reader('MYSQL_PSW');
+    $username = $this->env->reader('MYSQL_USER');
+    $dbname = $this->env->reader('MYSQL_DB');
+    $host = $this->env->reader('MYSQL_HOST');
 
     // Creamos la conexión
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

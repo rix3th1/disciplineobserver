@@ -15,15 +15,50 @@ use App\Models\{
 };
 
 class CiteParentsController extends BaseController {
-  public function showCiteParentsPage()
-  {
-    // Validar que el usuario este logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
+  protected AuthMiddleware $authMiddlewareInstance;
+  protected GradesModel $gradesModelInstance;
+  protected StudentsModel $studentsModelInstance;
+  protected NotationsModel $notationsModelInstance;
+  protected CitationsModel $citationsModelInstance;
 
+  public function __construct()
+  {
+    // Llamar al constructor del padre
+    parent::__construct();
+
+    // Instanciar los modelos
+    $this->authMiddlewareInstance = new AuthMiddleware;
+    $this->gradesModelInstance = new GradesModel;
+    $this->studentsModelInstance = new StudentsModel;
+    $this->notationsModelInstance = new NotationsModel;
+    $this->citationsModelInstance = new CitationsModel;
+
+    // Validar que el usuario este logueado
+    $this->authMiddlewareInstance->handle();
+  }
+
+  public function citeParents(): void
+  {
+    /**
+     * Si no existe el grado y el documento de identidad en la petición mostrar
+     * la página de pedir el documento de identidad y el grado para hacer la
+     * citación a los padres de familia
+     */
+    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+      $this->showCiteParentsPage();
+      return;
+    }
+
+    /**
+     * Si existe el grado y el documento de identidad en la petición mostrar la pagina de hacer citaciones a padres de familia
+     */
+    $this->citingParents();
+  }
+  
+  public function showCiteParentsPage(): void
+  {
     // Obtener todos los grados, con su _id y nombre
-    $gradesModelInstance = new GradesModel();
-    $grades = $gradesModelInstance->getAllGrades();
+    $grades = $this->gradesModelInstance->getAllGrades();
 
     // Renderizar la vista de pedir documento de identidad y grado
     echo $this->twig->render('request-student.twig', [
@@ -38,20 +73,14 @@ class CiteParentsController extends BaseController {
     $_SESSION['success_msg'] = NULL;
   }
 
-  public function citingParents()
+  public function citingParents(): void
   {
     try {
-      // Validar que el usuario este logueado
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
-
       // Obtener el nombre del grado ingresado por el usuario
-      $gradesModelInstance = new GradesModel();
-      $grade = $gradesModelInstance->getByIdGrade($_GET['grade']);
+      $grade = $this->gradesModelInstance->getByIdGrade($_GET['grade']);
 
       // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentsModelInstance = new StudentsModel();
-      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+      $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
@@ -69,8 +98,7 @@ class CiteParentsController extends BaseController {
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $gradesModelInstance = new GradesModel();
-      $grades = $gradesModelInstance->getAllGrades();
+      $grades = $this->gradesModelInstance->getAllGrades();
 
       echo $this->twig->render('request-student.twig', [
         'current_template' => 'cite-parents',
@@ -82,7 +110,7 @@ class CiteParentsController extends BaseController {
     }
   }
 
-  public function saveCitation()
+  public function saveCitation(): void
   {
     try {
       // Validar que los datos si fueron enviados
@@ -90,10 +118,6 @@ class CiteParentsController extends BaseController {
         http_response_code(400);
         throw new Exception('petición incorrecta');
       }
-
-      // Validar que el usuario este logueado
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
 
       // Validar que los datos enviados sean correctos
       if (empty($_GET['_id'])) {
@@ -125,8 +149,7 @@ class CiteParentsController extends BaseController {
       }
 
       // Validar que el estudiante exista en la base de datos del observador
-      $studentsModelInstance = new StudentsModel();
-      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+      $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
       // El estudiante no fue encontrado, mostrar mensaje de error
       if (!$studentFound) {
@@ -134,8 +157,7 @@ class CiteParentsController extends BaseController {
       }
 
       // Crear la anotación en el observador
-      $notationsModelInstance = new NotationsModel();
-      $newNotation = $notationsModelInstance->create(
+      $newNotation = $this->notationsModelInstance->create(
         $_GET['_id'],
         $_POST['notation'],
         $_GET['grade'],
@@ -143,8 +165,7 @@ class CiteParentsController extends BaseController {
       );
 
       // Crear la citación para el padre de familia
-      $citationsModelInstance = new CitationsModel();
-      $newCitation = $citationsModelInstance->create(
+      $newCitation = $this->citationsModelInstance->create(
         $_GET['_id'],
         $_POST['citation_date'],
         $_POST['notice'],
@@ -181,26 +202,5 @@ class CiteParentsController extends BaseController {
         'error' => $error,
       ]);
     }
-  }
-
-  public function citeParents()
-  {
-    // Validar si el usuario está logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-
-    /**
-     * Si no existe el grado y el documento de identidad en la petición mostrar
-     * la página de pedir el documento de identidad y el grado para hacer la
-     * citación a los padres de familia
-     */
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
-      return $this->showCiteParentsPage();
-    }
-
-    /**
-     * Si existe el grado y el documento de identidad en la petición mostrar la pagina de hacer citaciones a padres de familia
-     */
-    $this->citingParents();
   }
 }

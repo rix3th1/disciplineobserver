@@ -4,11 +4,29 @@ namespace App\Controllers;
 
 // Importar modelos
 use Exception;
-use App\Middleware\AuthMiddleware;
-use App\Models\{ EmailSenderModel, UserModel, SessionModel };
+use App\Models\{
+  EmailSenderModel,
+  UserModel,
+  SessionModel
+};
 
 class UserController extends BaseController {
-  public function showRequestEmailPage()
+  protected EmailSenderModel $emailSenderModelInstance;
+  protected UserModel $userModelInstance;
+  protected SessionModel $sessionModelInstance;
+
+  public function __construct()
+  {
+    // Llamar al constructor de la clase padre
+    parent::__construct();
+
+    // Inicializar los modelos
+    $this->emailSenderModelInstance = new EmailSenderModel;
+    $this->userModelInstance = new UserModel;
+    $this->sessionModelInstance = new SessionModel;
+  }
+
+  public function showRequestEmailPage(): void
   {
     // Mostrar la página de solicitud de email
     echo $this->twig->render('request-email.twig', [
@@ -16,20 +34,18 @@ class UserController extends BaseController {
     ]);
   }
 
-  public function showRequestCodePage()
+  public function showRequestCodePage(): void
   {
     try {
       // Verificar que el email ingresado exista en la base de datos del observador
-      $userModelInstance = new UserModel();
-      $emailExists = $userModelInstance->findByEmail($_GET['email']);
+      $emailExists = $this->userModelInstance->findByEmail($_GET['email']);
 
       // Si el email no existe en la base de datos del observador
       if (!$emailExists) {
         throw new Exception("El email ingresado no se encuentra registrado en la base de datos del observador");
       }
 
-      $sessionModelInstance = new SessionModel();
-      $sessionModelInstance->sessionStart();
+      $this->sessionModelInstance->sessionStart();
 
       // Verificar que el email ingresado no haya sido enviado previamente
       if ($_SESSION['verification_pending']['email'] ?? NULL !== $_GET['email']) {
@@ -42,8 +58,7 @@ class UserController extends BaseController {
         $verificationCode = random_int($min, $max);
 
         // Enviar el código de verificación por email
-        $emailSenderModelInstance = new EmailSenderModel();
-        $codeSended = $emailSenderModelInstance->sendEmail(
+        $codeSended = $this->emailSenderModelInstance->sendEmail(
           'Código de verificación para restablecer contraseña',
           $_GET['email'],
           "Su código de verificación es: " . $verificationCode
@@ -76,7 +91,7 @@ class UserController extends BaseController {
     }
   }
 
-  public function showPasswordPage()
+  public function showPasswordPage(): void
   {
     // Mostrar la página de cambio de contraseña
     echo $this->twig->render('change-password.twig', [
@@ -84,11 +99,10 @@ class UserController extends BaseController {
     ]);
   }
 
-  public function updatingPassword()
+  public function updatingPassword(): void
   {
     try {
-      $sessionModelInstance = new SessionModel();
-      $sessionModelInstance->sessionStart();
+      $this->sessionModelInstance->sessionStart();
       
       // Verificar que la contraseña coincida con la confirmación de contraseña
       if ($_POST['password'] !== $_POST['password_confirm']) {
@@ -96,8 +110,7 @@ class UserController extends BaseController {
       }
 
       // Actualizar la contraseña en la base de datos
-      $userModelInstance = new UserModel();
-      $passwordChanged = $userModelInstance->updatePassword($_SESSION['verification_pending']['email'] ?? NULL, $_POST['password']);
+      $passwordChanged = $this->userModelInstance->updatePassword($_SESSION['verification_pending']['email'] ?? NULL, $_POST['password']);
 
       // Si la contraseña fue actualizada mostramos la página de exito
       if ($passwordChanged) {
@@ -119,11 +132,10 @@ class UserController extends BaseController {
     }
   }
 
-  public function verifyVerificationCode()
+  public function verifyVerificationCode(): void
   {
     try {
-      $sessionModelInstance = new SessionModel();
-      $sessionModelInstance->sessionStart();
+      $this->sessionModelInstance->sessionStart();
 
       // Verificar que el cádigo de verificación sea correcto
       if ((int) $_SESSION['verification_pending']['code'] !== (int) $_POST['verification_code']) {
@@ -143,11 +155,12 @@ class UserController extends BaseController {
     }
   }
 
-  public function changePassword()
+  public function changePassword(): void
   {
     // Si no existe el email en la petición, mostramos la pagina de pedir el email
     if (empty($_GET['email'])) {
-      return $this->showRequestEmailPage();
+      $this->showRequestEmailPage();
+      return;
     }
 
     // Si existe el email en la petición, mostramos la pagina de pedir el codigo de verificación

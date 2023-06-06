@@ -6,12 +6,22 @@ namespace App\Controllers;
 use App\Middleware\AuthMiddleware;
 
 class HomeController extends BaseController {
-  public function showHomePage()
+  protected AuthMiddleware $authMiddlewareInstance;
+
+  public function __construct()
   {
-    // verificar que el usuario este logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-    
+    // Llamar al constructor del padre
+    parent::__construct();
+
+    // Instanciar la clase AuthMiddleware
+    $this->authMiddlewareInstance = new AuthMiddleware;
+
+    // Verificar que el usuario este logueado
+    $this->authMiddlewareInstance->handle();
+  }
+
+  public function showHomePage(): void
+  {
     // renderizar la vista home, donde se da la bienvenida
     echo $this->twig->render('home.twig', [
       'title' => 'Inicio',

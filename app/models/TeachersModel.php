@@ -3,7 +3,7 @@
 namespace App\Models;
 
 class TeachersModel extends UserModel {
-  public function getAllTeachers()
+  public function getAllTeachers(): array
   {
     // Obtener todos los usuarios de tipo teacher
     $statement = $this->db->query("SELECT * FROM users WHERE role = 'teacher'");
@@ -11,7 +11,13 @@ class TeachersModel extends UserModel {
     return $statement->fetchAll();
   }
 
-  public function updateTeacher($_id, $name, $lastname, $telephone, $email)
+  public function updateTeacher(
+    $_id,
+    string $name,
+    string $lastname,
+    string $telephone,
+    string $email
+  ): bool
   {
     $statement = $this->db->prepare("UPDATE users SET name = ?, lastname = ?, telephone = ?, email = ? WHERE _id = ?");
     return $statement->execute([
@@ -23,7 +29,7 @@ class TeachersModel extends UserModel {
     ]);
   }
 
-  public function getTeacherBySearch($search)
+  public function getTeacherBySearch(string $search): array
   {
     // Buscar profesores por nombre, apellido o email
     $statement = $this->db->prepare("SELECT * FROM users WHERE role = 'teacher' AND (_id = ? OR name LIKE ? OR lastname LIKE ? OR email LIKE ?)");
@@ -38,7 +44,7 @@ class TeachersModel extends UserModel {
     return $statement->fetchAll();
   }
 
-  public function getTeacherById($_id)
+  public function getTeacherById(string $_id): object | bool
   {
     // Buscar profesor por id
     $statement = $this->db->prepare("SELECT * FROM users WHERE role = 'teacher' AND _id = ?");
@@ -48,7 +54,7 @@ class TeachersModel extends UserModel {
     return $statement->fetchObject();
   }
 
-  public function deleteTeacher($_id)
+  public function deleteTeacher(string $_id): bool
   {
     // Eliminar profesor
     $statement = $this->db->prepare("DELETE FROM users WHERE role = 'teacher' AND _id = ?");

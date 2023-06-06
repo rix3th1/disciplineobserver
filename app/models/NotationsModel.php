@@ -3,7 +3,12 @@
 namespace App\Models;
 
 class NotationsModel extends BaseModel {
-  public function create($_id, $notation, $grade, $testimony)
+  public function create(
+    string $_id,
+    string $notation,
+    string $grade,
+    string $testimony
+  ): bool
   {
     // Consulta para crear una anotación
     $statement = $this->db->prepare("INSERT INTO notations(_id, notation, grade, testimony) VALUES (?, ?, ?, ?)");
@@ -11,7 +16,7 @@ class NotationsModel extends BaseModel {
     return $statement->execute([$_id, $notation, $grade, $testimony]);
   }
 
-  public function findNotationsByStudent($_id)
+  public function findNotationsByStudent(string $_id): array
   {
     // Este cálculo sirve para que el nÚmero de filas se muestren en orden ascendente
     $statement = $this->db->query("SET @row_number = 0");

@@ -7,11 +7,21 @@ use Exception;
 use App\Models\SessionModel;
 
 class AuthController extends BaseController {
-  public function showLoginPage()
+  protected SessionModel $sessionModelInstance;
+
+  public function __construct()
+  {
+    // Llamar al constructor del padre
+    parent::__construct();
+
+    // Instanciar modelo de sesión
+    $this->sessionModelInstance = new SessionModel;
+  }
+
+  public function showLoginPage(): void
   {
     // Obtenemos todos los roles
-    $sessionModelInstance = new SessionModel();
-    $roles = $sessionModelInstance->getAllRoles();
+    $roles = $this->sessionModelInstance->getAllRoles();
 
     // Mostramos la página de inicio, el login
     echo $this->twig->render('login.twig', [
@@ -20,7 +30,7 @@ class AuthController extends BaseController {
     ]);
   }
 
-  public function authenticate()
+  public function authenticate(): void
   {
     try {
       // Validamos que el usuario haya enviado los datos
@@ -43,8 +53,7 @@ class AuthController extends BaseController {
       }
 
       // Autenticamos al usuario
-      $sessionModelInstance = new SessionModel();
-      $auth = $sessionModelInstance->auth(
+      $auth = $this->sessionModelInstance->auth(
         $_POST['email'],
         $_POST['password']
       );
@@ -57,8 +66,7 @@ class AuthController extends BaseController {
 
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $sessionModelInstance = new SessionModel();
-      $roles = $sessionModelInstance->getAllRoles();
+      $roles = $this->sessionModelInstance->getAllRoles();
     
       echo $this->twig->render('login.twig', [
         'title' => 'Error',
@@ -68,11 +76,11 @@ class AuthController extends BaseController {
     }
   }
 
-  public function logOut()
+  public function logOut(): void
   {
     // Cerramos la sesión
-    $sessionModelInstance = new SessionModel();
-    $sessionModelInstance->logOut();
+    $this->sessionModelInstance->logOut();
+    
     // Redirigimos al inicio
     header('Location: /');
   }

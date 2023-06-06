@@ -6,7 +6,7 @@ namespace App\Models;
 use Exception;
 
 class EnvModel {
-  public function reader($key)
+  public function reader(string $key): string
   {
     // Verificamos si existe la variable de entorno
     if (defined('_ENV_CACHE')) {

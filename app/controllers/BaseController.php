@@ -8,7 +8,7 @@ use Twig\Loader\FilesystemLoader;
 
 class BaseController {
   // Definimos una instancia de Twig
-  protected $twig;
+  protected Environment $twig;
 
   public function __construct()
   {

@@ -5,18 +5,48 @@ namespace App\Controllers;
 // Importar modelos
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ GradesModel, NotationsModel, StudentsModel };
+use App\Models\{
+  GradesModel,
+  NotationsModel,
+  StudentsModel
+};
 
 class ViewObserverController extends BaseController {
-  public function showViewObserverPage()
-  {
-    // Validar que el usuario esté logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
+  protected AuthMiddleware $authMiddlewareInstance;
+  protected GradesModel $gradesModelInstance;
+  protected NotationsModel $notationsModelInstance;
+  protected StudentsModel $studentsModelInstance;
 
+  public function __construct()
+  {
+    // Llamamos al constructor del padre
+    parent::__construct();
+
+    // Instanciar los modelos
+    $this->authMiddlewareInstance = new AuthMiddleware;
+    $this->gradesModelInstance = new GradesModel;
+    $this->notationsModelInstance = new NotationsModel;
+    $this->studentsModelInstance = new StudentsModel;
+
+    // Validar que el usuario esté logueado
+    $this->authMiddlewareInstance->handle();
+  }
+  public function viewObserver(): void
+  {
+    // Si no existen estos datos, los pedimos
+    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+      $this->showViewObserverPage();
+      return;
+    }
+
+    // Si existen, visualizamos las anotaciones
+    $this->visualizingObserver();
+  }
+  
+  public function showViewObserverPage(): void
+  {
     // Obtener todos los grados
-    $gradesModelInstance = new GradesModel();
-    $grades = $gradesModelInstance->getAllGrades();
+    $grades = $this->gradesModelInstance->getAllGrades();
     
     // Mostrar la vista de pedir el grado y el documento del estudiante
     echo $this->twig->render('request-student.twig', [
@@ -27,16 +57,11 @@ class ViewObserverController extends BaseController {
     ]);
   }
 
-  public function visualizingObserver()
+  public function visualizingObserver(): void
   {
     try {
-      // Validar que el usuario esté logueado
-      $authMiddlewareInstance = new AuthMiddleware();
-      $authMiddlewareInstance->handle();
-
       // Buscamos al estudiante
-      $studentsModelInstance = new StudentsModel();
-      $studentFound = $studentsModelInstance->getByIdStudent($_GET['_id']);
+      $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
       // Si no existe, mostramos un error
       if (!$studentFound) {
@@ -44,8 +69,7 @@ class ViewObserverController extends BaseController {
       }
       
       // Si existe, obtenemos las anotaciones del estudiante
-      $notationsModelInstance = new NotationsModel();
-      $notationFound = $notationsModelInstance->findNotationsByStudent($_GET['_id']);
+      $notationFound = $this->notationsModelInstance->findNotationsByStudent($_GET['_id']);
 
       // Renderizar la vista con las anotaciones del estudiante
       echo $this->twig->render('visualizing-observer.twig', [
@@ -55,8 +79,7 @@ class ViewObserverController extends BaseController {
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
-      $gradesModelInstance = new GradesModel();
-      $grades = $gradesModelInstance->getAllGrades();
+      $grades = $this->gradesModelInstance->getAllGrades();
 
       echo $this->twig->render('request-student.twig', [
         'current_template' => 'view-observer',
@@ -66,20 +89,5 @@ class ViewObserverController extends BaseController {
         'grades' => $grades
       ]);
     }
-  }
-
-  public function viewObserver()
-  {
-    // Validar que el usuario esté logueado
-    $authMiddlewareInstance = new AuthMiddleware();
-    $authMiddlewareInstance->handle();
-
-    // Si no existen estos datos, los pedimos
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
-      return $this->showViewObserverPage();
-    }
-
-    // Si existen, visualizamos las anotaciones
-    $this->visualizingObserver();
   }
 }

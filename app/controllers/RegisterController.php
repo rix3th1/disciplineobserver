@@ -4,16 +4,27 @@ namespace App\Controllers;
 
 // Importar modelos
 use Exception;
-use App\Models\{ UserModel, EmailSenderModel };
 use App\Middleware\AuthMiddleware;
+use App\Models\{
+  UserModel,
+  EmailSenderModel
+};
 
 class RegisterController extends BaseController {
-  protected $roles;
+  protected UserModel $userModelInstance;
+  protected EmailSenderModel $emailSenderModelInstance;
+
+  // Roles
+  protected array $roles;
 
   public function __construct()
   {
     // Llamamos al constructor del padre BaseController
     parent::__construct();
+
+    // Inicializamos los modelos
+    $this->userModelInstance = new UserModel;
+    $this->emailSenderModelInstance = new EmailSenderModel;
 
     // Cargamos los roles
     $this->roles = [
@@ -30,7 +41,7 @@ class RegisterController extends BaseController {
     ];
   }
 
-  public function showAskDataView($data = [])
+  public function showAskDataView(array $data = []): void
   {
     // Mostramos la vista de tomar los datos personales
     echo $this->twig->render('askdata-register.twig', array_merge([
@@ -38,7 +49,7 @@ class RegisterController extends BaseController {
     ], $data));
   }
 
-  public function showRequestDataView($data = [])
+  public function showRequestDataView(array $data = []): void
   {
     // Verificamos que el usuario este logueado
     if ($_GET['auth'] === 'true') {
@@ -68,7 +79,7 @@ class RegisterController extends BaseController {
     ], $data));
   }
 
-  public function register()
+  public function register(): void
   {
     try {
       // Validamos que se haya enviado los datos
@@ -118,17 +129,15 @@ class RegisterController extends BaseController {
         throw new Exception('Seleccione la identificación');
       }
 
-      // Creamos una instancia de UserModel
-      $userModelInstance = new UserModel();
-      $userFound = $userModelInstance->findById($_GET['_id']);
-      $emailExists = $userModelInstance->findByEmail($_POST['email']);
+      $userFound = $this->userModelInstance->findById($_GET['_id']);
+      $emailExists = $this->userModelInstance->findByEmail($_POST['email']);
       
       if ($userFound || $emailExists) {
         throw new Exception("El usuario o el correo ya existen");
       }
 
       // Creamos el usuario
-      $userCreated = $userModelInstance->create(
+      $userCreated = $this->userModelInstance->create(
         $_GET['_id'],
         $_GET['name'],
         $_GET['lastname'],
@@ -142,8 +151,7 @@ class RegisterController extends BaseController {
         throw new Exception("Error al crear el usuario");
       }
 
-      $emailSenderModelInstance = new EmailSenderModel();
-      $emailAccountCreatedSended = $emailSenderModelInstance->sendEmail(
+      $emailAccountCreatedSended = $this->emailSenderModelInstance->sendEmail(
         'Confirmación cuenta Discipline Observer',
         $_POST['email'],
         'Cuenta creada exitosamente, Observador Discipline Observer, Colegio San José Obrero - Espinal.<br>Gracias por registrarte.<br><br>Buen día ' . $_GET['name'] . ', esta es una copia de su contraseña: <strong>' . $_POST['password'] . '</strong><br>Por favor cambie su contraseña inmediatamente, ingresando al siguiente enlace: <a href=' . $_SERVER['HTTP_ORIGIN'] . '/cambiar/contrasena' . '>Cambiar contraseña</a>.'

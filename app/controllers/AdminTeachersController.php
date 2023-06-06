@@ -4,11 +4,11 @@ namespace App\Controllers;
 
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\{ TeachersModel, UserModel };
+use App\Models\TeachersModel;
 
 class AdminTeachersController extends RegisterController {
-  protected $teachersModelInstance;
-  protected $authMiddlewareInstance;
+  protected TeachersModel $teachersModelInstance;
+  protected AuthMiddleware $authMiddlewareInstance;
 
   public function __construct()
   {
@@ -25,7 +25,7 @@ class AdminTeachersController extends RegisterController {
     $this->authMiddlewareInstance->handle();
   }
 
-  public function showDashboardTeachers($data = [])
+  public function showDashboardTeachers(array $data = []): void
   {
     // Sí la búsqueda esta vacía, obtener todos los profesores
     if (empty($_GET['search'])) {
@@ -48,7 +48,7 @@ class AdminTeachersController extends RegisterController {
     ], $data));
   }
 
-  public function updateTeacher()
+  public function updateTeacher(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -98,9 +98,10 @@ class AdminTeachersController extends RegisterController {
       );
 
       if ($teacherEdited) {
-        return $this->showEditTeacherView([
+        $this->showEditTeacherView([
           'success' => 'Datos actualizados exitosamente'
         ]);
+        return;
       }
 
       throw new Exception("Error al editar los datos del Docente");    
@@ -114,7 +115,7 @@ class AdminTeachersController extends RegisterController {
     }
   }
 
-  public function showEditTeacherView($data = [])
+  public function showEditTeacherView(array $data = []): void
   {
     $teacherData = $this->teachersModelInstance->getTeacherById($_POST['_id']);
 
@@ -125,14 +126,14 @@ class AdminTeachersController extends RegisterController {
     ], $data));
   }
 
-  public function showAddTeacherView()
+  public function showAddTeacherView(): void
   {
     $this->showAskDataView([
       'userLogged' => $_SESSION['user_discipline_observer']
     ]);
   }
 
-  public function deleteTeacher()
+  public function deleteTeacher(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -147,9 +148,10 @@ class AdminTeachersController extends RegisterController {
       $teacherDeleted = $this->teachersModelInstance->deleteTeacher($_POST['_id']);
 
       if ($teacherDeleted) {
-        return $this->showDashboardTeachers([
+        $this->showDashboardTeachers([
           'success' => 'Profesor eliminado correctamente',
         ]);
+        return;
       }
 
       throw new Exception('Error al eliminar el profesor');

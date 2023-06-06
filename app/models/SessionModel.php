@@ -6,17 +6,15 @@ namespace App\Models;
 use Exception;
 
 class SessionModel extends BaseModel {
-  public function getAllRoles() {
+  public function getAllRoles(): array
+  {
     // Seleccionamos todos los roles
     $statement = $this->db->query("SELECT * FROM roles");
     // Retornamos los roles
     return $statement->fetchAll();
   }
 
-  public function auth(
-    $email,
-    $password
-  )
+  public function auth(string $email, string $password): array
   {
     // Creamos una instancia del Modelo User
     $userModelInstance = new UserModel();
@@ -54,7 +52,7 @@ class SessionModel extends BaseModel {
     throw new Exception("El correo o la contraseña son incorrectas");    
   }
 
-  public function sessionStart()
+  public function sessionStart(): void
   {
     // Iniciamos la sesión
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -62,7 +60,7 @@ class SessionModel extends BaseModel {
     }
   }
 
-  public function logOut()
+  public function logOut(): void
   {
     // Destruimos la sesión
     $this->sessionStart();

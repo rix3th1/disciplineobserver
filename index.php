@@ -1,5 +1,8 @@
 <?php
 
+// Definimos que el codigo se ejecute en modo estricto
+declare(strict_types=1);
+
 // Requerimos el autoload de composer
 require_once __DIR__ . '/vendor/autoload.php';
 
