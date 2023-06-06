@@ -1,4 +1,4 @@
-{% set aria_current = 'make-notation' %}
+{% set aria_current = current_template %}
 
 {% extends '/layout/layout.twig' %}
 
@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-md-10 mx-auto">
 			<div class="text-center my-3">
-				<h1 class="display-2 fw-bold">Anotación en el Observador</h1>
+				<h1 class="display-2 fw-bold">{{title}}</h1>
 			</div>
 			<div class="text-center">
 				<h2 class="display-6">Elige el curso del estudiante en cuestión</h2>
@@ -43,7 +43,7 @@
 					{% endif %}
 					<div class="col-md-12">
 						<div class="form-floating">
-							<input type="number" name="_id" class="form-control bg-secondary form-control-lg" placeholder="Ingrese la cédula" required>
+							<input type="number" name="_id" class="form-control form-control-lg bg-secondary" placeholder="Ingrese la cédula" required>
 							<label for="_id" class="form-label">Documento de identidad del estudiante</label>
 						</div>
 					</div>

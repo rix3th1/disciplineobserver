@@ -15,8 +15,9 @@ class MakeNotationController extends BaseController {
     $grades = $gradesModelInstance->getAllGrades();
 
     // Renderizar la vista de pedir documento de identidad y grado
-    echo $this->twig->render('make-notation.twig', [
-      'title' => 'Hacer anotaciones en el observador',
+    echo $this->twig->render('request-student.twig', [
+      'current_template' => 'make-notation',
+      'title' => 'Anotación en el Observador',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'success' => $_SESSION['success_msg'] ?? NULL,
       'grades' => $grades
@@ -58,7 +59,8 @@ class MakeNotationController extends BaseController {
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
 
-      echo $this->twig->render('make-notation.twig', [
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'make-notation',
         'title' => 'Error',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,

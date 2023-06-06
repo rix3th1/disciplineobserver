@@ -19,8 +19,9 @@ class ViewCiteParentsController extends BaseController {
     $grades = $gradesModelInstance->getAllGrades();
     
     // Vemos la vista de pedir el grado y el documento de identidad
-    echo $this->twig->render('view-cite-parents.twig', [
-      'title' => 'Ver citaciones a padres de familia',
+    echo $this->twig->render('request-student.twig', [
+      'current_template' => 'view-cite-parents',
+      'title' => 'Ver citaciones de padres',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
     ]);
@@ -57,7 +58,8 @@ class ViewCiteParentsController extends BaseController {
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
 
-      echo $this->twig->render('view-cite-parents.twig', [
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'view-cite-parents',
         'title' => 'Error',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,

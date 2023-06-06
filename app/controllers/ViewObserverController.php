@@ -19,8 +19,9 @@ class ViewObserverController extends BaseController {
     $grades = $gradesModelInstance->getAllGrades();
     
     // Mostrar la vista de pedir el grado y el documento del estudiante
-    echo $this->twig->render('view-observer.twig', [
-      'title' => 'Ver observador',
+    echo $this->twig->render('request-student.twig', [
+      'current_template' => 'view-observer',
+      'title' => 'Ver Observador',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
     ]);
@@ -57,7 +58,8 @@ class ViewObserverController extends BaseController {
       $gradesModelInstance = new GradesModel();
       $grades = $gradesModelInstance->getAllGrades();
 
-      echo $this->twig->render('view-observer.twig', [
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'view-observer',
         'title' => 'Error',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
