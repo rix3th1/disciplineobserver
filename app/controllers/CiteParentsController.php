@@ -20,6 +20,7 @@ class CiteParentsController extends BaseController {
   protected StudentsModel $studentsModelInstance;
   protected NotationsModel $notationsModelInstance;
   protected CitationsModel $citationsModelInstance;
+  protected EmailSenderModel $emailSenderModelInstance;
 
   public function __construct()
   {
@@ -32,6 +33,7 @@ class CiteParentsController extends BaseController {
     $this->studentsModelInstance = new StudentsModel;
     $this->notationsModelInstance = new NotationsModel;
     $this->citationsModelInstance = new CitationsModel;
+    $this->emailSenderModelInstance = new EmailSenderModel;
 
     // Validar que el usuario este logueado
     $this->authMiddlewareInstance->handle();
@@ -159,6 +161,10 @@ class CiteParentsController extends BaseController {
       // Validar que el estudiante exista en la base de datos del observador
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
+      if ($_POST['email'] !== $studentFound->email_parent) {
+        throw new Exception("El correo del padre de familia no coincide con el ingresado en la citación");
+      }
+
       // El estudiante no fue encontrado, mostrar mensaje de error
       if (!$studentFound) {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
@@ -183,15 +189,14 @@ class CiteParentsController extends BaseController {
       $citationDate = new Datetime($_POST['citation_date']);
 
       // Enviar correo al padre de familia
-      $emailSenderModelInstance = new EmailSenderModel();
-      $citationSended = $emailSenderModelInstance->sendEmail(
+      $citationSended = $this->emailSenderModelInstance->sendEmail(
         'Citación padre de familia - Alumno ' . $_POST['student'] . ' Grado ' . $_GET['grade'] . ' San José Obrero, Espinal - Tolima, Discipline Observer',
         $_POST['email'],
         $_POST['notice'] . "<br><strong>Fecha de citación: " . $citationDate->format('Y-m-d') . " a las " . $citationDate->format('H:i') . "</strong>."
       );
 
       // Si no se creo la notación o la citación, mostrar mensaje de error
-      if (!$newNotation && !$newCitation && !$citationSended) {
+      if (!$newNotation || !$newCitation || !$citationSended) {
         throw new Exception('Ocurrió un error al enviar la citacion a ' . $_POST['email']);
       }
       

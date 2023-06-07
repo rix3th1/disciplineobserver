@@ -20,7 +20,7 @@ class EmailSenderModel {
     $this->envModelInstance = new EnvModel;
   }
 
-  public function sendEmail(string $subject, string $to, string $content): object | bool
+  public function sendEmail(string $subject, string $to, string $content): bool
   {
     // Configuramos el email
     $this->email->setFrom(
@@ -30,8 +30,7 @@ class EmailSenderModel {
     $this->email->setSubject($subject);
     $this->email->addTo($to);
     $this->email->addContent("text/html", $content);
-    
-    
+
     // Obtenemos la API KEY de Sendgrid
     $sendgridApiKey = $this->envModelInstance->reader('SENDGRID_API_KEY');
     // Instanciamos la clase SendGrid
@@ -41,11 +40,13 @@ class EmailSenderModel {
     try {
       // Enviamos el email
       $response = $sendgrid->send($this->email);
-      // Retornamos la respuesta
-      return $response;
+
       // print $response->statusCode() . "\n";
       // print_r($response->headers());
       // print $response->body() . "\n";
+
+      // Retornamos la respuesta
+      return $response->statusCode() === 202;
     } catch (Exception $e) {
       // En caso de error, lanzamos una excepción
       throw new Exception($e->getMessage());
