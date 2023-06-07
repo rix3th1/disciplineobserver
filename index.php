@@ -98,10 +98,20 @@ $map->get('view.cite.parents', '/ver/citacion/padres', [
   'viewCitations'
 ]);
 
+$map->get('visualizing.cite.parents', '/view-cite-parents', [
+  'App\Controllers\ViewCiteParentsController',
+  'visualizingCitations'
+]);
+
 // Ruta get para ver las anotaciones del observador
 $map->get('view.observer', '/ver/observador', [
   'App\Controllers\ViewObserverController',
   'viewObserver'
+]);
+
+$map->get('visualizing.observer', '/view-observer', [
+  'App\Controllers\ViewObserverController',
+  'visualizingObserver'
 ]);
 
 // Ruta get para ver la página de cambiar contraseña
