@@ -30,7 +30,7 @@ class AuthMiddleware {
 
   public function handlePermissionsAdmin(): void
   {
-    if ($_GET['auth'] === 'false') {
+    if ($_GET['auth'] ?? "" === 'false') {
       return;
     }
 

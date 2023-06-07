@@ -46,7 +46,7 @@ class CiteParentsController extends BaseController {
      * la página de pedir el documento de identidad y el grado para hacer la
      * citación a los padres de familia
      */
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+    if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showCiteParentsPage();
       return;
     }
@@ -54,7 +54,40 @@ class CiteParentsController extends BaseController {
     /**
      * Si existe el grado y el documento de identidad en la petición mostrar la pagina de hacer citaciones a padres de familia
      */
-    $this->citingParents();
+    $this->showSelectStudentsPage();
+  }
+
+  public function showSelectStudentsPage(): void
+  {
+    try {
+      // Verificar si el estudiante esta registrado en la base de datos del observador
+      $studentFound = $this->studentsModelInstance->getStudentByDocumentOrName($_GET['search']);
+
+      // Si no esta registrado, mostrar mensaje de error
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+
+      // Renderizar la vista de seleccionar estudiante
+      echo $this->twig->render('select-student.twig', [
+        'current_template' => 'cite-parents',
+        'title' => 'Citación de padre de familia',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'studentsFound' => $studentFound,
+        'grade' => $_GET['grade']
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $grades = $this->gradesModelInstance->getAllGrades();
+
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'cite-parents',
+        'title' => 'Error',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
   
   public function showCiteParentsPage(): void
@@ -96,7 +129,7 @@ class CiteParentsController extends BaseController {
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_emailParent' => $studentFound->email_parent,
         '_nameParent' => $studentFound->name_parent,
-        '_id' => $_GET['_id']
+        '_id' => $studentFound->_id
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -172,7 +205,7 @@ class CiteParentsController extends BaseController {
 
       // Crear la anotación en el observador
       $newNotation = $this->notationsModelInstance->create(
-        $_GET['_id'],
+        $studentFound->_id,
         $_POST['notation'],
         $_GET['grade'],
         $_POST['testimony']
@@ -180,7 +213,7 @@ class CiteParentsController extends BaseController {
 
       // Crear la citación para el padre de familia
       $newCitation = $this->citationsModelInstance->create(
-        $_GET['_id'],
+        $studentFound->_id,
         $_POST['citation_date'],
         $_POST['notice'],
         $_POST['email']

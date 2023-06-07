@@ -65,8 +65,13 @@ $map->get('make.notation', '/hacer/anotaciones', [
   'makeNotation'
 ]);
 
+$map->get('making.notation', '/make-notation', [
+  'App\Controllers\MakeNotationController',
+  'makingNotation'
+]);
+
 // Ruta post para guardar las anotaciones del observador
-$map->post('save.notation', '/hacer/anotaciones', [
+$map->post('save.notation', '/make-notation', [
   'App\Controllers\MakeNotationController',
   'saveNotation'
 ]);
@@ -77,8 +82,12 @@ $map->get('make.citation', '/citacion/padres', [
   'citeParents'
 ]);
 
-// Ruta post para guardar las citaciones de los padres
-$map->post('save.citation', '/citacion/padres', [
+$map->get('making.citation', '/cite-parents', [
+  'App\Controllers\CiteParentsController',
+  'citingParents'
+]);
+
+$map->post('save.citation', '/cite-parents', [
   'App\Controllers\CiteParentsController',
   'saveCitation'
 ]);

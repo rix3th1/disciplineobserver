@@ -1,0 +1,53 @@
+{% set aria_current = current_template %}
+
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<div class="text-center my-3">
+				<h1 class="display-2 fw-bold">{{title}}</h1>
+			</div>
+			<div class="text-center">
+				<h2 class="display-6 m-0">Seleccione el estudiante</h2>
+			</div>
+		</div>
+		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+			<div class="card card-body border-0">
+				<form action="/{{current_template}}">
+					<div class="col-md-12">
+					<input type="hidden" name="grade" value="{{grade}}">
+						<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1" style="max-height: 300px; overflow-y: auto;">
+
+							{% for student in studentsFound %}
+								<div class="position-relative">
+									<input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="_id" value="{{student._id}}">
+									<label class="list-group-item py-3 pe-5" for="_id">
+										<strong class="fw-semibold">{{student._id}}</strong>
+										<span class="d-block small opacity-75">{{student.student}} {{student.grade}} Grado</span>
+									</label>
+								</div>
+							{% endfor %}
+
+							<div class="col-md-12 mt-5 text-center">
+								<button class="btn btn-primary btn-lg">Seleccionar</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

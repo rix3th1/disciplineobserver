@@ -42,7 +42,7 @@ class AdminStudentsController extends BaseController {
     // Sí no esta vacía, obtener un estudiante por la búsqueda
     if (!empty($_GET['search'])) {
       // obtener un estudiante por la bésqueda
-      $students = $this->studentsModelInstance->getStudentBySearch($_GET['search']);
+      $students = $this->studentsModelInstance->getStudentBySearchAdmin($_GET['search']);
     }
 
     // renderizar el pánel de administración de los estudiantes

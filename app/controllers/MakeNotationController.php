@@ -38,7 +38,7 @@ class MakeNotationController extends BaseController {
      * Si el grade y el _id estan vacios, mostramos la pagina de pedir el grado
      * y el documento de identidad del estudiante
      */
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+    if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showMakeNotationPage();
       return;
     }
@@ -47,7 +47,40 @@ class MakeNotationController extends BaseController {
      * Si el grado y el documento de identidad existen, mostramos la página de hacer
      * anotaciones en el observador
      */
-    $this->makingNotation();
+    $this->showSelectStudentsPage();
+  }
+
+  public function showSelectStudentsPage(): void
+  {
+    try {
+      // Verificar si el estudiante esta registrado en la base de datos del observador
+      $studentFound = $this->studentsModelInstance->getStudentByDocumentOrName($_GET['search']);
+
+      // Si no esta registrado, mostrar mensaje de error
+      if (!$studentFound) {
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+      }
+
+      // Renderizar la vista de seleccionar estudiante
+      echo $this->twig->render('select-student.twig', [
+        'current_template' => 'make-notation',
+        'title' => 'Anotación en el Observador',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'studentsFound' => $studentFound,
+        'grade' => $_GET['grade']
+      ]);
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+      $grades = $this->gradesModelInstance->getAllGrades();
+
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'make-notation',
+        'title' => 'Error',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'error' => $error,
+        'grades' => $grades
+      ]);
+    }
   }
   
   public function showMakeNotationPage(): void
@@ -87,7 +120,7 @@ class MakeNotationController extends BaseController {
         'title' => 'Anotación en el Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
-        '_id' => $_GET['_id']
+        '_id' => $studentFound->_id
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -139,7 +172,7 @@ class MakeNotationController extends BaseController {
 
       // Vamos a crear la anotación en el observador
       $newNotation = $this->notationsModelInstance->create(
-        $_GET['_id'],
+        $studentFound->_id,
         $_POST['notation'],
         $_GET['grade'],
         $_POST['testimony']

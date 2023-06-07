@@ -29,12 +29,22 @@ class StudentsModel extends BaseModel {
     return $statement->fetchAll();
   }
 
-  public function getStudentBySearch(string $search): array
+  public function getStudentBySearchAdmin(string $search): array
   {
     $statement = $this->db->prepare("SELECT * FROM students WHERE (_id = ? OR student LIKE ? OR grade LIKE ?)");
     $statement->execute([
       $search,
       "$search%",
+      "$search%"
+    ]);
+    return $statement->fetchAll();
+  }
+
+  public function getStudentByDocumentOrName(string $search): array
+  {
+    $statement = $this->db->prepare("SELECT * FROM students WHERE (_id = ? OR student LIKE ?)");
+    $statement->execute([
+      $search,
       "$search%"
     ]);
     return $statement->fetchAll();

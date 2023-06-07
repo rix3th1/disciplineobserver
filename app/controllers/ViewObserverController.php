@@ -34,7 +34,7 @@ class ViewObserverController extends BaseController {
   public function viewObserver(): void
   {
     // Si no existen estos datos, los pedimos
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+    if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showViewObserverPage();
       return;
     }
@@ -69,7 +69,7 @@ class ViewObserverController extends BaseController {
       }
       
       // Si existe, obtenemos las anotaciones del estudiante
-      $notationFound = $this->notationsModelInstance->findNotationsByStudent($_GET['_id']);
+      $notationFound = $this->notationsModelInstance->findNotationsByStudent($studentFound->_id);
 
       // Renderizar la vista con las anotaciones del estudiante
       echo $this->twig->render('visualizing-observer.twig', [

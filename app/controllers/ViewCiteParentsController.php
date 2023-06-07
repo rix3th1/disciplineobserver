@@ -35,7 +35,7 @@ class ViewCiteParentsController extends BaseController {
   public function viewCitations(): void
   {
     // Si existe el grado y el documento de identidad vemos la página de pedir esos datos
-    if (empty($_GET['grade']) && empty($_GET['_id'])) {
+    if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showViewCiteParentsPage();
       return;
     }
@@ -70,7 +70,7 @@ class ViewCiteParentsController extends BaseController {
       }
 
       // Obtener todas las citaciones del estudiante
-      $citationFound = $this->citationsModelInstance->findCitationsByStudent($_GET['_id']);
+      $citationFound = $this->citationsModelInstance->findCitationsByStudent($studentFound->_id);
 
       // Mostramos la página de todas las citaciones de ese estudiante
       echo $this->twig->render('visualizing-citations.twig', [
