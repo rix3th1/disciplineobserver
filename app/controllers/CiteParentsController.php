@@ -148,6 +148,14 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese la fecha de la citación');
       }
 
+      // Patrón de expresión regular para validar el formato del email
+      $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+      // Validar el email utilizando la función preg_match()
+      if (!preg_match($pattern, $_POST['email'])) {
+        throw new Exception("El formato del correo es incorrecto");
+      }
+
       // Validar que el estudiante exista en la base de datos del observador
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 

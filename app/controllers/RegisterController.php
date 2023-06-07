@@ -129,6 +129,14 @@ class RegisterController extends BaseController {
         throw new Exception('Seleccione la identificación');
       }
 
+      // Patrón de expresión regular para validar el formato del email
+      $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+      // Validar el email utilizando la función preg_match()
+      if (!preg_match($pattern, $_POST['email'])) {
+        throw new Exception("El formato del correo es incorrecto");
+      }
+
       $userFound = $this->userModelInstance->findById($_GET['_id']);
       $emailExists = $this->userModelInstance->findByEmail($_POST['email']);
       
