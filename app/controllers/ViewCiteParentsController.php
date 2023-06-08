@@ -94,6 +94,15 @@ class ViewCiteParentsController extends BaseController {
   public function visualizingCitations(): void
   {
     try {
+      // Validar que los datos realmente fueron enviados
+      if (empty($_GET['grade'])) {
+        throw new Exception('Ingrese el grado del estudiante');
+      }
+
+      if (empty($_GET['_id'])) {
+        throw new Exception('Ingrese el número de documento del estudiante');
+      }
+      
       // Validar que el estudiante exista
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 

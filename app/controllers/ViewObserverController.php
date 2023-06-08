@@ -93,6 +93,15 @@ class ViewObserverController extends BaseController {
   public function visualizingObserver(): void
   {
     try {
+      // Validar que los datos realmente fueron enviados
+      if (empty($_GET['grade'])) {
+        throw new Exception('Ingrese el grado del estudiante');
+      }
+
+      if (empty($_GET['_id'])) {
+        throw new Exception('Ingrese el número de documento del estudiante');
+      }
+      
       // Buscamos al estudiante
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 

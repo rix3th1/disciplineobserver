@@ -111,6 +111,15 @@ class CiteParentsController extends BaseController {
   public function citingParents(): void
   {
     try {
+      // Validar que los datos realmente fueron enviados
+      if (empty($_GET['grade'])) {
+        throw new Exception('Ingrese el grado del estudiante');
+      }
+
+      if (empty($_GET['_id'])) {
+        throw new Exception('Ingrese el número de documento del estudiante');
+      }
+
       // Obtener el nombre del grado ingresado por el usuario
       $grade = $this->gradesModelInstance->getByIdGrade($_GET['grade']);
 
