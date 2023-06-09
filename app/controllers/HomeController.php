@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 // importar la clase que creamos para el middleware de verificacion de sesion
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 
 class HomeController extends BaseController {
   protected AuthMiddleware $authMiddlewareInstance;

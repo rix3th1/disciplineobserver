@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 // Importar Modelos
 use Exception;
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 use App\Models\{
   GradesModel,
   CitationsModel,

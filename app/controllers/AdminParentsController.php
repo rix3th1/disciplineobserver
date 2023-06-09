@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 use App\Models\ParentsModel;
 
 class AdminParentsController extends RegisterController {

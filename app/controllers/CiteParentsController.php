@@ -5,7 +5,7 @@ namespace App\Controllers;
 // Importar modelos
 use Exception;
 use Datetime;
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 use App\Models\{
   GradesModel,
   StudentsModel,

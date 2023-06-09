@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 use App\Models\TeachersModel;
 
 class AdminTeachersController extends RegisterController {
