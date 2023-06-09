@@ -114,6 +114,11 @@ $map->get('visualizing.observer', '/view-observer', [
   'visualizingObserver'
 ]);
 
+$map->post('visualizing.observer.delete.notation', '/ver/observador/eliminar/anotacion', [
+  'App\Controllers\ViewObserverController',
+  'deleteNotation'
+]);
+
 // Ruta get para ver la página de cambiar contraseña
 $map->get('passsword.change.page', '/cambiar/contrasena', [
   'App\Controllers\UserController',

@@ -7,6 +7,18 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="display-6 mt-5">Ver anotaciones en el Observador</h1>
+				{% if error %}
+					<div class="alert alert-primary text-center">
+						Error:
+						{{error}}
+					</div>
+				{% endif %}
+				{% if success %}
+					<div class="alert alert-success text-center">
+						Mensaje:
+						{{success}}
+					</div>
+				{% endif %}
 			</div>
 			<div class="col-md-12">
 				<div class="container-fluid px-4">
@@ -17,8 +29,19 @@
 								<div class="col-xl">
 									<div class="card border-0">
 										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Anotación ({{studentData.number}})</span>
+											<span class="h5">
+												Anotación ({{studentData.number}})
+											</span>
 										</div>
+
+										<form action="/ver/observador/eliminar/anotacion" method="post">
+											<input type="hidden" name="_id" value="{{studentData._id}}">
+											<input type="hidden" name="created_at" value="{{studentData.created_at}}">
+											<button class="w-100 btn btn-danger btn-sm rounded-3">
+												<i class="fa fa-trash"></i>
+											</button>
+										</form>
+
 										<div class="card-body p-0">
 											<textarea name="notation" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.notation}}</textarea>
 										</div>

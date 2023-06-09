@@ -90,6 +90,16 @@ class ViewObserverController extends BaseController {
     ]);
   }
 
+  public function deleteNotation(): void
+  {
+    $notationDeleted = $this->notationsModelInstance->delete($_POST['_id'], $_POST['created_at']);
+
+    if ($notationDeleted) {
+      $_SESSION['success_msg'] = 'La anotación fue eliminada correctamente';
+      echo "<script>window.location.href=document.referrer;</script>";
+    }
+  }
+
   public function visualizingObserver(): void
   {
     try {
@@ -117,8 +127,11 @@ class ViewObserverController extends BaseController {
       echo $this->twig->render('visualizing-observer.twig', [
         'title' => 'Ver Observador del estudiante',
         'userLogged' => $_SESSION['user_discipline_observer'],
-        'observerStudent' => $notationFound
+        'observerStudent' => $notationFound,
+        'success' => $_SESSION['success_msg'] ?? null
       ]);
+
+      $_SESSION['success_msg'] = null;
     } catch (Exception $e) {
       $error = $e->getMessage();
       $grades = $this->gradesModelInstance->getAllGrades();

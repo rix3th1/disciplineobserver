@@ -53,7 +53,7 @@ class StudentsModel extends BaseModel {
   public function getByIdStudent(string $_id): object | bool
   {
     // Obtenemos el estudiante por su id
-    $statement = $this->db->prepare("SELECT _id, student, grade, name_parent, email_parent FROM students WHERE _id = ?");
+    $statement = $this->db->prepare("SELECT * FROM students WHERE _id = ?");
     // Ejecutamos la consulta y retornamos el resultado
     $statement->execute([$_id]);
     // Retornamos al estudiante
