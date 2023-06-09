@@ -149,6 +149,11 @@ $map->get('admin.students', '/administrar/estudiantes', [
   'showDashboardStudents'
 ]);
 
+$map->get('admin.parents', '/administrar/padres-de-familia', [
+  'App\Controllers\AdminParentsController',
+  'showDashboardParents'
+]);
+
 $map->get('admin.teachers.add', '/administrar/agregar/profesores', [
   'App\Controllers\AdminTeachersController',
   'showAddTeacherView'
@@ -157,6 +162,11 @@ $map->get('admin.teachers.add', '/administrar/agregar/profesores', [
 $map->get('admin.students.add', '/administrar/agregar/estudiantes', [
   'App\Controllers\AdminStudentsController',
   'showAddStudentView'
+]);
+
+$map->get('admin.parents.add', '/administrar/agregar/padres-de-familia', [
+  'App\Controllers\AdminParentsController',
+  'showAddParentsView'
 ]);
 
 $map->post('admin.students.create', '/administrar/agregar/estudiantes', [
@@ -174,6 +184,11 @@ $map->post('admin.students.edit', '/administrar/editar/estudiantes', [
   'showEditStudentView'
 ]);
 
+$map->post('admin.parents.edit', '/administrar/editar/padres-de-familia', [
+  'App\Controllers\AdminParentsController',
+  'showEditParentsView'
+]);
+
 $map->post('admin.teachers.update', '/administrar/actualizar/profesores', [
   'App\Controllers\AdminTeachersController',
   'updateTeacher'
@@ -184,6 +199,11 @@ $map->post('admin.students.update', '/administrar/actualizar/estudiantes', [
   'updateStudent'
 ]);
 
+$map->post('admin.parents.update', '/administrar/actualizar/padres-de-familia', [
+  'App\Controllers\AdminParentsController',
+  'updateParent'
+]);
+
 $map->post('admin.teachers.delete', '/administrar/eliminar/profesores', [
   'App\Controllers\AdminTeachersController',
   'deleteTeacher'
@@ -192,6 +212,11 @@ $map->post('admin.teachers.delete', '/administrar/eliminar/profesores', [
 $map->post('admin.students.delete', '/administrar/eliminar/estudiantes', [
   'App\Controllers\AdminStudentsController',
   'deleteStudent'
+]);
+
+$map->post('admin.parents.delete', '/administrar/eliminar/padres-de-familia', [
+  'App\Controllers\AdminParentsController',
+  'deleteParent'
 ]);
 
 // Obtener la ruta coincidente de las variables globales

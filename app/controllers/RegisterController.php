@@ -59,16 +59,13 @@ class RegisterController extends BaseController {
       $authMiddlewareInstance->handle();
       
       // Cargamos los roles
-      $this->roles = [
-        [
-          "_id" => "teacher",
-          "role" => "Docente",
-        ]
-      ];
+      $this->roles = $_SESSION['temporarily_roles'] ?? $this->roles;
 
       // Cargamos los datos del usuario
       $data = array_merge([
-        'userLogged' => $_SESSION['user_discipline_observer']
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'path_redirect' => $_SESSION['temporarily_data_create_user']['path_redirect'],
+        'current_admin_action' => $_SESSION['temporarily_data_create_user']['permissions']
       ], $data);
     }
 
@@ -159,10 +156,12 @@ class RegisterController extends BaseController {
         throw new Exception("Error al crear el usuario");
       }
 
+      $personPost = $_POST['identification'] === 'teacher' ? 'Docente' : ($_POST['identification'] === 'parent' ? 'Padre de Familia' : '');
+
       $emailAccountCreatedSended = $this->emailSenderModelInstance->sendEmail(
-        'Confirmación cuenta Discipline Observer',
+        "Confirmación cuenta Discipline Observer - $personPost",
         $_POST['email'],
-        'Cuenta creada exitosamente, Observador Discipline Observer, Colegio San José Obrero - Espinal.<br>Gracias por registrarte.<br><br>Buen día ' . $_GET['name'] . ', esta es una copia de su contraseña: <strong>' . $_POST['password'] . '</strong><br>Por favor cambie su contraseña inmediatamente, ingresando al siguiente enlace: <a href=' . $_SERVER['HTTP_ORIGIN'] . '/cambiar/contrasena' . '>Cambiar contraseña</a>.'
+        'Cuenta creada exitosamente, Observador Discipline Observer, Colegio San José Obrero - Espinal.<br>Gracias por registrarte.<br><br>Buen día señor(a) ' . $personPost . ': ' . $_GET['name'] . ', esta es una copia de su contraseña: <strong>' . $_POST['password'] . '</strong><br>Por favor cambie su contraseña inmediatamente, ingresando al siguiente enlace: <a href=' . $_SERVER['HTTP_ORIGIN'] . '/cambiar/contrasena' . '>Cambiar contraseña</a>.'
       );
 
       if (!$emailAccountCreatedSended) {
@@ -174,6 +173,9 @@ class RegisterController extends BaseController {
         'title' => 'Registro exitoso',
         'success' => 'Registrado exitosamente, por favor inicie sesión'
       ]);
+
+      $_SESSION['temporarily_roles'] = $this->roles; // [teacher, parent']
+      $_SESSION['temporarily_data_create_user'] = NULL;
     } catch (Exception $e) {
       $error = $e->getMessage();
       

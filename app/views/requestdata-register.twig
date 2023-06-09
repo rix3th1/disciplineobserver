@@ -1,5 +1,5 @@
 {% if userLogged %}
-	{% set aria_current = ['admin', 'teachers'] %}
+	{% set aria_current = current_admin_action %}
 {% endif %}
 
 {% extends '/layout/layout.twig' %}
@@ -52,7 +52,7 @@
 						{% endif %}
 						{% if success %}
 							<a href="/" class="btn btn-success btn-lg mb-2">Ir a iniciar sesión</a>
-							<a href="/administrar/profesores" class="btn btn-primary btn-lg mb-2">Ok</a>
+							<a href="/administrar/{{path_redirect}}" class="btn btn-primary btn-lg mb-2">Ok</a>
 						{% endif %}
 					</div>
 				</form>

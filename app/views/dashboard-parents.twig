@@ -1,0 +1,78 @@
+{% set aria_current = ['admin', 'parents'] %}
+
+{% extends '/layout/layout.twig' %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<div class="text-center my-3">
+				<h1 class="display-2 fw-bold">Administración Padres de Familia</h1>
+			</div>
+		</div>
+		<div class="col-md-10">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+		</div>
+
+		<div class="col-md-10 col-sm-10">
+			<form>
+				<input name="search" value="{{search}}" type="search" class="form-control bg-secondary fw-light" placeholder="Buscar por nombre o documento" spellcheck="false" autofocus>
+			</form>
+		</div>
+
+		<div class="col-md-2 col-sm-2 my-auto text-center">
+			<a href="/administrar/agregar/padres-de-familia" class="btn btn-primary btn-sm">
+				<i class="fa fa-plus"></i>
+			</a>
+		</div>
+
+		<div class="col-md-12">
+			<table class="table table-hover table-borderless text-center">
+				<caption>Cuenta de padres de familia.</caption>
+				<thead>
+					<tr>
+						<th>Documento</th>
+						<th>Correo Electrónico</th>
+						<th>Nombre</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for parent in parents %}
+						<tr>
+							<td>{{parent._id}}</td>
+							<td>{{parent.email}}</td>
+							<td>{{parent.name}}
+								{{parent.lastname}}</td>
+							<td>
+								<form action="/administrar/editar/padres-de-familia" method="post" class="d-inline">
+									<input type="hidden" name="_id" value="{{parent._id}}">
+									<button class="btn btn-secondary">
+										<i class="fa fa-pencil-alt"></i>
+									</button>
+								</form>
+
+								<form action="/administrar/eliminar/padres-de-familia" method="post" class="d-inline">
+									<input type="hidden" name="_id" value="{{parent._id}}">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

@@ -4,51 +4,49 @@ namespace App\Controllers;
 
 use Exception;
 use App\Middleware\AuthMiddleware;
-use App\Models\TeachersModel;
+use App\Models\ParentsModel;
 
-class AdminTeachersController extends RegisterController {
-  protected TeachersModel $teachersModelInstance;
+class AdminParentsController extends RegisterController {
+  protected ParentsModel $parentsModelInstance;
   protected AuthMiddleware $authMiddlewareInstance;
 
   public function __construct()
   {
-    // Llamamos al constructor del padre
+    // Llamamos al constructor de la clase padre
     parent::__construct();
 
-    // Instanciar el modelo de profesores
-    $this->teachersModelInstance = new TeachersModel();
-
-    // Instanciar el middleware de autenticación
+    // Instanciamos los modelos
+    $this->parentsModelInstance = new ParentsModel();
     $this->authMiddlewareInstance = new AuthMiddleware();
 
-    // verificar que el usuario este logueado
+    // Verificar que el usuario este autenticado
     $this->authMiddlewareInstance->handle();
   }
 
-  public function showDashboardTeachers(array $data = []): void
+  public function showDashboardParents(array $data = []): void
   {
-    // Sí la búsqueda esta vacía, obtener todos los profesores
+    // Si no hay nada en la variable de busqueda, se muestra todo	los padres
     if (empty($_GET['search'])) {
-      // obtener todos los profesores
-      $teachers = $this->teachersModelInstance->getAllTeachers();
+      // Obtenemos todos los padres
+      $parents = $this->parentsModelInstance->getAllParents();
     }
 
-    // Sí no esta vacía, obtener un profesor por la búsqueda
+    // Si no está vacía obtener padres por la búsqueda
     if (!empty($_GET['search'])) {
-      // obtener un profesor por la bésqueda
-      $teachers = $this->teachersModelInstance->getTeacherBySearch($_GET['search']);
+      // Obtener padres de familia por la búsqueda
+      $parents = $this->parentsModelInstance->getParentBySearch($_GET['search']);
     }
 
-    // renderizar el pánel de administración de los profesores
-    echo $this->twig->render('dashboard-teachers.twig', array_merge([
-      'title' => 'Profesores',
+    // Renderizar el pánel de administración de los padres de famila
+    echo $this->twig->render('dashboard-parents.twig', array_merge([
+      'title' => 'Padres de familia',
       'userLogged' => $_SESSION['user_discipline_observer'],
-      'teachers' => $teachers,
+      'parents' => $parents,
       'search' => $_GET['search'] ?? ''
     ], $data));
   }
 
-  public function updateTeacher(): void
+  public function updateParent(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -97,7 +95,7 @@ class AdminTeachersController extends RegisterController {
         throw new Exception("El formato del correo es incorrecto");
       }
 
-      $teacherEdited = $this->teachersModelInstance->updateTeacher(
+      $parentEdited = $this->parentsModelInstance->updateParent(
         $_POST['_id'],
         $_POST['name'],
         $_POST['lastname'],
@@ -105,47 +103,47 @@ class AdminTeachersController extends RegisterController {
         $_POST['email']
       );
 
-      if ($teacherEdited) {
-        $this->showEditTeacherView([
+      if ($parentEdited) {
+        $this->showEditParentsView([
           'success' => 'Datos actualizados exitosamente'
         ]);
         return;
       }
 
-      throw new Exception("Error al editar los datos del Docente");    
+      throw new Exception("Error al editar los datos del Padre de familia");    
     } catch (Exception $e) {
       $error = $e->getMessage();
 
-      $this->showEditTeacherView([
+      $this->showEditParentsView([
         'title' => 'Error',
         'error' => $error
       ]);
     }
   }
 
-  public function showEditTeacherView(array $data = []): void
+  public function showEditParentsView(array $data = []): void
   {
-    $teacherData = $this->teachersModelInstance->getTeacherById($_POST['_id']);
+    $parentData = $this->parentsModelInstance->getParentById($_POST['_id']);
 
-    echo $this->twig->render('edit-teacher.twig', array_merge([
-      'title' => 'Profesores',
+    echo $this->twig->render('edit-parents.twig', array_merge([
+      'title' => 'Editar Padre de familia',
       'userLogged' => $_SESSION['user_discipline_observer'],
-      'teacher' => $teacherData
+      'parent' => $parentData
     ], $data));
   }
 
-  public function showAddTeacherView(): void
+  public function showAddParentsView(array $data = []): void
   {
     $_SESSION['temporarily_roles'] = [
       [
-        "_id" => "teacher",
-        "role" => "Docente",
+        "_id" => "parent",
+        "role" => "Padre de familia",
       ]
     ];
 
     $_SESSION['temporarily_data_create_user'] = [
-      'permissions' => ['admin', 'teachers'],
-      'path_redirect' => 'profesores'
+      'permissions' => ['admin', 'parents'],
+      'path_redirect' => 'padres-de-familia'
     ];
 
     $this->showAskDataView([
@@ -154,7 +152,7 @@ class AdminTeachersController extends RegisterController {
     ]);
   }
 
-  public function deleteTeacher(): void
+  public function deleteParent(): void
   {
     try {
       // Verificamos que el usuario este logueado y tenga los permisos de administrador
@@ -166,20 +164,20 @@ class AdminTeachersController extends RegisterController {
         throw new Exception('petición incorrecta');
       }
 
-      $teacherDeleted = $this->teachersModelInstance->deleteTeacher($_POST['_id']);
+      $parentDeleted = $this->parentsModelInstance->deleteParent($_POST['_id']);
 
-      if ($teacherDeleted) {
-        $this->showDashboardTeachers([
-          'success' => 'Profesor eliminado correctamente',
+      if ($parentDeleted) {
+        $this->showDashboardParents([
+          'success' => 'Padre de familia eliminado correctamente',
         ]);
         return;
       }
 
-      throw new Exception('Error al eliminar el profesor');
+      throw new Exception('Error al eliminar el Padre de familia');
     } catch (Exception $e) {
       $error = $e->getMessage();
 
-      $this->showDashboardTeachers([
+      $this->showDashboardParents([
         'title' => 'Error',
         'error' => $error
       ]);
