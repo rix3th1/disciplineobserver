@@ -32,4 +32,13 @@ class CitationsModel extends BaseModel {
     // Retornamos los resultados
     return $statement->fetchAll();
   }
+
+  public function insertAvailability($job, $availability_parent) {
+  $statement = $this->db->prepare("INSERT INTO `availability`(`job`, `availability_parent`) VALUES (?, ?, ?, ?)");
+  // Ejecutamos la consulta y retornamos el resultado
+  return $statement->execute([
+    $job,
+    $availability_parent
+    ]);
+  }
 }

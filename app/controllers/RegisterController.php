@@ -45,7 +45,7 @@ class RegisterController extends BaseController {
   {
     // Mostramos la vista de tomar los datos personales
     echo $this->twig->render('askdata-register.twig', array_merge([
-      'title' => 'Datos personales'
+      'title' => 'Datos personales - Acudiente'
     ], $data));
   }
 

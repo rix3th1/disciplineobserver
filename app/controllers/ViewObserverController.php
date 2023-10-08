@@ -31,6 +31,7 @@ class ViewObserverController extends BaseController {
     // Validar que el usuario esté logueado
     $this->authMiddlewareInstance->handle();
   }
+  
   public function viewObserver(): void
   {
     // Si no existen estos datos, los pedimos

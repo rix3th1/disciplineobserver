@@ -37,7 +37,7 @@
 										<form action="/ver/observador/eliminar/anotacion" method="post">
 											<input type="hidden" name="_id" value="{{studentData._id}}">
 											<input type="hidden" name="created_at" value="{{studentData.created_at}}">
-											<button class="w-100 btn btn-danger btn-sm rounded-3">
+											<button type="submit" onclick="return confirm('Estás seguro que deseas eliminar la anotación ({{studentData.number}})?')" class="w-100 btn btn-danger btn-sm rounded-3">
 												<i class="fa fa-trash"></i>
 											</button>
 										</form>

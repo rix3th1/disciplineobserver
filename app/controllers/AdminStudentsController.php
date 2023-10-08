@@ -137,8 +137,8 @@ class AdminStudentsController extends BaseController {
     // Obtener todos los grados
     $grades = $this->gradesModelInstance->getAllGrades();
 
-    echo $this->twig->render('students-register.twig', array_merge([
-      'title' => 'Datos personales',
+echo $this->twig->render('students-register.twig', array_merge([
+      'title' => 'Datos personales - Estudiante',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
     ], $data));

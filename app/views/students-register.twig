@@ -62,8 +62,14 @@
 					</div>
 
 					<div class="col-md-12">
-						<a href="/administrar/estudiantes" class="btn btn-secondary btn-lg mb-2">Volver</a>
-						<button type="submit" class="btn btn-primary btn-lg mb-2">Guardar</button>
+						{% if not success %}
+							<a href="/administrar/estudiantes" class="btn btn-secondary btn-lg mb-2">Volver</a>
+							<button type="submit" class="btn btn-primary btn-lg mb-2">Guardar</button>
+						{% endif %}
+						{% if success %}
+						<a href="/administrar/estudiantes" class="btn btn-success btn-lg mb-2">Ir a administracion</a>
+							<button type="submit" class="btn btn-primary btn-lg mb-2">Registrar</button>
+						{% endif %}
 					</div>
 				</form>
 			</div>

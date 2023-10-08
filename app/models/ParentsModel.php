@@ -14,7 +14,9 @@ class ParentsModel extends BaseModel {
     string $name,
     string $lastname,
     string $telephone,
-    string $email
+    string $email,
+    string $job,
+    string $availability
   ): bool
   {
     $statement = $this->db->prepare("UPDATE users SET name = ?, lastname = ?, telephone = ?, email = ? WHERE _id = ?");
@@ -23,6 +25,8 @@ class ParentsModel extends BaseModel {
       $lastname,
       $telephone,
       $email,
+      $job,
+      $availability,
       $_id
     ]);
   }

@@ -74,6 +74,12 @@ class AdminParentsController extends RegisterController {
       if (empty($_POST['lastname'])) {
         throw new Exception('Ingrese los apellidos');
       }
+      if (empty($_POST['availability'])) {
+        throw new Exception('Ingrese su horario disponible');
+      }
+      if (empty($_POST['job'])) {
+        throw new Exception('Ingrese su trabajo');
+      }
 
       if (empty($_POST['telephone'])) {
         throw new Exception('Ingrese el teléfono');
@@ -100,7 +106,9 @@ class AdminParentsController extends RegisterController {
         $_POST['name'],
         $_POST['lastname'],
         $_POST['telephone'],
-        $_POST['email']
+        $_POST['email'],
+        $_POST['job'],
+        $_POST['availability']
       );
 
       if ($parentEdited) {

@@ -29,8 +29,8 @@ $map->post('login.auth', '/auth', [
   'authenticate'
 ]);
 
-// Ruta get para cerrar sesión
-$map->get('login.out', '/salir', [
+// Ruta post para cerrar sesión
+$map->post('login.out', '/salir', [
   'App\Controllers\AuthController',
   'logOut'
 ]);
