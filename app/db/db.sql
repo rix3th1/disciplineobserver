@@ -56,8 +56,12 @@ CREATE TABLE `parents_students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `parents_students` (`_id`, `job`, `availability`) VALUES
+(64573864, 'joneydoe@gmail.com', '2023-10-27 10:00:00'),
+(65786497, 'Singer', '2023-10-27 05:00:00'),
 (93118311, 'Data Enginner', '1998-08-18 07:42:00'),
-(479583637, 'Programmer', '2023-10-12 06:00:00');
+(336427626, 'Scientific', '2023-10-31 11:00:00'),
+(479583637, 'Programmer', '2023-10-12 06:00:00'),
+(777846432, 'Computer Engineering', '2023-10-21 20:00:00');
 
 CREATE TABLE `roles` (
   `_id` enum('teacher','parent','rector','secretary') NOT NULL,
@@ -92,9 +96,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
+(64573864, 'Joney', 'Doe', '3228472744', 'joneydoe@gmail.com', '$2y$10$odAqXs1rTW9JrO6C820r6.IVmcOpJPitzfDeTYo0D28Dx.ocjDKVC', 'parent'),
+(65786497, 'Jake', 'Smith', '1335748583', 'jakesmith@gmail.com', '$2y$10$kej6UsGBxAY5HVooVfVAeO5Eq/s6mwf2WthTxPiA.eHzhMB7Sj1..', 'parent'),
 (83970346, 'Ryan', 'Ray', '3182647374', 'ryanray@gmail.com', '$2y$10$eoWj.0obrCY6TIDQerhiT.b823ZahMyAIcrqgvBWFOMS0Te/TVz/S', 'teacher'),
 (93118311, 'John', 'Doe', '3183047239', 'johndoe@gmail.com', '$2y$10$5Kai.bO.ApkTXwaEig8lIuySewLZaSvc0qDWZ.UOyGTSIFqgo6tvW', 'rector'),
-(479583637, 'Jane', 'Doe', '3193472684', 'janedoe@gmail.com', '$2y$10$1QwJueX7nS.VnySBQ1O.y.iawKE4ZAuJLaJ6aHuXCwcP1DtpA6K3q', 'parent');
+(336427626, 'Jessie', 'Doe', '3887327384', 'jessiedoe@gmail.com', '$2y$10$qvWGRfnuIqV6xo1nItZZmuJFQq4T5AtVfWQ19eu3UpcCn4G5jYFyK', 'parent'),
+(479583637, 'Jane', 'Doe', '3193472684', 'janedoe@gmail.com', '$2y$10$1QwJueX7nS.VnySBQ1O.y.iawKE4ZAuJLaJ6aHuXCwcP1DtpA6K3q', 'parent'),
+(777846432, 'Jean', 'Doe', '6373263842', 'jeandoe@gmail.com', '$2y$10$RnafqyVXV.kpjOHBazg3He8kLDuC5XPkyijSRuGwxZVcwHCTO5JVO', 'parent');
 
 
 ALTER TABLE `citations`
@@ -127,13 +135,13 @@ ALTER TABLE `notations`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=738846378;
 
 ALTER TABLE `parents_students`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=479583638;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=777846433;
 
 ALTER TABLE `students`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=738846378;
 
 ALTER TABLE `users`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=479583638;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=777846433;
 
 
 ALTER TABLE `citations`
