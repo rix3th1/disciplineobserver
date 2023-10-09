@@ -8,6 +8,7 @@
 [data-bs-theme="dark"] {
   color-scheme: dark;
   --bs-tertiary-bg-rgb: 43, 48, 53;
+  --bs-secondary-rgb: 108, 117, 125
 }
 
 .btn-primary {
