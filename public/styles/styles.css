@@ -18,10 +18,14 @@ input[type="number"] {
 }
 
 textarea {
-  resize: none;
+  resize: none !important;
 }
 
 .custom-badge {
   margin-left: -10px;
   margin-top: 8px;
+}
+
+.bd-mode-toggle {
+  z-index: 1500;
 }

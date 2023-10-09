@@ -30,7 +30,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="notation" class="form-control bg-secondary" placeholder="Ingrese la anotación" autocomplete="off" spellcheck="false" required></textarea>
+										<textarea name="notation" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese la anotación" autocomplete="off" spellcheck="false" required></textarea>
 										<label for="notation" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -46,7 +46,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="student" class="form-control bg-secondary" placeholder="Ingrese el nombre del estudiante" autocomplete="off" spellcheck="false" required>{% if _studentInfo is defined %}{{_studentInfo}}{% endif %}</textarea>
+										<textarea name="student" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el nombre del estudiante" autocomplete="off" spellcheck="false" required>{% if _studentInfo is defined %}{{_studentInfo}}{% endif %}</textarea>
 										<label for="student" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -62,7 +62,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="_id" class="form-control bg-secondary" placeholder="Ingrese el número de identificación" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
+										<textarea name="_id" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el número de identificación" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
 										<label for="_id" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -74,11 +74,11 @@
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
-									<span class="h5">Testimonio del Estudiante</span>
+									<span class="h5">Testimonio Estudiante</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="testimony" class="form-control bg-secondary" placeholder="Ingrese el testimonio del estudiante" autocomplete="off" spellcheck="false" required></textarea>
+										<textarea name="testimony" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el testimonio del estudiante" autocomplete="off" spellcheck="false" required></textarea>
 										<label for="testimony" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -90,11 +90,11 @@
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
-									<span class="h5">Aviso al padre de familia</span>
+									<span class="h5">Aviso Acudiente</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="notice" class="form-control bg-secondary" placeholder="Ingrese el aviso al padre de familia" autocomplete="off" spellcheck="false" required style="min-height: 100px;"></textarea>
+										<textarea name="notice" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el aviso al padre de familia" autocomplete="off" spellcheck="false" required></textarea>
 										<label for="notice" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -106,11 +106,11 @@
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
-									<span class="h5">Correo del padre de familia</span>
+									<span class="h5">Email Acudiente</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="email" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _emailParent is defined %}{{_emailParent}}{% endif %}</textarea>
+										<textarea name="email" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" required>{% if _emailParent is defined %}{{_emailParent}}{% endif %}</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -122,11 +122,11 @@
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
-									<span class="h5">Nombre del padre de familia</span>
+									<span class="h5">Nombre Acudiente</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="parent_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" style="min-height: 100px;" required>{% if _nameParent is defined %}{{_nameParent}}{% endif %}</textarea>
+										<textarea name="parent_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required>{% if _nameParent is defined %}{{_nameParent}}{% endif %}</textarea>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -138,11 +138,12 @@
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 bg-primary text-center mb-1">
-									<span class="h5">Hora y fecha citación</span>
+									<span class="h5">Hora/Fecha Citación</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<input type="datetime-local" name="citation_date" class="form-control form-control-lg bg-secondary" style="min-height: 100px;" required>
+										<input type="datetime-local" name="citation_date" class="form-control form-control-lg bg-secondary"
+										required>
 										<label for="email" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>

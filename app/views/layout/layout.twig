@@ -3,18 +3,19 @@
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 	<head>
+		<title>{{ "Discipline Observer | " ~ title}}</title>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta
 		name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/public/img/san_jose_obrero.png" type="image/x-icon">
 
 		{# Bootstrap styles #}
-		<link rel="shortcut icon" href="/public/img/san_jose_obrero.png" type="image/x-icon">
-		<link rel="stylesheet" href="/public/styles/bootstrap.css">
-		<link rel="stylesheet" href="/public/styles/style.css">
-		<link rel="stylesheet" href="/public/styles/all.min.css">
 		<link
-		rel="stylesheet" href="/public/styles/bs5.3.2.min.css">
+		rel="stylesheet" href="/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/styles/custom-variables.css">
+		<link rel="stylesheet" href="/public/styles/styles.css">
+		<link rel="stylesheet" href="/vendor/fortawesome/font-awesome/css/all.min.css">
 
 		{# Sí es el login mostramos el fondo de inicio de sesión, sino mostramos el de recuperar contraseña #}
 		{% if wallpaper == 'bg' %}
@@ -22,19 +23,16 @@
 		{% elseif wallpaper == 'color' %}
 			<link rel="stylesheet" href="/public/styles/color.css">
 		{% endif %}
-
-		<title>Discipline Observer |
-			{{title}}</title>
 	</head>
 	<body>
 		<div
 			class="container">
 
 			{# Nabvar brand #}
-			<nav class="navbar navbar-expand-sm navbar-dark border-bottom fixed-top bg-observer">
+			<nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom fixed-top">
 				<div class="container-fluid mx-2">
 					<a href="/" class="navbar-brand">
-						<img class="img-fluid rounded-1" src="/public/img/observer.png" alt="disciplineobserver logotype" width="80" height="80">
+						<img class="img-fluid rounded-3" src="/public/img/observer.png" alt="disciplineobserver logotype" width="80" height="80">
 					</a>
 
 					<div class="collapse navbar-collapse">
@@ -62,7 +60,7 @@
 			</nav>
 
 			{# Navbar funciones del observador #}
-			<nav class="navbar navbar-expand-xl navbar-dark border-top fixed-top bg-observer">
+			<nav class="navbar navbar-expand-xl bg-body-tertiary border-top fixed-top">
 
 				<div class="container-fluid mx-2">
 
@@ -73,7 +71,7 @@
 
 						<div class="collapse navbar-collapse" id="navbarDisciplineObserver">
 
-							<ul class="navbar-nav nav nav-pills nav-fill my-4 my-lg-0">
+							<ul class="navbar-nav nav nav-pills nav-fill my-4 my-lg-0 gap-1">
 
 								{% if 'admin_students' in userLogged.permissions or 'admin_teachers' in userLogged.permissions %}
 									<li class="nav-item dropdown">
@@ -170,13 +168,12 @@
 			</nav>
 
 			{% block content %}
-				<!-- Aquí van las demas vistas del observador -->
+				{# Aquí van las demas vistas del observador #}
 			{% endblock %}
 		</div>
 
-
 		<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-			<button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+			<button class="btn btn-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
 				<svg class="bi my-1 theme-icon-active" width="1em" height="1em">
 					<use href="#circle-half"></use>
 				</svg>

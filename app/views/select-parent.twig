@@ -30,8 +30,7 @@
 			<div class="card card-body border-0">
 				<form action="/{{current_template}}">
 					<div class="col-md-12">
-						<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1" style="max-height: 500px; overflow-y: auto;">
-
+						<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1 overflow-y-auto">
 							{% for parent in parentsFound %}
 								<div class="position-relative">
 									<input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="parent_id" value="{{parent._id}}" required>

@@ -24,7 +24,7 @@
 
 					<div class="col-md-12">
 						<div class="form-floating">
-							<select name="grade" class="form-select bg-secondary" required>
+							<select name="grade" class="form-select bg-secondary form-select-lg" required>
 								<option value="">Seleccione</option>
 								{% for grade in grades %}
 									<option value="{{grade._id}}" {% if grade._id == student.grade %} selected {% endif %}>{{grade.grade}}
@@ -37,7 +37,7 @@
 
 					<div class="col-md-12">
 						<div class="form-floating">
-							<input type="text" name="student" value="{{student.student}}" class="form-control bg-secondary" placeholder="Ingresa el nombre del estudiante" autocomplete="off" spellcheck="false" required>
+							<input type="text" name="student" value="{{student.student}}" class="form-control bg-secondary form-control-lg" placeholder="Ingresa el nombre del estudiante" autocomplete="off" spellcheck="false" required>
 							<label for="student" class="form-label">Nombres estudiante</label>
 						</div>
 					</div>

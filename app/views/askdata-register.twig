@@ -22,7 +22,7 @@
 						</b>Si el Padre de Familia/Acudiente ya se encuentra registrado búsquelo aquí.</h5>
 					<form class="row">
 						<div class="col-10">
-							<input name="parent_search" value="{{parent_search}}" type="search" class="form-control bg-secondary" placeholder="Acudiente existente Nombre/No. Documento" spellcheck="false" autofocus>
+							<input name="parent_search" value="{{parent_search}}" type="search" class="form-control bg-secondary form-control-lg" placeholder="Acudiente existente Nombre/No. Documento" spellcheck="false" autofocus>
 						</div>
 						<div class="col-2 text-center my-auto">
 							<button type="submit" class="btn btn-primary btn-sm">
@@ -39,37 +39,37 @@
 					<input type="hidden" name="auth" value="{% if userLogged %}true{%else%}false{% endif %}">
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="number" name="_id" class="form-control bg-secondary" placeholder="Ingrese la cédula" required>
+							<input type="number" name="_id" class="form-control bg-secondary form-control-lg" placeholder="Ingrese la cédula" required>
 							<label for="_id" class="form-label">Cédula</label>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="name" class="form-control bg-secondary" placeholder="Ingresa tus nombres" required>
+							<input type="text" name="name" class="form-control bg-secondary form-control-lg" placeholder="Ingresa tus nombres" required>
 							<label for="name" class="form-label">Nombres</label>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="lastname" class="form-control bg-secondary" placeholder="Ingresa tus apellidos" required>
+							<input type="text" name="lastname" class="form-control bg-secondary form-control-lg" placeholder="Ingresa tus apellidos" required>
 							<label for="lastname" class="form-label">Apellidos</label>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="number" name="telephone" class="form-control bg-secondary" placeholder="Ingresa el télefono" required>
+							<input type="number" name="telephone" class="form-control bg-secondary form-control-lg" placeholder="Ingresa el télefono" required>
 							<label for="name" class="form-label">Télefono</label>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="datetime-local" name="availability" class="form-control bg-secondary" placeholder="Fecha de Disponibilidad" required>
+							<input type="datetime-local" name="availability" class="form-control bg-secondary form-control-lg" placeholder="Fecha de Disponibilidad" required>
 							<label for="availability" class="form-label">Disponibilidad</label>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="job" class="form-control bg-secondary" placeholder="Trabajo del Acudiente" required>
+							<input type="text" name="job" class="form-control bg-secondary form-control-lg" placeholder="Trabajo del Acudiente" required>
 							<label for="job" class="form-label">Empleo</label>
 						</div>
 					</div>

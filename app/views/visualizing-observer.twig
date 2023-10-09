@@ -34,16 +34,18 @@
 											</span>
 										</div>
 
-										<form action="/ver/observador/eliminar/anotacion" method="post">
-											<input type="hidden" name="_id" value="{{studentData._id}}">
-											<input type="hidden" name="created_at" value="{{studentData.created_at}}">
-											<button type="submit" onclick="return confirm('Estás seguro que deseas eliminar la anotación ({{studentData.number}})?')" class="w-100 btn btn-danger btn-sm rounded-3">
-												<i class="fa fa-trash"></i>
-											</button>
-										</form>
+										<div class="d-flex align-items-center justify-content-between gap-1">
+											<form action="/ver/observador/eliminar/anotacion" method="post">
+												<input type="hidden" name="_id" value="{{studentData._id}}">
+												<input type="hidden" name="created_at" value="{{studentData.created_at}}">
+												<button type="submit" onclick="return confirm('Estás seguro que deseas eliminar la anotación ({{studentData.number}})?')" class="btn btn-danger btn-sm h-100 rounded-circle m-2">
+													<i class="fa fa-trash"></i>
+												</button>
+											</form>
 
-										<div class="card-body p-0">
-											<textarea name="notation" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.notation}}</textarea>
+											<div class="card-body p-0">
+												<textarea name="notation" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.notation}}</textarea>
+											</div>
 										</div>
 									</div>
 								</div>
