@@ -4,7 +4,7 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-5 mx-auto mt-5">
+		<div class="col-md-8 mx-auto mt-5">
 			{% if error %}
 				<div class="alert alert-primary text-center">
 					Error:
@@ -19,8 +19,7 @@
 			{% endif %}
 			<div class="card card-body border shadow">
 				<form action="/administrar/actualizar/padres-de-familia" method="post" class="row g-3">
-					<h1 class="mt-3">{{parent.name}}
-						{{parent.lastname}}</h1>
+					<h1 class="mt-3">{{parent.name ~ " " ~parent.lastname}}</h1>
 					<input type="hidden" name="_id" value="{{parent._id}}">
 					<div class="col-md-6">
 						<div class="form-floating">
@@ -47,6 +46,20 @@
 						<div class="form-floating">
 							<input type="email" name="email" value="{{parent.email}}" class="form-control bg-secondary" placeholder="Ingrese el correo" autocomplete="off" required>
 							<label for="email" class="form-label">Email</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="datetime-local" name="availability" value="{{parent.availability}}" class="form-control bg-secondary" placeholder="Fecha de Disponibilidad" required>
+							<label for="availability" class="form-label">Disponibilidad</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<input type="text" name="job" value="{{parent.job}}" class="form-control bg-secondary" placeholder="Trabajo del Acudiente" required>
+							<label for="job" class="form-label">Empleo</label>
 						</div>
 					</div>
 

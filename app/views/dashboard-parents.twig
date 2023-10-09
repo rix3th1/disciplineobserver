@@ -31,10 +31,10 @@
 		</div>
 
 		{# <div class="col-md-2 col-sm-2 my-auto text-center">
-			<a href="/administrar/agregar/estudiantes" class="btn btn-primary btn-sm">
-				<i class="fa fa-plus"></i>
-			</a>
-		</div> #}
+																													<a href="/administrar/agregar/estudiantes" class="btn btn-primary btn-sm">
+																														<i class="fa fa-plus"></i>
+																													</a>
+																												</div> #}
 
 		<div class="col-md-12">
 			<table class="table table-hover table-borderless text-center">
@@ -44,10 +44,9 @@
 						<th>Documento</th>
 						<th>Correo Electrónico</th>
 						<th>Nombre</th>
-						<th>Acciones</th>
 						<th>Empleo</th>
 						<th>Disponibilidad</th>
-					
+						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,8 +54,10 @@
 						<tr>
 							<td>{{parent._id}}</td>
 							<td>{{parent.email}}</td>
-							<td>{{parent.name}}
-								{{parent.lastname}}</td>
+							<td>{{parent.name ~ " " ~ parent.lastname}}
+							</td>
+							<td>{{parent.job}}</td>
+							<td>{{parent.availability}}</td>
 							<td>
 								<form action="/administrar/editar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">

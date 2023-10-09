@@ -3,9 +3,22 @@
 namespace App\Models;
 
 class ParentsModel extends BaseModel {
+  public function create(
+    string $_id,
+    string $job,
+    string $availability
+  ): bool {
+    $statement = $this->db->prepare("INSERT INTO parents_students (_id, job, availability) VALUES (?, ?, ?)");
+    return $statement->execute([
+      $_id,
+      $job,
+      $availability
+    ]);
+  }
+
   public function getAllParents(): array
   {
-    $statement = $this->db->query("SELECT * FROM users WHERE role = 'parent'");
+    $statement = $this->db->query("SELECT * FROM users INNER JOIN parents_students ON users._id = parents_students._id WHERE role = 'parent'");
     return $statement->fetchAll();
   }
 
@@ -20,11 +33,15 @@ class ParentsModel extends BaseModel {
   ): bool
   {
     $statement = $this->db->prepare("UPDATE users SET name = ?, lastname = ?, telephone = ?, email = ? WHERE _id = ?");
+    $statement2 = $this->db->prepare("UPDATE parents_students SET job = ?, availability = ? WHERE _id = ?");
+
     return $statement->execute([
       $name,
       $lastname,
       $telephone,
       $email,
+      $_id
+    ]) && $statement2->execute([
       $job,
       $availability,
       $_id
@@ -33,7 +50,7 @@ class ParentsModel extends BaseModel {
 
   public function getParentBySearch(string $search): array
   {
-    $statement = $this->db->prepare("SELECT * FROM users WHERE role = 'parent' AND (_id = ? OR name LIKE ? OR lastname LIKE ? OR email LIKE ?)");
+    $statement = $this->db->prepare("SELECT * FROM users INNER JOIN parents_students ON users._id = parents_students._id WHERE users.role = 'parent' AND (users._id = ? OR users.name LIKE ? OR users.lastname LIKE ? OR users.email LIKE ?)");
     $statement->execute([
       $search,
       "$search%",
@@ -45,7 +62,8 @@ class ParentsModel extends BaseModel {
 
   public function getParentById(string $_id): object | bool
   {
-    $statement = $this->db->prepare("SELECT * FROM users WHERE role = 'parent' AND _id = ?");
+    $statement = $this->db->prepare("SELECT 
+    U._id, U.name, U.lastname, U.telephone, U.email, PS.job, PS.availability FROM users U INNER JOIN parents_students PS ON U._id = PS._id WHERE U.role = 'parent' AND U._id = ?");
     $statement->execute([$_id]);
     return $statement->fetchObject();
   }

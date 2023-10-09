@@ -7,11 +7,13 @@ use Exception;
 use App\Middlewares\AuthMiddleware;
 use App\Models\{
   UserModel,
+  ParentsModel,
   EmailSenderModel
 };
 
 class RegisterController extends BaseController {
   protected UserModel $userModelInstance;
+  protected ParentsModel $parentsModelInstance;
   protected EmailSenderModel $emailSenderModelInstance;
 
   // Roles
@@ -24,6 +26,7 @@ class RegisterController extends BaseController {
 
     // Inicializamos los modelos
     $this->userModelInstance = new UserModel;
+    $this->parentsModelInstance = new ParentsModel;
     $this->emailSenderModelInstance = new EmailSenderModel;
 
     // Cargamos los roles
@@ -43,9 +46,11 @@ class RegisterController extends BaseController {
 
   public function showAskDataView(array $data = []): void
   {
+    $temp_title = $_SESSION['temporarily_data_create_user']['temp_title'] ?? "";
+
     // Mostramos la vista de tomar los datos personales
     echo $this->twig->render('askdata-register.twig', array_merge([
-      'title' => 'Datos personales - Acudiente'
+      'title' => "Datos personales $temp_title"
     ], $data));
   }
 
@@ -64,15 +69,18 @@ class RegisterController extends BaseController {
       // Cargamos los datos del usuario
       $data = array_merge([
         'userLogged' => $_SESSION['user_discipline_observer'],
-        'path_redirect' => $_SESSION['temporarily_data_create_user']['path_redirect'],
-        'current_admin_action' => $_SESSION['temporarily_data_create_user']['permissions']
+        'path_redirect' => $_SESSION['temporarily_data_create_user']['path_redirect'] ?? '',
+        'current_admin_action' => $_SESSION['temporarily_data_create_user']['permissions'] ?? NULL
       ], $data);
     }
 
+    $temp_title = $_SESSION['temporarily_data_create_user']['temp_title'] ?? '';
+
     // Mostramos la vista del formulario de crear la cuenta
     echo $this->twig->render('requestdata-register.twig', array_merge([
-      'title' => 'Crear una cuenta',
-      'roles' => $this->roles
+      'title' => "Crear una cuenta $temp_title",
+      'roles' => $this->roles,
+      'parent_id' => $_GET['_id'],
     ], $data));
   }
 
@@ -112,6 +120,14 @@ class RegisterController extends BaseController {
 
       if (strlen($_GET['telephone']) !== 10) {
         throw new Exception("El número de telefono debe tener 10 dígitos");
+      }
+
+      if (empty($_GET['job'])) {
+        throw new Exception('Ingrese su empleo');
+      }
+
+      if (empty($_GET['availability'])) {
+        throw new Exception('Ingrese su disponibilidad');
       }
 
       if (empty($_POST['email'])) {
@@ -154,6 +170,19 @@ class RegisterController extends BaseController {
 
       if (!$userCreated) {
         throw new Exception("Error al crear el usuario");
+      }
+
+      // Creamos la relación entre el usuario y el padre de familia
+      if ($_POST['identification'] === 'parent') {
+        $parent_created = $this->parentsModelInstance->create(
+          $_GET['_id'],
+          $_GET['job'],
+          $_GET['availability']
+        );
+
+        if (!$parent_created) {
+          throw new Exception("Error al crear el padre de familia");
+        }
       }
 
       $personPost = $_POST['identification'] === 'teacher' ? 'Docente' : ($_POST['identification'] === 'parent' ? 'Padre de Familia' : '');

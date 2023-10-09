@@ -83,20 +83,10 @@ class AdminStudentsController extends BaseController {
         throw new Exception('Seleccione el grado del estudiante');
       }
 
-      if (empty($_POST['name_parent'])) {
-        throw new Exception('Ingrese el nombre del padre de familia acudiente');
-      }
-
-      if (empty($_POST['email_parent'])) {
-        throw new Exception('Ingrese el correo del padre de familia acudiente');
-      }
-
       $studentEdited = $this->studentsModelInstance->updateStudent(
         $_POST['_id'],
         $_POST['student'],
-        $_POST['grade'],
-        $_POST['name_parent'],
-        $_POST['email_parent']
+        $_POST['grade']
       );
 
       if ($studentEdited) {
@@ -137,7 +127,7 @@ class AdminStudentsController extends BaseController {
     // Obtener todos los grados
     $grades = $this->gradesModelInstance->getAllGrades();
 
-echo $this->twig->render('students-register.twig', array_merge([
+    echo $this->twig->render('students-register.twig', array_merge([
       'title' => 'Datos personales - Estudiante',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'grades' => $grades
@@ -157,6 +147,14 @@ echo $this->twig->render('students-register.twig', array_merge([
       }
 
       // Validamos que los datos sean correctos
+      if (empty($_GET['parent_id'])) {
+        throw new Exception("Ingrese el id del padre de familia");
+      }
+
+      if (strlen($_GET['parent_id']) < 8 || strlen($_GET['parent_id']) > 10) {
+        throw new Exception("El valor del id del padre de familia es incorrecto");
+      }
+
       if (empty($_POST['_id'])) {
         throw new Exception("Ingrese la cédula");  
       }
@@ -173,14 +171,6 @@ echo $this->twig->render('students-register.twig', array_merge([
         throw new Exception('Seleccione el grado del estudiante');
       }
 
-      if (empty($_POST['name_parent'])) {
-        throw new Exception('Ingrese el nombre del padre de familia acudiente');
-      }
-
-      if (empty($_POST['email_parent'])) {
-        throw new Exception('Ingrese el correo del padre de familia acudiente');
-      }
-
       $userFound = $this->studentsModelInstance->getByIdStudent($_POST['_id']);
       
       if ($userFound) {
@@ -191,8 +181,7 @@ echo $this->twig->render('students-register.twig', array_merge([
         $_POST['_id'],
         $_POST['student'],
         $_POST['grade'],
-        $_POST['name_parent'],
-        $_POST['email_parent']
+        $_GET['parent_id'],
       );
 
       if ($studentCreated) {

@@ -4,7 +4,7 @@
 
 {% block content %}
 	<link rel="stylesheet" href="/public/styles/listgroup.css">
-	
+
 	<div class="row">
 		<div class="col-md-10 mx-auto">
 			<div class="text-center my-3">
@@ -30,7 +30,7 @@
 			<div class="card card-body border-0">
 				<form action="/{{current_template}}">
 					<div class="col-md-12">
-					<input type="hidden" name="grade" value="{{grade}}">
+						<input type="hidden" name="grade" value="{{grade}}">
 						<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1" style="max-height: 300px; overflow-y: auto;">
 
 							{% for student in studentsFound %}
@@ -38,13 +38,15 @@
 									<input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="_id" value="{{student._id}}" required>
 									<label class="list-group-item py-3 pe-5" for="_id">
 										<strong class="fw-semibold">{{student._id}}</strong>
-										<span class="d-block small opacity-75">{{student.student}} {{student.grade}} Grado</span>
+										<span class="d-block small opacity-75">{{student.student}}
+											{{student.grade}}
+											Grado</span>
 									</label>
 								</div>
 							{% endfor %}
 
 							<div class="col-md-12 mt-5 text-center">
-								<button class="btn btn-primary btn-lg">Seleccionar</button>
+								<button type="submit" class="btn btn-primary btn-lg">Seleccionar</button>
 							</div>
 						</div>
 					</div>

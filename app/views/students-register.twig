@@ -4,7 +4,7 @@
 
 {% block content %}
 	<div class="row">
-		<div class="col-md-5 mx-auto mt-5">
+		<div class="col-md-8 mx-auto mt-5">
 			{% if error %}
 				<div class="alert alert-primary text-center">
 					Error:
@@ -29,13 +29,6 @@
 
 					<div class="col-md-6">
 						<div class="form-floating">
-							<input type="text" name="student" class="form-control bg-secondary" placeholder="Ingresa el nombre del estudiante" autocomplete="off" spellcheck="false" required>
-							<label for="student" class="form-label">Nombres estudiante</label>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-floating">
 							<select name="grade" class="form-select bg-secondary" required>
 								<option value="">Seleccione</option>
 								{% for grade in grades %}
@@ -47,17 +40,10 @@
 						</div>
 					</div>
 
-					<div class="col-md-6">
-						<div class="form-floating">
-							<input type="text" name="name_parent" class="form-control bg-secondary" placeholder="Ingresa el nombre del acudiente" autocomplete="off" spellcheck="false" required>
-							<label for="name_parent" class="form-label">Nombre acudiente</label>
-						</div>
-					</div>
-
 					<div class="col-md-12">
 						<div class="form-floating">
-							<input type="email" name="email_parent" class="form-control bg-secondary" placeholder="Ingrese el correo del acudiente" autocomplete="off" required>
-							<label for="email_parent" class="form-label">Email acudiente</label>
+							<input type="text" name="student" class="form-control bg-secondary" placeholder="Ingresa el nombre del estudiante" autocomplete="off" spellcheck="false" required>
+							<label for="student" class="form-label">Nombres estudiante</label>
 						</div>
 					</div>
 
@@ -67,7 +53,7 @@
 							<button type="submit" class="btn btn-primary btn-lg mb-2">Guardar</button>
 						{% endif %}
 						{% if success %}
-						<a href="/administrar/estudiantes" class="btn btn-success btn-lg mb-2">Ir a administracion</a>
+							<a href="/administrar/estudiantes" class="btn btn-success btn-lg mb-2">Ir a administracion</a>
 							<button type="submit" class="btn btn-primary btn-lg mb-2">Registrar</button>
 						{% endif %}
 					</div>

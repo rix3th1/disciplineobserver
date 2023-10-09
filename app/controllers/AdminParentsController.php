@@ -74,9 +74,11 @@ class AdminParentsController extends RegisterController {
       if (empty($_POST['lastname'])) {
         throw new Exception('Ingrese los apellidos');
       }
+
       if (empty($_POST['availability'])) {
         throw new Exception('Ingrese su horario disponible');
       }
+      
       if (empty($_POST['job'])) {
         throw new Exception('Ingrese su trabajo');
       }
@@ -151,13 +153,29 @@ class AdminParentsController extends RegisterController {
 
     $_SESSION['temporarily_data_create_user'] = [
       'permissions' => ['admin', 'parents'],
-      'path_redirect' => 'padres-de-familia'
+      'path_redirect' => 'padres-de-familia',
+      'temp_title' => '- Acudiente'
     ];
 
-    $this->showAskDataView([
-      'userLogged' => $_SESSION['user_discipline_observer'],
-      'current_admin_action' => $_SESSION['temporarily_data_create_user']['permissions']
-    ]);
+    // Sí la búsqueda no esta vacía, obtener un padre de familia por la búsqueda
+    if (!empty($_GET['parent_search'])) {
+      // obtener un padre de familia por la búsqueda
+      $parentsFound = $this->parentsModelInstance->getParentBySearch($_GET['parent_search']);
+
+      echo $this->twig->render('select-parent.twig', [
+        'current_template' => 'administrar/agregar/estudiantes',
+        'title' => 'Seleccionar padre de familia',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'parentsFound' => $parentsFound
+      ]);
+    }
+
+    if (empty($_GET['parent_search'])) {
+      $this->showAskDataView([
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'current_admin_action' => $_SESSION['temporarily_data_create_user']['permissions'],
+      ]);
+    }
   }
 
   public function deleteParent(): void

@@ -44,6 +44,9 @@
 						<th>Documento</th>
 						<th>Grado</th>
 						<th>Nombre completo</th>
+						<th>Cédula acudiente</th>
+						<th>Nombre acudiente</th>
+						<th>Email acudiente</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
@@ -53,6 +56,9 @@
 							<td>{{student._id}}</td>
 							<td>{{student.grade}}</td>
 							<td>{{student.student}}</td>
+							<td>{{student.parent_id}}</td>
+							<td>{{student.parent_name ~ " " ~ student.parent_lastname}}</td>
+							<td>{{student.parent_email}}</td>
 							<td>
 								<form action="/administrar/editar/estudiantes" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{student._id}}">

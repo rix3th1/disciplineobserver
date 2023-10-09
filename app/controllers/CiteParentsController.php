@@ -136,8 +136,8 @@ class CiteParentsController extends BaseController {
         'title' => 'Citación de padres de familia',
         'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
-        '_emailParent' => $studentFound->email_parent,
-        '_nameParent' => $studentFound->name_parent,
+        '_emailParent' => $studentFound->parent_email,
+        '_nameParent' => $studentFound->parent_name . ' ' . $studentFound->parent_lastname,
         '_id' => $studentFound->_id
       ]);
     } catch (Exception $e) {
@@ -203,7 +203,7 @@ class CiteParentsController extends BaseController {
       // Validar que el estudiante exista en la base de datos del observador
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
-      if ($_POST['email'] !== $studentFound->email_parent) {
+      if ($_POST['email'] !== $studentFound->parent_email) {
         throw new Exception("El correo del padre de familia no coincide con el ingresado en la citación");
       }
 
