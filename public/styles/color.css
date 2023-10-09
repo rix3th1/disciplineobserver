@@ -1,3 +1,7 @@
-body {
-  background-color: #bfd8e8;
+[data-bs-theme="light"] body {
+  background: #bfd8e8;
+}
+
+[data-bs-theme="dark"] {
+  --bs-body-bg: #212529;
 }
