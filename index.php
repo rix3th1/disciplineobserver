@@ -248,8 +248,8 @@ if ($route) {
   $controllerInstance = new $controller();
 
   // Ejecutar el método de la clase controladora y terminar la ejecución
-  return $controllerInstance->$method();
+  $controllerInstance->$method();
+} else {
+  $notFoundController = new App\Controllers\PageNotFoundController();
+  $notFoundController->showNotFoundPage();
 }
-
-// Ruta no encontrada
-echo 'Página no encontrada';
