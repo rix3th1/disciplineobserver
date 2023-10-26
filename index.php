@@ -219,6 +219,11 @@ $map->post('admin.parents.delete', '/administrar/eliminar/padres-de-familia', [
   'deleteParent'
 ]);
 
+$map->get('help', '/ayuda', [
+  'App\Controllers\HelpController',
+  'showHelpPage'
+]);
+
 // Obtener la ruta coincidente de las variables globales
 $route = $routerContainer->getMatcher()->match(
   // Obtener las variables globales

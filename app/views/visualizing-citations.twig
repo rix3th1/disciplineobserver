@@ -3,105 +3,117 @@
 {% extends '/layout/layout.twig' %}
 
 {% block content %}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-				<h1 class="display-6 mt-5">Ver citaciones de padres de familia</h1>
-			</div>
-			<div class="col-md-12">
-				<div class="container-fluid px-4">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="display-6 mt-5">Ver citaciones de padres de familia</h1>
+		</div>
+		<div class="col-md-12">
+			<div class="container-fluid px-4">
 
-					{% if observerStudent is defined %}
-						{% for studentData in observerStudent %}
-							<div class="row g-1 pb-3">
-								<div class="col-xl-3">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Anotación ({{studentData.number}})</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="notation" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.notation}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-3">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Nombre y Curso</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="student" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.student}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-3">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Documento de Identidad</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="_id" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData._id}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-3">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Testimonio del Estudiante</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="testimony" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.testimony}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Aviso al padre de familia</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="notice" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.msg_parent}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Correo del padre de familia</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="email" class="form-control rounded-4" autocomplete="off" spellcheck="false" disabled>{{studentData.parent_email}}</textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4">
-									<div class="card border-0">
-										<div class="card-header rounded-1 bg-primary text-center mb-1">
-											<span class="h5">Nombre del padre de familia</span>
-										</div>
-										<div class="card-body p-0">
-											<textarea name="parent_name" class="form-control" autocomplete="off" spellcheck="false" disabled>{{studentData.parent_name ~ " " ~ studentData.parent_lastname}}</textarea>
-										</div>
-									</div>
-								</div>
+				{% if observerStudent is defined %}
+				{% for studentData in observerStudent %}
+				<div class="row g-1 pb-3">
+					<div class="col-xl-3">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Anotación ({{studentData.number}})</span>
 							</div>
-						{% endfor %}
-					{% endif %}
-
-					<div class="col-md-12 text-center">
-						<a href="/ver/observador" class="btn btn-primary btn-lg mt-5">
-							Volver al menu
-							<i class="fa fa-arrow-left"></i>
-						</a>
+							<div class="card-body p-0">
+								<textarea name="notation" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.notation}}</textarea>
+							</div>
+						</div>
 					</div>
+
+					<div class="col-xl-3">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Nombre y Curso</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="student" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.student}}</textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-3">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Documento de Identidad</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="_id" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData._id}}</textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-3">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Testimonio del Estudiante</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="testimony" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.testimony}}</textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-4">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Aviso al padre de familia</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="notice" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.msg_parent}}</textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-4">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Correo del padre de familia</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="email" class="form-control rounded-4" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.parent_email}}</textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-4">
+						<div class="card border-0">
+							<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<span class="h5">Nombre del padre de familia</span>
+							</div>
+							<div class="card-body p-0">
+								<textarea name="parent_name" class="form-control" autocomplete="off" spellcheck="false"
+									disabled>{{studentData.parent_name ~ " " ~ studentData.parent_lastname}}</textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				{% endif %}
+
+
+				<div class="col-md-12 text-center">
+					<button onclick="window.print()" class="btn btn-success d-print-none btn-lg mt-5">
+						Imprimir o Guardar PDF
+						<i class="fa fa-download"></i>
+					</button>
+					<a href="/ver/observador" class="btn btn-primary d-print-none btn-lg mt-5">
+						Volver al menu
+						<i class="fa fa-arrow-left"></i>
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}

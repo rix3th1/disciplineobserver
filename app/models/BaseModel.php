@@ -26,9 +26,10 @@ class BaseModel {
     $username = $this->env->reader('MYSQL_USER');
     $dbname = $this->env->reader('MYSQL_DB');
     $host = $this->env->reader('MYSQL_HOST');
+    $port = $this->env->reader('MYSQL_PORT');
 
     // Creamos la conexión
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn = new PDO("mysql:host=$host:$port;dbname=$dbname", $username, $password);
     //  Configuramos el charset
     $conn->query('set names utf8;');
     // Configuraciones adicionales
