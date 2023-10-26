@@ -12,19 +12,19 @@
     content="Discipline Observer página web para la visualización de los llamados de atención para la Institución Educativa San José Obrero" />
   <meta name="keywords"
     content="observador,observer,notations,anotaciones,citaciones,citations,parent,teachers,students,estudiantes,acudientes,docentes,sanjoseobrero,obrero,san,jose,colegio,school" />
-  <link rel="shortcut icon" href="/public/img/san_jose_obrero.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="/public/brand/san_jose_obrero.png" type="image/x-icon" />
 
   {# Bootstrap styles #}
   <link rel="stylesheet" href="/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/public/styles/custom-variables.css" />
-  <link rel="stylesheet" href="/public/styles/styles.css" />
+  <link rel="stylesheet" href="/public/css/custom-variables.css" />
+  <link rel="stylesheet" href="/public/css/styles.css" />
   <link rel="stylesheet" href="/vendor/fortawesome/font-awesome/css/all.min.css" />
 
   {# Sí es el login mostramos el fondo de inicio de sesión, sino mostramos el
   de recuperar contraseña #} {% if wallpaper == 'bg' %}
-  <link rel="stylesheet" href="/public/styles/bg.css" />
+  <link rel="stylesheet" href="/public/css/bg.css" />
   {% elseif wallpaper == 'color' %}
-  <link rel="stylesheet" href="/public/styles/color.css" />
+  <link rel="stylesheet" href="/public/css/color.css" />
   {% endif %}
 </head>
 
@@ -34,7 +34,7 @@
     <nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom fixed-top">
       <div class="container-fluid mx-2">
         <a href="/" class="navbar-brand">
-          <img class="img-fluid rounded-3" src="/public/img/observer.png" alt="disciplineobserver logotype" width="80"
+          <img class="img-fluid rounded-3" src="/public/brand/observer.png" alt="disciplineobserver logotype" width="80"
             height="80" />
         </a>
 
@@ -46,7 +46,7 @@
 
           {% if userLogged is defined %}
           <div class="position-relative">
-            <img class="img-fluid rounded-circle" src="/public/img/avatar.png" alt="{{ userLogged.role }} avatar"
+            <img class="img-fluid rounded-circle" src="/public/img/user-avatar.png" alt="{{ userLogged.role }} avatar"
               width="60" height="60" data-bs-toggle="tooltip" data-bs-html="true"
               data-bs-title="{{ fullname }}, <b>{{ userLogged.role }}</b>" />
 
@@ -237,12 +237,12 @@
 
   {# Bootstrap scripts #}
   <script src="/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/public/scripts/theme.js"></script>
+  <script src="/vendor/twbs/bootstrap/site/static/docs/5.3/assets/js/color-modes.js"></script>
 
   {# Sí el usuario está loggeado incluimos este script que activa los tooltips
   de bootstrap para mostrar información al pasar el mouse #} {% if userLogged
   is defined %}
-  <script src="/public/scripts/addons.js"></script>
+  <script src="/vendor/twbs/bootstrap/site/assets/js/snippets.js"></script>
   {% endif %}
 </body>
 
