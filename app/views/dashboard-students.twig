@@ -73,11 +73,23 @@
 										<i class="fa fa-trash"></i>
 									</button>
 								</form>
+
+								<form action="/administrar/cambiar-estado/estudiantes" method="post" class="d-inline">
+									<input type="hidden" name="_id" value="{{student._id}}">
+									<input type="hidden" name="is_enabled" value="{{student.is_enabled}}">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas {% if student.is_enabled == '1' %}deshabilitar{% else %}habilitar{% endif %} el estudiante?')" class="btn btn-{% if student.is_enabled == '1' %}warning{% else %}primary{% endif %}" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{% if student.is_enabled == '1' %}Deshabilitar{% else %}Habilitar{% endif %} Estudiante">
+										{% if student.is_enabled %}
+											<i class="fa fa-user-alt-slash"></i>
+										{% else %}
+											<i class="fa fa-check"></i>
+										{% endif %}
+									</button>
+								</td>
 							</td>
 						</tr>
-					{% endfor %}
+					</form>
 				</tbody>
-			</table>
-		</div>
-	</div>
-{% endblock %}
+			</td>
+		</tr>
+	{% endfor %}
+</tbody></table></div></div>{% endblock %}

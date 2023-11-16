@@ -79,11 +79,12 @@ CREATE TABLE `students` (
   `_id` int(11) NOT NULL,
   `student` varchar(50) NOT NULL,
   `grade` varchar(10) NOT NULL,
-  `parent_id` int(11) NOT NULL
+  `parent_id` int(11) NOT NULL,
+  `is_enabled` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
-INSERT INTO `students` (`_id`, `student`, `grade`, `parent_id`) VALUES
-(738846377, 'James Doe', '11th', 479583637);
+INSERT INTO `students` (`_id`, `student`, `grade`, `parent_id`, `is_enabled`) VALUES
+(738846377, 'James Doe', '11th', 479583637, 0);
 
 CREATE TABLE `users` (
   `_id` int(11) NOT NULL,

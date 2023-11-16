@@ -214,6 +214,11 @@ $map->post('admin.students.delete', '/administrar/eliminar/estudiantes', [
   'deleteStudent'
 ]);
 
+$map->post('admin.students.change-state', '/administrar/cambiar-estado/estudiantes', [
+  'App\Controllers\AdminStudentsController',
+  'changeStudentState'
+]);
+
 $map->post('admin.parents.delete', '/administrar/eliminar/padres-de-familia', [
   'App\Controllers\AdminParentsController',
   'deleteParent'

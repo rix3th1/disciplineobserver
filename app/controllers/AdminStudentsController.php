@@ -233,4 +233,38 @@ class AdminStudentsController extends BaseController {
       ]);
     }
   }
+
+  public function changeStudentState(): void
+  {
+    try {
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
+
+      // Validar que los datos realmente fueron enviados
+      if (!$_POST) {
+        http_response_code(400);
+        throw new Exception('petición incorrecta');
+      }
+
+      // Cast new state and invert it.
+      $newState = !(bool) $_POST['is_enabled'];
+      $studentUpdated = $this->studentsModelInstance->changeStudentState($_POST['_id'], $newState);
+
+      if ($studentUpdated) {
+        $this->showDashboardStudents([
+          'success' => 'Estudiante ' . ($newState ? 'habilitado' : 'deshabilitado') . ' correctamente.',
+        ]);
+        return;
+      }
+
+      throw new Exception('Error al cambiar el estado del estudiante');
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+
+      $this->showDashboardStudents([
+        'title' => 'Error',
+        'error' => $error
+      ]);
+    }
+  }
 }
