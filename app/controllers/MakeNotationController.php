@@ -54,11 +54,11 @@ class MakeNotationController extends BaseController {
   {
     try {
       // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentFound = $this->studentsModelInstance->getStudentByDocumentOrName($_GET['search']);
+      $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Renderizar la vista de seleccionar estudiante
@@ -121,7 +121,7 @@ class MakeNotationController extends BaseController {
 
       // Si el estudiante no existe, mostramos mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Pero si existe, mostramos la página de hacer anotaciones
@@ -176,7 +176,7 @@ class MakeNotationController extends BaseController {
 
       // Si el estudiante no existe, mostramos mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Vamos a crear la anotación en el observador

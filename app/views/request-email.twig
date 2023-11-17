@@ -3,43 +3,42 @@
 {% extends '/layout/layout.twig' %}
 
 {% block content %}
-<div class="row">
-	<div class="col-md-6 mx-auto">
-		{% if error %}
-		<div class="alert alert-primary text-center">
-			Error:
-			{{error}}
-		</div>
-		{% endif %}
-		<div class="container">
-			<div class="card card-body border-0 bg-transparent">
-				<div class="text-center mt-2">
-					<h1 class="h2">{{title}}</h1>
-					<p class="fw-normal">Nueva contraseña</p>
-					<a href="/">
-						<img class="img-fluid rounded-3" src="/public/brand/observer.png" alt="disciplineobserver logotype"
-							width="160" height="160">
-					</a>
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
 				</div>
-				<div class="container px-lg-5">
-					<form class="row g-5 px-5 mt-1">
-						<div class="col-md-12 px-5">
-							<label for="email" class="form-label text-primary fw-light">
-								CORREO ELECTRÓNICO
-							</label>
-							<input type="email" name="email" class="form-control bg-secondary fw-light form-control-lg h-75"
-								placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
-						</div>
+			{% endif %}
+			<div class="container">
+				<div class="card card-body border-0 bg-transparent">
+					<div class="text-center mt-2">
+						<h1 class="h2">{{title}}</h1>
+						<p class="fw-normal">Nueva contraseña</p>
+						<a href="/">
+							<img class="img-fluid rounded-3" src="/public/brand/observer.png" alt="disciplineobserver logotype" width="160" height="160">
+						</a>
+					</div>
+					<div class="container px-lg-5">
+						<form class="row g-5 px-5 mt-1">
+							<div class="col-md-12 px-5">
+								<label for="email" class="form-label text-primary fw-light">
+									CORREO ELECTRÓNICO
+								</label>
+								<input type="email" name="email" class="form-control bg-secondary fw-light form-control-lg h-75" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
+							</div>
 
-						<div class="col-md-12 text-center">
-							<button class="btn btn-primary btn-lg fw-bold">
-								Restaurar
-							</button>
-						</div>
-					</form>
+							<div class="col-md-12 text-center">
+								<button class="btn btn-primary btn-lg fw-bold">
+									Restaurar
+									<i class="fa fa-arrow-rotate-right"></i>
+								</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

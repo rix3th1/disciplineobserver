@@ -3,60 +3,62 @@
 {% extends '/layout/layout.twig' %}
 
 {% block content %}
-<link rel="stylesheet" href="/public/css/listgroup.css">
+	<link rel="stylesheet" href="/public/css/listgroup.css">
 
-<div class="row">
-	<div class="col-md-10 mx-auto">
-		<div class="text-center my-3">
-			<h1 class="display-2 fw-bold">{{title}}</h1>
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<div class="text-center my-3">
+				<h1 class="display-2 fw-bold">{{title}}</h1>
+			</div>
+			<div class="text-center">
+				<h2 class="display-6 m-0">Seleccione el acudiente</h2>
+			</div>
 		</div>
-		<div class="text-center">
-			<h2 class="display-6 m-0">Seleccione el acudiente</h2>
-		</div>
-	</div>
-	<div class="col-md-6 mx-auto">
-		{% if error %}
-		<div class="alert alert-primary text-center">
-			Error:
-			{{error}}
-		</div>
-		{% endif %}
-		{% if success %}
-		<div class="alert alert-success text-center">
-			Mensaje:
-			{{success}}
-		</div>
-		{% endif %}
-		<div class="card card-body border-0">
-			<form action="/{{current_template}}">
-				<div class="col-md-12">
-					<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1 overflow-y-auto">
-						{% for parent in parentsFound %}
-						<div class="position-relative">
-							<input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="parent_id"
-								value="{{parent._id}}" required>
-							<label class="list-group-item py-3 pe-5" for="_id">
-								<strong class="fw-semibold">{{parent.name ~ " " ~ parent.lastname}}</strong>
-								<span class="d-block small opacity-75">{{parent.parent}}
-									CC:
-									{{parent._id}}
-								</span>
-								<span class="d-block small opacity-75">{{parent.parent}}
-									Email:
-									{{parent.email}}
-								</span>
-							</label>
-						</div>
-						{% endfor %}
+		<div class="col-md-6 mx-auto">
+			{% if error %}
+				<div class="alert alert-primary text-center">
+					Error:
+					{{error}}
+				</div>
+			{% endif %}
+			{% if success %}
+				<div class="alert alert-success text-center">
+					Mensaje:
+					{{success}}
+				</div>
+			{% endif %}
+			<div class="card card-body border-0">
+				<form action="/{{current_template}}">
+					<div class="col-md-12">
+						<div class="list-group list-group-radio d-grid gap-2 border-0 w-auto p-1 overflow-y-auto">
+							{% for parent in parentsFound %}
+								<div class="position-relative">
+									<input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio" name="parent_id" value="{{parent._id}}" required>
+									<label class="list-group-item py-3 pe-5" for="_id">
+										<strong class="fw-semibold">{{parent.name ~ " " ~ parent.lastname}}</strong>
+										<span class="d-block small opacity-75">{{parent.parent}}
+											CC:
+											{{parent._id}}
+										</span>
+										<span class="d-block small opacity-75">{{parent.parent}}
+											Email:
+											{{parent.email}}
+										</span>
+									</label>
+								</div>
+							{% endfor %}
 
-						<div class="col-md-12 my-5 text-center">
-							<button type="button" onclick="window.history.go(-1);" class="btn btn-secondary btn-lg">Volver</button>
-							<button type="submit" class="btn btn-primary btn-lg">Seleccionar</button>
+							<div class="col-md-12 my-5 text-center">
+								<button type="button" onclick="window.history.go(-1);" class="btn btn-secondary btn-lg">Volver</button>
+								<button type="submit" class="btn btn-primary btn-lg">
+									Seleccionar
+									<i class="fa fa-check"></i>
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

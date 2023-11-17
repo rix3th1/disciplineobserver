@@ -61,11 +61,11 @@ class CiteParentsController extends BaseController {
   {
     try {
       // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentFound = $this->studentsModelInstance->getStudentByDocumentOrName($_GET['search']);
+      $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Renderizar la vista de seleccionar estudiante
@@ -128,7 +128,7 @@ class CiteParentsController extends BaseController {
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Si el estudiante existe en la base de datos, mostrar la página de citación
@@ -209,7 +209,7 @@ class CiteParentsController extends BaseController {
 
       // El estudiante no fue encontrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador");
+        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
       // Crear la anotación en el observador
