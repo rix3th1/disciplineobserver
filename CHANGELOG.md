@@ -18,4 +18,4 @@
 
 ### **Hecho:**
 
-- **No se ha hecho nada**.
+- **Deshabilitar estudiante funcionando**.
