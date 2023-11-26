@@ -212,11 +212,6 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese la hora de la asignatura');
       }
 
-      // Validar que la hora de la asignatura sea mayor a la actual
-      if (new DateTime($_POST['subject_schedule']) < new DateTime('now')) {
-        throw new Exception('La hora de la asignatura no puede ser anterior a la actual');
-      }
-
       // Validar si el campo hora de la asignatura es una fecha válida
       // Formato de hora: Hora:Minutos (00:00 - 23:59)
       if (!DateTime::createFromFormat('H:i', $_POST['subject_schedule'])) {

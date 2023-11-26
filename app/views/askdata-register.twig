@@ -61,18 +61,20 @@
 							<label for="name" class="form-label">Télefono</label>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-floating">
-							<input type="datetime-local" name="availability" class="form-control bg-secondary form-control-lg" placeholder="Fecha de Disponibilidad" required>
-							<label for="availability" class="form-label">Disponibilidad</label>
+					{% if aria_current[1] == 'parents' %}
+						<div class="col-md-6">
+							<div class="form-floating">
+								<input type="datetime-local" name="availability" class="form-control bg-secondary form-control-lg" placeholder="Fecha de Disponibilidad" required>
+								<label for="availability" class="form-label">Disponibilidad</label>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-floating">
-							<input type="text" name="job" class="form-control bg-secondary form-control-lg" placeholder="Trabajo del Acudiente" required>
-							<label for="job" class="form-label">Empleo</label>
+						<div class="col-md-6">
+							<div class="form-floating">
+								<input type="text" name="job" class="form-control bg-secondary form-control-lg" placeholder="Trabajo del Acudiente" required>
+								<label for="job" class="form-label">Empleo</label>
+							</div>
 						</div>
-					</div>
+					{% endif %}
 
 					<div class="col-md-12">
 						<button type="button" class="btn btn-secondary btn-lg mb-2" onclick="window.history.go(-1);">Volver</button>

@@ -122,13 +122,16 @@ class RegisterController extends BaseController {
         throw new Exception("El número de telefono debe tener 10 dígitos");
       }
 
-      if (empty($_GET['job'])) {
-        throw new Exception('Ingrese su empleo');
+      if ($_POST['identification'] === 'parent') {
+        // validaciones para padres de familia
+        if (empty($_GET['job'])) {
+          throw new Exception('Ingrese su empleo');
+        }
+        if (empty($_GET['availability'])) {
+          throw new Exception('Ingrese su disponibilidad');
+        }
       }
 
-      if (empty($_GET['availability'])) {
-        throw new Exception('Ingrese su disponibilidad');
-      }
 
       if (empty($_POST['email'])) {
         throw new Exception('Ingrese el correo');

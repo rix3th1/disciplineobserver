@@ -34,6 +34,11 @@ class ViewCiteParentsController extends BaseController {
 
   public function viewCitations(): void
   {
+    if ($_SESSION["user_discipline_observer"]["role_id"] === "parent") {
+      $this->showSelectStudentsPage();
+      return;
+    }
+
     // Si existe el grado y el documento de identidad vemos la página de pedir esos datos
     if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showViewCiteParentsPage();
@@ -44,11 +49,48 @@ class ViewCiteParentsController extends BaseController {
     $this->showSelectStudentsPage();
   }
 
+  public function resolveCitation(): void
+  {
+    try {
+      // Verificamos que el usuario este logueado y tenga los permisos de administrador
+      $this->authMiddlewareInstance->handlePermissionsAdmin();
+
+      // Validar que los datos realmente fueron enviados
+      if (!$_POST) {
+        http_response_code(400);
+        throw new Exception('petición incorrecta');
+      }
+
+      // Cast new state and invert it.
+      $newState = !(bool) $_POST['resolved'];
+      $citationResolved = $this->citationsModelInstance->resolveCitation($_POST['_id'], $newState);
+
+      if ($citationResolved) {
+        // Mostramos la página de todas las citaciones de ese estudiante
+        header('Location: /view-cite-parents' . sprintf("?grade=%s&_id=%s", urlencode($_POST['grade']), urlencode($_POST['_id'])));
+      }
+      throw new Exception('Error al cambiar el estado');
+    } catch (Exception $e) {
+      $error = $e->getMessage();
+
+      echo $this->twig->render('request-student.twig', [
+        'current_template' => 'view-cite-parents',
+        'title' => 'Error',
+        'userLogged' => $_SESSION['user_discipline_observer'],
+        'error' => $error
+      ]);
+    }
+  }
+
   public function showSelectStudentsPage(): void
   {
     try {
-      // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
+      if ($_SESSION["user_discipline_observer"]["role_id"] === "parent") {
+        $studentFound = $this->studentsModelInstance->getStudentByParentWithCitation($_SESSION["user_discipline_observer"]["id"]);
+      } else {
+        // Verificar si el estudiante esta registrado en la base de datos del observador
+        $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrNameWithCitation($_GET['search']);
+      }
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
@@ -61,7 +103,7 @@ class ViewCiteParentsController extends BaseController {
         'title' => 'Ver citaciones de padres',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'studentsFound' => $studentFound,
-        'grade' => $_GET['grade']
+        'grade' => $_GET['grade'] ?? ''
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();

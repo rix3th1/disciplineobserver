@@ -111,6 +111,12 @@ $map->get('visualizing.cite.parents', '/view-cite-parents', [
   'visualizingCitations'
 ]);
 
+// Ruta post para eliminar las anotaciones del observador
+$map->post('cite.parents.resolve', '/resolve/citation', [
+  'App\Controllers\ViewCiteParentsController',
+  'resolveCitation'
+]);
+
 // Ruta get para ver las anotaciones del observador
 $map->get('view.observer', '/ver/observador', [
   'App\Controllers\ViewObserverController',

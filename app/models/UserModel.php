@@ -35,7 +35,7 @@ class UserModel extends BaseModel {
   public function getByEmail(string $email): object | bool
   {
     // Vamos a obtener al usuario por su email
-    $statement = $this->db->prepare("SELECT users.name, users.lastname, users.telephone, users.email, users.password, users.role as role_id, roles.role, roles.permissions FROM users INNER JOIN roles ON users.role = roles._id WHERE users.email = ?");
+    $statement = $this->db->prepare("SELECT users._id, users.name, users.lastname, users.telephone, users.email, users.password, users.role as role_id, roles.role, roles.permissions FROM users INNER JOIN roles ON users.role = roles._id WHERE users.email = ?");
     // Ejecutamos la consulta
     $statement->execute([$email]);
     // Retornamos el usuario

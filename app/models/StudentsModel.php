@@ -45,9 +45,33 @@ class StudentsModel extends BaseModel {
     return $statement->fetchAll();
   }
 
+  public function getStudentByParent(string $parent_id): array
+  {
+    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id WHERE S.parent_id = ? AND S.is_enabled = 1");
+    $statement->execute([$parent_id]);
+    return $statement->fetchAll();
+  }
+
+  public function getStudentByParentWithCitation(string $parent_id): array
+  {
+    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, CIT.resolved as citation_pending FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id INNER JOIN citations as CIT ON CIT.student_id = S._id WHERE S.parent_id = ? AND S.is_enabled = 1");
+    $statement->execute([$parent_id]);
+    return $statement->fetchAll();
+  }
+
   public function getStudentEnabledByDocumentOrName(string $search): array
   {
     $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id WHERE (S._id = ? OR S.student LIKE ?) AND S.is_enabled = 1");
+    $statement->execute([
+      $search,
+      "$search%"
+    ]);
+    return $statement->fetchAll();
+  }
+
+  public function getStudentEnabledByDocumentOrNameWithCitation(string $search): array
+  {
+    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, CIT.resolved as citation_pending FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id LEFT JOIN citations as CIT ON CIT.student_id = S._id WHERE (S._id = ? OR S.student LIKE ?) AND S.is_enabled = 1");
     $statement->execute([
       $search,
       "$search%"

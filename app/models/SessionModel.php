@@ -39,6 +39,7 @@ class SessionModel extends BaseModel {
 
       // Guardamos los datos del usuario en la sesión
       return $_SESSION['user_discipline_observer'] = [
+        'id' => $dataUser->_id,
         'name' => $dataUser->name,
         'lastname' => $dataUser->lastname,
         'telephone' => $dataUser->telephone,

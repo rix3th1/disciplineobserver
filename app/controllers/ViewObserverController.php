@@ -34,6 +34,11 @@ class ViewObserverController extends BaseController {
   
   public function viewObserver(): void
   {
+    if ($_SESSION["user_discipline_observer"]["role_id"] === "parent") {
+      $this->showSelectStudentsPage();
+      return;
+    }
+
     // Si no existen estos datos, los pedimos
     if (empty($_GET['grade']) && empty($_GET['search'])) {
       $this->showViewObserverPage();
@@ -47,8 +52,12 @@ class ViewObserverController extends BaseController {
   public function showSelectStudentsPage(): void
   {
     try {
-      // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
+      if ($_SESSION["user_discipline_observer"]["role_id"] === "parent") {
+        $studentFound = $this->studentsModelInstance->getStudentByParent($_SESSION["user_discipline_observer"]["id"]);
+      } else {
+        // Verificar si el estudiante esta registrado en la base de datos del observador
+        $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
+      }
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
@@ -61,7 +70,7 @@ class ViewObserverController extends BaseController {
         'title' => 'Ver Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'studentsFound' => $studentFound,
-        'grade' => $_GET['grade']
+        'grade' => $_GET['grade'] ?? ''
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
