@@ -1,14 +1,14 @@
 :root,
-[data-bs-theme="light"] {
+[data-bs-theme='light'] {
   --bs-tertiary-bg-rgb: 191, 216, 232;
   --bs-nav-pills-link-active-bg: #38b6ff;
   --bs-secondary-rgb: 233, 236, 239;
 }
 
-[data-bs-theme="dark"] {
+[data-bs-theme='dark'] {
   color-scheme: dark;
   --bs-tertiary-bg-rgb: 43, 48, 53;
-  --bs-secondary-rgb: 108, 117, 125
+  --bs-secondary-rgb: 108, 117, 125;
 }
 
 .btn-primary {

@@ -59,33 +59,44 @@
 							<td>{{student.parent_id}}</td>
 							<td>{{student.parent_name ~ " " ~ student.parent_lastname}}</td>
 							<td>{{student.parent_email}}</td>
-							<td>
-								<form action="/administrar/editar/estudiantes" method="post" class="d-inline">
-									<input type="hidden" name="_id" value="{{student._id}}">
-									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Estudiante">
-										<i class="far fa-edit"></i>
-									</button>
-								</form>
+							{% if aria_current_origin != "make-notation" and aria_current_origin != "cite-parents" %}
+								<td>
+									<form action="/administrar/editar/estudiantes" method="post" class="d-inline">
+										<input type="hidden" name="_id" value="{{student._id}}">
+										<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Estudiante">
+											<i class="far fa-edit"></i>
+										</button>
+									</form>
 
-								<form action="/administrar/eliminar/estudiantes" method="post" class="d-inline">
-									<input type="hidden" name="_id" value="{{student._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Estudiante">
-										<i class="fas fa-minus-circle"></i>
-									</button>
-								</form>
+									<form action="/administrar/eliminar/estudiantes" method="post" class="d-inline">
+										<input type="hidden" name="_id" value="{{student._id}}">
+										<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Estudiante">
+											<i class="fas fa-minus-circle"></i>
+										</button>
+									</form>
 
-								<form action="/administrar/cambiar-estado/estudiantes" method="post" class="d-inline">
-									<input type="hidden" name="_id" value="{{student._id}}">
-									<input type="hidden" name="is_enabled" value="{{student.is_enabled}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas {% if student.is_enabled == '1' %}deshabilitar{% else %}habilitar{% endif %} el estudiante?')" class="btn btn-{% if student.is_enabled == '1' %}warning{% else %}primary{% endif %} btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{% if student.is_enabled == '1' %}Deshabilitar{% else %}Habilitar{% endif %} Estudiante">
-										{% if student.is_enabled %}
-											<i class="fa fa-user-alt-slash"></i>
-										{% else %}
-											<i class="fa fa-check-double"></i>
-										{% endif %}
-									</button>
+									<form action="/administrar/cambiar-estado/estudiantes" method="post" class="d-inline">
+										<input type="hidden" name="_id" value="{{student._id}}">
+										<input type="hidden" name="is_enabled" value="{{student.is_enabled}}">
+										<button type="submit" onclick="return confirm('Estás seguro que deseas {% if student.is_enabled == '1' %}deshabilitar{% else %}habilitar{% endif %} el estudiante?')" class="btn btn-{% if student.is_enabled == '1' %}warning{% else %}primary{% endif %} btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{% if student.is_enabled == '1' %}Deshabilitar{% else %}Habilitar{% endif %} Estudiante">
+											{% if student.is_enabled %}
+												<i class="fa fa-user-alt-slash"></i>
+											{% else %}
+												<i class="fa fa-check-double"></i>
+											{% endif %}
+										</button>
+									</form>
 								</td>
-							</td>
+							{% else %}
+								<td>
+									<a href="/make-notation?grade={{student.grade}}&_id={{student._id}}" class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Hacer una anotación en el observador">
+										<i class="fas fa-pen-square"></i>
+									</a>
+									<a href="/cite-parents?grade={{student.grade}}&_id={{student._id}}" class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Citar padres de familia">
+										<i class="far fa-calendar"></i>
+									</a>
+								</td>
+							{% endif %}
 						</tr>
 					</form>
 				</tbody>

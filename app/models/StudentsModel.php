@@ -27,6 +27,13 @@ class StudentsModel extends BaseModel {
     return $statement->fetchAll();
   }
 
+  public function getStudentByGrade(string $grade): array
+  {
+    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id WHERE S.grade = ?");
+    $statement->execute([$grade]);
+    return $statement->fetchAll();
+  }
+
   public function getStudentBySearchAdmin(string $search): array
   {
     $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id WHERE (S._id = ? OR S.student LIKE ? OR S.grade LIKE ?)");

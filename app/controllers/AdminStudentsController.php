@@ -33,16 +33,30 @@ class AdminStudentsController extends BaseController {
 
   public function showDashboardStudents(array $data = []): void
   {
-    // Sí la búsqueda esta vacía, obtener todos los estudiantes
-    if (empty($_GET['search'])) {
-      // obtener todos los estudiantes
-      $students = $this->studentsModelInstance->getAllStudents();
-    }
+    /**
+     * Si la petición proviene de make-notation o cite-parents vamos a
+     * obtener los estudiantes por grado y lo vamos a manejar de manera
+     * diferente.
+     */
+    if (!empty($_GET["aria_current"])) {
+      if ($_GET["aria_current"] === "make-notation" || $_GET["aria_current"] === "cite-parents") {
+        if (!empty($_GET['grade'])) {
+          // obtener los estudiantes concidentes por grado
+          $students = $this->studentsModelInstance->getStudentByGrade($_GET['grade']);
+        }
+      }
+    } else {
+      // Sí la búsqueda esta vacía, obtener todos los estudiantes
+      if (empty($_GET['search'])) {
+        // obtener todos los estudiantes
+        $students = $this->studentsModelInstance->getAllStudents();
+      }
 
-    // Sí no esta vacía, obtener un estudiante por la búsqueda
-    if (!empty($_GET['search'])) {
-      // obtener un estudiante por la bésqueda
-      $students = $this->studentsModelInstance->getStudentBySearchAdmin($_GET['search']);
+      // Sí no esta vacía, obtener un estudiante por la búsqueda
+      if (!empty($_GET['search'])) {
+        // obtener un estudiante por la bésqueda
+        $students = $this->studentsModelInstance->getStudentBySearchAdmin($_GET['search']);
+      }
     }
 
     // renderizar el pánel de administración de los estudiantes
@@ -50,7 +64,8 @@ class AdminStudentsController extends BaseController {
       'title' => 'Estudiantes',
       'userLogged' => $_SESSION['user_discipline_observer'],
       'students' => $students,
-      'search' => $_GET['search'] ?? ''
+      'search' => $_GET['search'] ?? '',
+      'aria_current_origin' => $_GET['aria_current'] ?? ''
     ], $data));
   }
 

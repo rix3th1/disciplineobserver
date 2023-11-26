@@ -62,35 +62,37 @@ class CiteParentsController extends BaseController {
 
   public function showSelectStudentsPage(): void
   {
-    try {
-      // Verificar si el estudiante esta registrado en la base de datos del observador
-      $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
+    header(sprintf('Location: /administrar/estudiantes?grade=%s&aria_current=%s', urlencode($_GET['grade']), urlencode("cite-parents")));
+    exit;
+    // try {
+    //   // Verificar si el estudiante esta registrado en la base de datos del observador
+    //   $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrName($_GET['search']);
 
-      // Si no esta registrado, mostrar mensaje de error
-      if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
-      }
+    //   // Si no esta registrado, mostrar mensaje de error
+    //   if (!$studentFound) {
+    //     throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+    //   }
 
-      // Renderizar la vista de seleccionar estudiante
-      echo $this->twig->render('select-student.twig', [
-        'current_template' => 'cite-parents',
-        'title' => 'Citación de padre de familia',
-        'userLogged' => $_SESSION['user_discipline_observer'],
-        'studentsFound' => $studentFound,
-        'grade' => $_GET['grade']
-      ]);
-    } catch (Exception $e) {
-      $error = $e->getMessage();
-      $grades = $this->gradesModelInstance->getAllGrades();
+    //   // Renderizar la vista de seleccionar estudiante
+    //   echo $this->twig->render('select-student.twig', [
+    //     'current_template' => 'cite-parents',
+    //     'title' => 'Citación de padre de familia',
+    //     'userLogged' => $_SESSION['user_discipline_observer'],
+    //     'studentsFound' => $studentFound,
+    //     'grade' => $_GET['grade']
+    //   ]);
+    // } catch (Exception $e) {
+    //   $error = $e->getMessage();
+    //   $grades = $this->gradesModelInstance->getAllGrades();
 
-      echo $this->twig->render('request-student.twig', [
-        'current_template' => 'cite-parents',
-        'title' => 'Error',
-        'userLogged' => $_SESSION['user_discipline_observer'],
-        'error' => $error,
-        'grades' => $grades
-      ]);
-    }
+    //   echo $this->twig->render('request-student.twig', [
+    //     'current_template' => 'cite-parents',
+    //     'title' => 'Error',
+    //     'userLogged' => $_SESSION['user_discipline_observer'],
+    //     'error' => $error,
+    //     'grades' => $grades
+    //   ]);
+    // }
   }
   
   public function showCiteParentsPage(): void
