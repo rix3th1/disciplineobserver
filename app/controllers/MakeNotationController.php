@@ -4,11 +4,13 @@ namespace App\Controllers;
 
 // Importar modelos
 use Exception;
+use DateTime;
 use App\Middlewares\AuthMiddleware;
 use App\Models\{
   GradesModel,
   StudentsModel,
-  NotationsModel
+  NotationsModel,
+  SubjectModel
 };
 
 class MakeNotationController extends BaseController {
@@ -16,6 +18,7 @@ class MakeNotationController extends BaseController {
   protected GradesModel $gradesModelInstance;
   protected StudentsModel $studentsModelInstance;
   protected NotationsModel $notationsModelInstance;
+  protected SubjectModel $subjectModelInstance;
 
   public function __construct()
   {
@@ -27,6 +30,7 @@ class MakeNotationController extends BaseController {
     $this->gradesModelInstance = new GradesModel;
     $this->studentsModelInstance = new StudentsModel;
     $this->notationsModelInstance = new NotationsModel;
+    $this->subjectModelInstance = new SubjectModel;
 
     // Validamos que el usuario este logueado
     $this->authMiddlewareInstance->handle();
@@ -118,6 +122,8 @@ class MakeNotationController extends BaseController {
 
       // Verificar que el estudiante exista
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
+      // Obtener el número total de anotaciones que lleva el esrudiante
+      $totalNotations = $this->notationsModelInstance->getNumberOfNotations($studentFound->_id);
 
       // Si el estudiante no existe, mostramos mensaje de error
       if (!$studentFound) {
@@ -129,7 +135,8 @@ class MakeNotationController extends BaseController {
         'title' => 'Anotación en el Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
-        '_id' => $studentFound->_id
+        '_id' => $studentFound->_id,
+        'totalNotations' => $totalNotations
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -171,6 +178,29 @@ class MakeNotationController extends BaseController {
         throw new Exception('Ingrese el testimonio del estudiante');
       }
 
+      if (empty($_POST['teacher_name'])) {
+        throw new Exception('Ingrese el nombre del docente a cargo de la asignatura');
+      }
+
+      if (empty($_POST['subject_name'])) {
+        throw new Exception('Ingrese el nombre de la asignatura');
+      }
+
+      if (empty($_POST['subject_schedule'])) {
+        throw new Exception('Ingrese la hora de la asignatura');
+      }
+
+      // Validar que la hora de la asignatura sea mayor a la actual
+      if (new DateTime($_POST['subject_schedule']) < new DateTime('now')) {
+        throw new Exception('La hora de la asignatura no puede ser anterior a la actual');
+      }
+
+      // Validar si el campo hora de la asignatura es una fecha válida
+      // Formato de hora: Hora:Minutos (00:00 - 23:59)
+      if (!DateTime::createFromFormat('H:i', $_POST['subject_schedule'])) {
+        throw new Exception('La hora de la asignatura no es válida');
+      }
+
       // Verificar si el estudiante está en la base de datos
       $studentFound = $this->studentsModelInstance->getByIdStudent($_GET['_id']);
 
@@ -179,12 +209,23 @@ class MakeNotationController extends BaseController {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
+      // Generamos un id unico para la asignatura
+      $subject_id = uniqid($studentFound->_id . '-');
+      // Vamos a guardar la asignatura en la base de datos
+      $newSubject = $this->subjectModelInstance->create(
+        $subject_id,
+        $_POST['subject_name'],
+        $_POST['subject_schedule'],
+      );
+
       // Vamos a crear la anotación en el observador
       $newNotation = $this->notationsModelInstance->create(
         $studentFound->_id,
         $_POST['notation'],
         $_GET['grade'],
-        $_POST['testimony']
+        $_POST['testimony'],
+        $_POST['teacher_name'],
+        $subject_id,
       );
 
       // Si la anotación se creo correctamente, mostramos mensaje de éxito

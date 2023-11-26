@@ -123,13 +123,15 @@ class ViewObserverController extends BaseController {
       
       // Si existe, obtenemos las anotaciones del estudiante
       $notationFound = $this->notationsModelInstance->findNotationsByStudent($studentFound->_id);
+      $totalNotations = count($notationFound);
 
       // Renderizar la vista con las anotaciones del estudiante
       echo $this->twig->render('visualizing-observer.twig', [
         'title' => 'Ver Observador del estudiante',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'observerStudent' => $notationFound,
-        'success' => $_SESSION['success_msg'] ?? null
+        'success' => $_SESSION['success_msg'] ?? null,
+        'totalNotations' => $totalNotations,
       ]);
 
       $_SESSION['success_msg'] = null;

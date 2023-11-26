@@ -52,7 +52,7 @@
 
             <span
               class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle custom-badge"
-              data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Active">
+              data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="En línea">
               <span class="visually-hidden">{{ userLogged.role }} is active!</span>
             </span>
           </div>
@@ -76,7 +76,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link{% if aria_current[0] == 'admin' %} active{% endif %} dropdown-toggle" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user-shield"></i>
+                <i class="fas fa-user-cog"></i>
                 Administración
               </a>
 
@@ -90,19 +90,11 @@
                 </li>
 
                 <li>
-                  <hr class="dropdown-divider" />
-                </li>
-
-                <li>
                   <a class="dropdown-item{% if aria_current[1] == 'students' %} active{% endif %}"
                     href="/administrar/estudiantes">
                     <i class="fa fa-user-graduate"></i>
                     Estudiantes
                   </a>
-                </li>
-
-                <li>
-                  <hr class="dropdown-divider" />
                 </li>
 
                 <li>
@@ -112,39 +104,51 @@
                     Padres de familia
                   </a>
                 </li>
+
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+
+                <li>
+                  <a class="dropdown-item{% if aria_current[1] == 'parents' %} active{% endif %}"
+                    href="/administrar/relacionado/citaciones">
+                    <i class="fas fa-mail-bulk"></i>
+                    Relacionado A: Citaciones
+                  </a>
+                </li>
               </ul>
             </li>
             {% endif %} {% if 'make_notation' in userLogged.permissions %}
             <li class="nav-item">
               <a class="nav-link{% if aria_current == 'make-notation' %} active{% endif %}" href="/hacer/anotaciones">
-                <i class="fa fa-comment"></i>
+                <i class="fas fa-pen-square"></i>
                 Hacer una anotación en el observador</a>
             </li>
             {% endif %} {% if 'cite_parents' in userLogged.permissions %}
             <li class="nav-item">
               <a class="nav-link{% if aria_current == 'cite-parents' %} active{% endif %}" href="/citacion/padres">
-                <i class="fa fa-envelope"></i>
+                <i class="far fa-calendar"></i>
                 Citar padres de familia</a>
             </li>
             {% endif %} {% if 'view_cite_parents' in userLogged.permissions %}
             <li class="nav-item">
               <a class="nav-link{% if aria_current == 'view-cite-parents' %} active{% endif %}"
                 href="/ver/citacion/padres">
-                <i class="fa fa-eye"></i>
+                <i class="fas fa-list-alt"></i>
                 Ver citación a padres</a>
             </li>
             {% endif %} {% if 'view_observer' in userLogged.permissions and
             'parent' not in userLogged.roles %}
             <li class="nav-item">
               <a class="nav-link{% if aria_current == 'view-observer' %} active{% endif %}" href="/ver/observador">
-                <i class="fa fa-search"></i>
+                <i class="fas fa-address-book"></i>
                 Ver observador</a>
             </li>
             {% endif %} {% if userLogged.permissions is defined %}
             <li class="nav-item">
               <a class="nav-link" href="/inicio">
                 <i class="fa fa-home"></i>
-                Volver al menu</a>
+                Volver al inicio</a>
             </li>
             {% endif %} {% if userLogged.permissions is defined %}
             <li class="nav-item">

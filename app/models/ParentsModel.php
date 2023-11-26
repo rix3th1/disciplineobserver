@@ -18,7 +18,7 @@ class ParentsModel extends BaseModel {
 
   public function getAllParents(): array
   {
-    $statement = $this->db->query("SELECT * FROM users INNER JOIN parents_students ON users._id = parents_students._id WHERE role = 'parent'");
+    $statement = $this->db->query("SELECT * FROM users as U INNER JOIN parents_students as PS ON U._id = PS._id WHERE U.role = 'parent'");
     return $statement->fetchAll();
   }
 
@@ -50,7 +50,7 @@ class ParentsModel extends BaseModel {
 
   public function getParentBySearch(string $search): array
   {
-    $statement = $this->db->prepare("SELECT * FROM users INNER JOIN parents_students ON users._id = parents_students._id WHERE users.role = 'parent' AND (users._id = ? OR users.name LIKE ? OR users.lastname LIKE ? OR users.email LIKE ?)");
+    $statement = $this->db->prepare("SELECT * FROM users as U INNER JOIN parents_students as PS ON U._id = PS._id WHERE U.role = 'parent' AND (U._id = ? OR U.name LIKE ? OR U.lastname LIKE ? OR U.email LIKE ?)");
     $statement->execute([
       $search,
       "$search%",

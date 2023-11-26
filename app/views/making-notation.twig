@@ -21,16 +21,31 @@
 				{% endif %}
 			</div>
 			<div class="col-md-12">
+			
+					{% if totalNotations %}
+						<div class="col-md-6 offset-md-6">
+							<div class="d-flex justify-content-between align-items-center">
+								<i class="fa fa-arrow-right fw-bold fs-1 {% if totalNotations >= "5" %}text-danger {% else %}text-primary{% endif %}"></i>
+								<div class="fs-3 my-3">
+									<span class="fw-bold">Atención:
+									</span>El estudiante tiene:
+									<b>{{totalNotations}}</b>
+									anotación(es).
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
 				<div class="container-fluid px-4">
-					<form method="post" class="row g-1">
+					<form method="post" class="row g-1 observer-data-ipt">
 						<div class="col-xl">
 							<div class="card border-0">
-								<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 									<span class="h5">Anotación</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="notation" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese la anotación" autocomplete="off" spellcheck="false" required></textarea>
+										<textarea name="notation" id="notation" class="form-control bg-secondary form-control-lg rounded-1 rounded-bottom-3" placeholder="Ingrese la anotación" autocomplete="off" spellcheck="false" required></textarea>
 										<label for="notation" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -39,14 +54,14 @@
 							</div>
 						</div>
 
-						<div class="col-xl">
+						<div class="col-xl-3">
 							<div class="card border-0">
-								<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 									<span class="h5">Nombre y Curso</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="student" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el nombre del estudiante" autocomplete="off" spellcheck="false" required>{% if _studentInfo is defined %}{{_studentInfo}}{% endif %}</textarea>
+										<textarea name="student" id="student" class="form-control bg-secondary form-control-lg rounded-1 rounded-bottom-3" placeholder="Ingrese el nombre del estudiante" autocomplete="off" spellcheck="false" required>{% if _studentInfo is defined %}{{_studentInfo}}{% endif %}</textarea>
 										<label for="student" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -55,14 +70,14 @@
 							</div>
 						</div>
 
-						<div class="col-xl">
+						<div class="col-xl-3">
 							<div class="card border-0">
-								<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 									<span class="h5">Documento de Identidad</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="_id" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el número de identificación" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
+										<textarea name="_id" id="_id" class="form-control bg-secondary form-control-lg rounded-1 rounded-bottom-3" placeholder="Ingrese el número de identificación" autocomplete="off" spellcheck="false" required>{% if _id is defined %}{{_id}}{% endif %}</textarea>
 										<label for="_id" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -71,15 +86,63 @@
 							</div>
 						</div>
 
-						<div class="col-xl">
+						<div class="col-xl-3">
 							<div class="card border-0">
-								<div class="card-header rounded-1 bg-primary text-center mb-1">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 									<span class="h5">Testimonio del Estudiante</span>
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="testimony" class="form-control bg-secondary form-control-lg h-100" placeholder="Ingrese el testimonio del estudiante" autocomplete="off" spellcheck="false" required></textarea>
+										<textarea name="testimony" id="testimony" class="form-control bg-secondary form-control-lg rounded-1 rounded-bottom-3" placeholder="Ingrese el testimonio del estudiante" autocomplete="off" spellcheck="false" required></textarea>
 										<label for="testimony" class="form-label">
+											<i class="fa fa-pencil-alt"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-4">
+							<div class="card border-0">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
+									<span class="h5">Nombre Docente</span>
+								</div>
+								<div class="card-body p-0">
+									<div class="form-floating">
+										<textarea name="teacher_name" id="teacher_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required></textarea>
+										<label for="teacher_name" class="form-label">
+											<i class="fa fa-pencil-alt"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-xl-4">
+							<div class="card border-0">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
+									<span class="h5">Asignatura</span>
+								</div>
+								<div class="card-body p-0">
+									<div class="form-floating">
+										<textarea name="subject_name" id="subject_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required></textarea>
+										<label for="subject_name" class="form-label">
+											<i class="fa fa-pencil-alt"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-4">
+							<div class="card border-0">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
+									<span class="h5">Hora Asignatura</span>
+								</div>
+								<div class="card-body p-0">
+									<div class="form-floating">
+										<input type="time" name="subject_schedule" id="subject_schedule" class="form-control form-control-lg bg-secondary" required>
+										<label for="subject_schedule" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
 									</div>
@@ -90,7 +153,7 @@
 						<div class="col-md-12 text-center">
 							<button class="btn btn-primary btn-lg mt-5">
 								Hacer anotación
-								<i class="fa fa-comment"></i>
+								<i class="fas fa-check-circle"></i>
 							</button>
 						</div>
 					</form>

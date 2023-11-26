@@ -22,11 +22,16 @@
 					{{success}}
 				</div>
 			{% endif %}
+
+			{# Aviso al cargar #}
+			<div class="alert alert-primary text-center">
+				Mensaje: Para registrar un padre de familia debe registrarlo junto a el registro del estudiante. Favor dirigirse <a href="/administrar/estudiantes">Aquí.</a>
+			</div>
 		</div>
 
 		<div class="col-md-10 col-sm-10">
 			<form>
-				<input name="search" value="{{search}}" type="search" class="form-control bg-secondary form-control-lg h-100 fw-light mb-1" placeholder="Buscar por nombre o documento" spellcheck="false" autofocus>
+				<input name="search" value="{{search}}" type="search" class="form-control bg-secondary form-control-lg fw-light mb-1" placeholder="Buscar por nombre o documento" spellcheck="false" autofocus>
 			</form>
 		</div>
 
@@ -55,15 +60,15 @@
 							<td>
 								<form action="/administrar/editar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">
-									<button class="btn btn-secondary">
-										<i class="fa fa-pencil-alt"></i>
+									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Acudiente">
+										<i class="far fa-edit"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/eliminar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger">
-										<i class="fa fa-trash"></i>
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Padre de Familia">
+										<i class="fas fa-minus-circle"></i>
 									</button>
 								</form>
 							</td>

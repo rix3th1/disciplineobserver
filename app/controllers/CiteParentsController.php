@@ -11,6 +11,7 @@ use App\Models\{
   StudentsModel,
   NotationsModel,
   CitationsModel,
+  SubjectModel,
   EmailSenderModel
 };
 
@@ -21,6 +22,7 @@ class CiteParentsController extends BaseController {
   protected NotationsModel $notationsModelInstance;
   protected CitationsModel $citationsModelInstance;
   protected EmailSenderModel $emailSenderModelInstance;
+  protected SubjectModel $subjectModelInstance;
 
   public function __construct()
   {
@@ -34,6 +36,7 @@ class CiteParentsController extends BaseController {
     $this->notationsModelInstance = new NotationsModel;
     $this->citationsModelInstance = new CitationsModel;
     $this->emailSenderModelInstance = new EmailSenderModel;
+    $this->subjectModelInstance = new SubjectModel;
 
     // Validar que el usuario este logueado
     $this->authMiddlewareInstance->handle();
@@ -130,6 +133,8 @@ class CiteParentsController extends BaseController {
       if (!$studentFound) {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
+      // Obtener el número total de citaciones que lleva el esrudiante
+      $totalCitations = $this->citationsModelInstance->getNumberOfCitations($studentFound->_id);
 
       // Si el estudiante existe en la base de datos, mostrar la página de citación
       echo $this->twig->render('citing-parents.twig', [
@@ -138,7 +143,8 @@ class CiteParentsController extends BaseController {
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_emailParent' => $studentFound->parent_email,
         '_nameParent' => $studentFound->parent_name . ' ' . $studentFound->parent_lastname,
-        '_id' => $studentFound->_id
+        '_id' => $studentFound->_id,
+        'totalCitations' => $totalCitations
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -192,6 +198,29 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese la fecha de la citación');
       }
 
+      if (empty($_POST['teacher_name'])) {
+        throw new Exception('Ingrese el nombre del docente a cargo de la asignatura');
+      }
+
+      if (empty($_POST['subject_name'])) {
+        throw new Exception('Ingrese el nombre de la asignatura');
+      }
+
+      if (empty($_POST['subject_schedule'])) {
+        throw new Exception('Ingrese la hora de la asignatura');
+      }
+
+      // Validar que la hora de la asignatura sea mayor a la actual
+      if (new DateTime($_POST['subject_schedule']) < new DateTime('now')) {
+        throw new Exception('La hora de la asignatura no puede ser anterior a la actual');
+      }
+
+      // Validar si el campo hora de la asignatura es una fecha válida
+      // Formato de hora: Hora:Minutos (00:00 - 23:59)
+      if (!DateTime::createFromFormat('H:i', $_POST['subject_schedule'])) {
+        throw new Exception('La hora de la asignatura no es válida');
+      }
+
       // Patrón de expresión regular para validar el formato del email
       $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
 
@@ -212,12 +241,23 @@ class CiteParentsController extends BaseController {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
-      // Crear la anotación en el observador
+      // Generamos un id unico para la asignatura
+      $subject_id = uniqid($studentFound->_id . '-');
+      // Vamos a guardar la asignatura en la base de datos
+      $newSubject = $this->subjectModelInstance->create(
+        $subject_id,
+        $_POST['subject_name'],
+        $_POST['subject_schedule'],
+      );
+
+      // Vamos a crear la anotación en el observador
       $newNotation = $this->notationsModelInstance->create(
         $studentFound->_id,
         $_POST['notation'],
         $_GET['grade'],
-        $_POST['testimony']
+        $_POST['testimony'],
+        $_POST['teacher_name'],
+        $subject_id,
       );
 
       // Crear la citación para el padre de familia

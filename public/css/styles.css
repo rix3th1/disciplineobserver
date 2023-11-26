@@ -17,8 +17,19 @@ input[type='number'] {
   top: 107px; /* Altura del primer navbar */
 }
 
-textarea {
+.observer-data-ipt textarea,
+.observer-data-ipt input {
   resize: none !important;
+  min-height: 100px !important;
+  max-height: 300px !important;
+  font-size: 0.8rem !important;
+  display: flex; /* Usar flexbox para controlar la alineación vertical */
+  align-items: flex-start !important; /* Alinea los elementos al inicio */
+}
+
+.observer-data-ipt textarea:disabled,
+.observer-data-ipt input:disabled {
+  cursor: not-allowed;
 }
 
 .custom-badge {

@@ -16,7 +16,11 @@ $routerContainer = new RouterContainer();
 // Obtenemos el mapa de rutas
 $map = $routerContainer->getMap();
 
-// Rutas
+
+/**
+ * Aquí comienza la definición de las rutas.
+ */
+
 // Ruta get para el login
 $map->get('login.page', '/', [
   'App\Controllers\AuthController',
@@ -65,6 +69,7 @@ $map->get('make.notation', '/hacer/anotaciones', [
   'makeNotation'
 ]);
 
+// Ruta get para hacer las anotaciones del observador
 $map->get('making.notation', '/make-notation', [
   'App\Controllers\MakeNotationController',
   'makingNotation'
@@ -82,11 +87,13 @@ $map->get('make.citation', '/citacion/padres', [
   'citeParents'
 ]);
 
+// Ruta get para hacer las citaciones de los padres
 $map->get('making.citation', '/cite-parents', [
   'App\Controllers\CiteParentsController',
   'citingParents'
 ]);
 
+// Ruta post para guardar las citaciones de los padres
 $map->post('save.citation', '/cite-parents', [
   'App\Controllers\CiteParentsController',
   'saveCitation'
@@ -98,6 +105,7 @@ $map->get('view.cite.parents', '/ver/citacion/padres', [
   'viewCitations'
 ]);
 
+// Ruta get para ver las citaciones de los padres
 $map->get('visualizing.cite.parents', '/view-cite-parents', [
   'App\Controllers\ViewCiteParentsController',
   'visualizingCitations'
@@ -109,11 +117,13 @@ $map->get('view.observer', '/ver/observador', [
   'viewObserver'
 ]);
 
+// Ruta get para ver las anotaciones del observador
 $map->get('visualizing.observer', '/view-observer', [
   'App\Controllers\ViewObserverController',
   'visualizingObserver'
 ]);
 
+// Ruta post para eliminar las anotaciones del observador
 $map->post('visualizing.observer.delete.notation', '/ver/observador/eliminar/anotacion', [
   'App\Controllers\ViewObserverController',
   'deleteNotation'
@@ -149,26 +159,31 @@ $map->get('admin.students', '/administrar/estudiantes', [
   'showDashboardStudents'
 ]);
 
+// Ruta get para administrar a los padres de familia del colegio
 $map->get('admin.parents', '/administrar/padres-de-familia', [
   'App\Controllers\AdminParentsController',
   'showDashboardParents'
 ]);
 
+// Ruta get para agregar a los profesores
 $map->get('admin.teachers.add', '/administrar/agregar/profesores', [
   'App\Controllers\AdminTeachersController',
   'showAddTeacherView'
 ]);
 
+// Ruta get para agregar a los alumnos del colegio
 $map->get('admin.students.add', '/administrar/agregar/estudiantes', [
   'App\Controllers\AdminStudentsController',
   'showAddStudentView'
 ]);
 
+// Ruta get para agregar a los padres de familia del colegio
 $map->get('admin.parents.add', '/administrar/agregar/padres-de-familia', [
   'App\Controllers\AdminParentsController',
   'showAddParentsView'
 ]);
 
+// Ruta get para guardar a los alumnos del colegio
 $map->post('admin.students.create', '/administrar/agregar/estudiantes', [
   'App\Controllers\AdminStudentsController',
   'addStudent'
@@ -255,6 +270,9 @@ if ($route) {
   // Ejecutar el método de la clase controladora y terminar la ejecución
   $controllerInstance->$method();
 } else {
+  // Instanciamos la clase de controlador de página no encontrada
   $notFoundController = new App\Controllers\PageNotFoundController();
+
+  // Mostramos la página de página no encontrada
   $notFoundController->showNotFoundPage();
 }

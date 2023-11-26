@@ -22,10 +22,10 @@
 						<form method="post" action="/auth" class="row gy-5 px-xl-5 mt-1">
 							<input type="hidden" name="post" value="{{post}}">
 							<div class="col-md-12">
-								<label for="email" class="form-label text-primary fw-light">
+								<label for="post" class="form-label text-primary fw-light">
 									CARGO
 								</label>
-								<select name="post" class="form-select form-select-lg h-75 bg-secondary fw-light" required>
+								<select name="post" id="post" class="form-select form-select-lg h-75 bg-secondary fw-light" required>
 									<option value="">Seleccione</option>
 									{% for role in roles %}
 										<option value="{{role._id}}">{{role.role}}</option>
@@ -37,14 +37,14 @@
 								<label for="email" class="form-label text-primary fw-light">
 									CORREO ELECTRÓNICO
 								</label>
-								<input type="email" name="email" class="form-control bg-secondary h-75 fw-light form-control-lg" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
+								<input type="email" name="email" id="email" class="form-control bg-secondary h-75 fw-light form-control-lg" placeholder="Ingrese el correo" autocomplete="off" spellcheck="false" autofocus required>
 							</div>
 
 							<div class="col-md-12">
 								<label for="password" class="form-label text-primary fw-light">
 									CLAVE
 								</label>
-								<input type="password" name="password" class="form-control bg-secondary h-75 fw-light form-control-lg" placeholder="Ingrese la contraseña" autocomplete="off" required>
+								<input type="password" name="password" id="password" class="form-control bg-secondary h-75 fw-light form-control-lg" placeholder="Ingrese la contraseña" autocomplete="off" required>
 							</div>
 
 							<div class="col-md-6 text-center">

@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="col-md-2 col-sm-2 my-auto text-center">
-			<a href="/administrar/agregar/profesores" class="btn btn-primary btn-sm rounded-circle">
+			<a href="/administrar/agregar/profesores" class="btn btn-primary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Agregar Docente">
 				<i class="fa fa-plus"></i>
 			</a>
 		</div>
@@ -57,15 +57,15 @@
 							<td>
 								<form action="/administrar/editar/profesores" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{teacher._id}}">
-									<button class="btn btn-secondary">
-										<i class="fa fa-pencil-alt"></i>
+									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Docente">
+										<i class="far fa-edit"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/eliminar/profesores" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{teacher._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger">
-										<i class="fa fa-trash"></i>
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Docente">
+										<i class="fas fa-minus-circle"></i>
 									</button>
 								</form>
 							</td>

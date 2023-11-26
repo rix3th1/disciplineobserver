@@ -19,3 +19,6 @@
 ### **Hecho:**
 
 - **Deshabilitar estudiante funcionando**.
+- **Contador en los 4 apartados funcionando**.
+- **Agregado nuevos campos: docente, asignatura & hora asignatura en los 4 apartados**.
+- **Redireccionar directamente ver citaciones en rol padre de familia**.

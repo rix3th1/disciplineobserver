@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="col-md-2 col-sm-2 my-auto text-center">
-			<a href="/administrar/agregar/padres-de-familia" class="btn btn-primary btn-sm rounded-circle">
+			<a href="/administrar/agregar/padres-de-familia" class="btn btn-primary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Agregar Estudiante">
 				<i class="fa fa-plus"></i>
 			</a>
 		</div>
@@ -62,26 +62,26 @@
 							<td>
 								<form action="/administrar/editar/estudiantes" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{student._id}}">
-									<button class="btn btn-secondary">
-										<i class="fa fa-pencil-alt"></i>
+									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Estudiante">
+										<i class="far fa-edit"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/eliminar/estudiantes" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{student._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger">
-										<i class="fa fa-trash"></i>
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Estudiante">
+										<i class="fas fa-minus-circle"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/cambiar-estado/estudiantes" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{student._id}}">
 									<input type="hidden" name="is_enabled" value="{{student.is_enabled}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas {% if student.is_enabled == '1' %}deshabilitar{% else %}habilitar{% endif %} el estudiante?')" class="btn btn-{% if student.is_enabled == '1' %}warning{% else %}primary{% endif %}" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{% if student.is_enabled == '1' %}Deshabilitar{% else %}Habilitar{% endif %} Estudiante">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas {% if student.is_enabled == '1' %}deshabilitar{% else %}habilitar{% endif %} el estudiante?')" class="btn btn-{% if student.is_enabled == '1' %}warning{% else %}primary{% endif %} btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="{% if student.is_enabled == '1' %}Deshabilitar{% else %}Habilitar{% endif %} Estudiante">
 										{% if student.is_enabled %}
 											<i class="fa fa-user-alt-slash"></i>
 										{% else %}
-											<i class="fa fa-check"></i>
+											<i class="fa fa-check-double"></i>
 										{% endif %}
 									</button>
 								</td>

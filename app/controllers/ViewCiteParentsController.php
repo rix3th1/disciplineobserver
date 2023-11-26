@@ -113,12 +113,14 @@ class ViewCiteParentsController extends BaseController {
 
       // Obtener todas las citaciones del estudiante
       $citationFound = $this->citationsModelInstance->findCitationsByStudent($studentFound->_id);
+      $totalCitations = count($citationFound);
 
       // Mostramos la página de todas las citaciones de ese estudiante
       echo $this->twig->render('visualizing-citations.twig', [
         'title' => 'Ver citaciones a padres de familia en el Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
-        'observerStudent' => $citationFound
+        'observerStudent' => $citationFound,
+        'totalCitations' => $totalCitations,
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();

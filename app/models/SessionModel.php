@@ -44,6 +44,7 @@ class SessionModel extends BaseModel {
         'telephone' => $dataUser->telephone,
         'email' => $dataUser->email,
         'role' => $dataUser->role,
+        'role_id' => $dataUser->role_id,
         'permissions' => $permissions
       ];
     }

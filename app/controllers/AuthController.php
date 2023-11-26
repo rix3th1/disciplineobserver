@@ -66,12 +66,20 @@ class AuthController extends BaseController {
         $_POST['password']
       );
 
-      // Si el usuario se autenticá, redirigimos al inicio
-      if ($auth) {
-        header('Location: /inicio');
+      if (!$auth) {
+        throw new Exception("El correo o la contraseña son incorrectas");
+      }
+
+      // Si el usuario se autentica, redirigimos al inicio, o directamente
+      // a ver citaciones, si el rol es padre de familia
+      if ($_SESSION['user_discipline_observer']['role_id'] === 'parent') {
+        header('Location: /ver/citacion/padres');
         exit;
       }
 
+      // Redirigimos al inicio si el rol no es padre de familia
+      header('Location: /inicio');
+      exit;
     } catch (Exception $e) {
       $error = $e->getMessage();
       $roles = $this->sessionModelInstance->getAllRoles();
