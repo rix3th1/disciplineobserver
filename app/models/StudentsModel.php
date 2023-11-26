@@ -54,7 +54,7 @@ class StudentsModel extends BaseModel {
 
   public function getStudentByParentWithCitation(string $parent_id): array
   {
-    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, CIT.resolved as citation_pending FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id INNER JOIN citations as CIT ON CIT.student_id = S._id WHERE S.parent_id = ? AND S.is_enabled = 1");
+    $statement = $this->db->prepare("SELECT S._id, S.student, S.grade, S.parent_id, S.is_enabled, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, CIT.resolved as citation_pending FROM students as S INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id LEFT JOIN citations as CIT ON CIT.student_id = S._id WHERE S.parent_id = ? AND S.is_enabled = 1");
     $statement->execute([$parent_id]);
     return $statement->fetchAll();
   }

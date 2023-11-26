@@ -1,3 +1,6 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 CREATE TABLE `citations` (
   `_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
@@ -8,7 +11,7 @@ CREATE TABLE `citations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `citations` (`_id`, `student_id`, `citation_date`, `msg_parent`, `resolved`, `created_at`) VALUES
-(1, 1111122448, '2023-11-26 16:38:00', 'Su hijo ha llegado tarde dos veces. Que pasa?', 0, '2023-11-26 16:39:01');
+(1, 1111122448, '2023-11-26 00:21:00', 'lorem', 1, '2023-11-26 00:21:37');
 
 CREATE TABLE `grades` (
   `_id` varchar(10) NOT NULL,
@@ -42,8 +45,8 @@ CREATE TABLE `notations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `notations` (`_id`, `student_id`, `notation`, `grade`, `testimony`, `teacher_name`, `subject_id`, `created_at`) VALUES
-(1, 1111122448, 'Llegada tarde a clases.', 'K', 'Injustificado', 'Carlos Enrique Lara Meneses', '1111122448-6563b91d96d72', '2023-11-26 16:31:09'),
-(2, 1111122448, 'Llegada tarde al colegio por segunda vez.', 'K', 'Nuevamente injustificado.', 'Carlos Enique Lara Meneses', '1111122448-6563baf59ea63', '2023-11-26 16:39:01');
+(1, 1111122448, 'lorem', '11th', 'lorem', 'lorem', '1111122448-6562d5a5e205f', '2023-11-26 00:20:37'),
+(2, 1111122448, 'lorem', '11th', 'lorem', 'lorem', '1111122448-6562d5e1c559c', '2023-11-26 00:21:37');
 
 CREATE TABLE `parents_students` (
   `_id` int(11) NOT NULL,
@@ -52,7 +55,7 @@ CREATE TABLE `parents_students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `parents_students` (`_id`, `job`, `availability`) VALUES
-(93618323, 'Prueba', '2023-11-26 01:51:00');
+(2147483647, 'Data Science', '2023-11-21 17:03:00');
 
 CREATE TABLE `roles` (
   `_id` enum('teacher','parent','rector','secretary') NOT NULL,
@@ -75,7 +78,7 @@ CREATE TABLE `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `students` (`_id`, `student`, `grade`, `parent_id`, `is_enabled`) VALUES
-(1111122448, 'Richard Stallman', 'K', 93618323, 1);
+(1111122448, 'Ricardo Rojas', '11th', 2147483647, 1);
 
 CREATE TABLE `subjects` (
   `_id` varchar(30) NOT NULL,
@@ -84,8 +87,10 @@ CREATE TABLE `subjects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `subjects` (`_id`, `subject_name`, `subject_schedule`) VALUES
-('1111122448-6563b91d96d72', 'Matemáticas', '07:00:00'),
-('1111122448-6563baf59ea63', 'Matemáticas', '07:00:00');
+('1111122448-6562d5a5e205f', 'lorem', '02:21:00'),
+('1111122448-6562d5e1c559c', 'lorem', '00:22:00'),
+('374287362-6562c3de705d4', 'Sociales', '23:04:00'),
+('374287362-6562c4167382e', 'Matematicas', '23:05:00');
 
 CREATE TABLE `users` (
   `_id` int(11) NOT NULL,
@@ -98,9 +103,11 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
-(1, 'Rafael', 'Hernández', '3012834716', 'rafaelhernandez@gmail.com', '$2y$10$odAqXs1rTW9JrO6C820r6.IVmcOpJPitzfDeTYo0D28Dx.ocjDKVC', 'rector'),
-(93173722, 'Carlos Enrique', 'Lara Meneses', '3129487283', 'Clara@itfip.edu.co', '$2y$10$Ptj7IJKgGys0/A29r6b0...wI20FAROrkcf4PC6IoMtb7Np5rRq7q', 'teacher'),
-(93618323, 'Acudiente', 'Prueba', '3124826422', 'acudienteprueba@gmail.com', '$2y$10$6CWqwU.lo2/394PtlIOmnOJu5GK3bhUn0CzIowgqYW6CaEhj0kmpu', 'parent');
+(1, 'John', 'Doe', '3012834716', 'rojasricor@gmail.com', '$2y$10$odAqXs1rTW9JrO6C820r6.IVmcOpJPitzfDeTYo0D28Dx.ocjDKVC', 'rector'),
+(46738328, 'Ryan', 'Ray', '3173927402', 'ryanray@gmail.com', '$2y$10$Pdv8fUdXNF3Fjik43lzuCu.pWCFYBZauRb5gf33uXh.Oh4FTzp5HK', 'teacher'),
+(63864836, 'Lysandra Booker', 'Miller', '3924826463', 'privateaccount@gmail.com', '$2y$10$ZBZ.jDZe/ZLIcXzYs0aKYeaiNHNu4fSyDQI7c5yl3Qzl2zQLr.5ly', 'teacher'),
+(73884826, 'Juan', 'Sánchez', '3173874244', 'juan@gmail.com', '$2y$10$d9q0fTHFHKJLY2YIt2A3AeEFH7ZRHlzYAm7FgHIKJSprIFzEMiY6a', 'teacher'),
+(2147483647, 'Jose', 'Rodriguez', '3173628492', 'jrc@gmail.com', '$2y$10$MoLuQsjpF/hu506BIoJK2usYzArKpJ1qdEQTGbzHlQlMwp7llGhK6', 'parent');
 
 
 ALTER TABLE `citations`
@@ -142,13 +149,13 @@ ALTER TABLE `notations`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `parents_students`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93618324;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 ALTER TABLE `students`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122449;
 
 ALTER TABLE `users`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93618324;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 
 ALTER TABLE `citations`
