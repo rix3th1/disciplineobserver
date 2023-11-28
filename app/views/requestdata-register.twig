@@ -47,7 +47,10 @@
 					</div>
 					<div class="col-md-12">
 						{% if success is not defined %}
-							<button type="button" class="btn btn-secondary btn-lg mb-2" onclick="window.history.go(-1);">Volver</button>
+							<button type="button" class="btn btn-secondary btn-lg mb-2" onclick="window.history.go(-1);">
+								Volver
+								<i class="fas fa-angle-left"></i>
+							</button>
 							<button type="submit" class="btn btn-primary btn-lg mb-2">Registrar</button>
 						{% endif %}
 						{% if success %}

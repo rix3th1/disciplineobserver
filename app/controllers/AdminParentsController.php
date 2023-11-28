@@ -154,7 +154,7 @@ class AdminParentsController extends RegisterController {
     $_SESSION['temporarily_data_create_user'] = [
       'permissions' => ['admin', 'parents'],
       'path_redirect' => 'padres-de-familia',
-      'temp_title' => '- Acudiente'
+      'temp_title' => ' Acudiente'
     ];
 
     // Sí la búsqueda no esta vacía, obtener un padre de familia por la búsqueda

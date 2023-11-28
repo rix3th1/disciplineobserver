@@ -146,7 +146,7 @@ class AdminTeachersController extends RegisterController {
     $_SESSION['temporarily_data_create_user'] = [
       'permissions' => ['admin', 'teachers'],
       'path_redirect' => 'profesores',
-      'temp_title' => '- Docente',
+      'temp_title' => ' Docente',
     ];
 
     $this->showAskDataView([
