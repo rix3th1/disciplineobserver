@@ -11,8 +11,29 @@ CREATE TABLE `citations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 INSERT INTO `citations` (`_id`, `student_id`, `citation_date`, `msg_parent`, `resolved`, `created_at`) VALUES
-(1, 1111122448, '2023-11-26 16:38:00', 'Su hijo ha llegado tarde dos veces. Que pasa?', 0, '2023-11-26 16:39:01'),
-(2, 1111122448, '2023-11-29 06:00:00', 'test', 0, '2023-11-29 18:18:35');
+(1, 1111122448, '2023-11-26 16:38:00', 'Su hijo ha llegado tarde dos veces. Que pasa?', 0, '2023-11-26 16:39:01');
+
+CREATE TABLE `global_subjects` (
+  `_id` varchar(30) NOT NULL,
+  `subject_name` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+INSERT INTO `global_subjects` (`_id`, `subject_name`) VALUES
+('biolog-do', 'Biologia '),
+('comport-do', 'Comportamiento'),
+('desc-do', 'Descanso'),
+('edufis-do', 'Educación física'),
+('ent-do', 'Entrada'),
+('esp-do', 'Español'),
+('estad-do', 'Estadística'),
+('eticval-do', 'Ética y valores'),
+('geom-do', 'Geometría'),
+('inform-do', 'Informática'),
+('ing-do', 'Inglés'),
+('mat-do', 'Matemáticas'),
+('quim-do', 'Química'),
+('rel-do', 'Religión'),
+('salid-do', 'Salida');
 
 CREATE TABLE `grades` (
   `_id` varchar(10) NOT NULL,
@@ -48,9 +69,7 @@ CREATE TABLE `notations` (
 
 INSERT INTO `notations` (`_id`, `student_id`, `notation`, `grade`, `testimony`, `severity_level`, `teacher_name`, `subject_id`, `created_at`) VALUES
 (1, 1111122448, 'Llegada tarde a clases.', 'K', 'Injustificado', 'Leve', 'Carlos Enrique Lara Meneses', '1111122448-6563b91d96d72', '2023-11-26 16:31:09'),
-(2, 1111122448, 'Llegada tarde al colegio por segunda vez.', 'K', 'Nuevamente injustificado.', 'Mediano', 'Carlos Enique Lara Meneses', '1111122448-6563baf59ea63', '2023-11-26 16:39:01'),
-(7, 1111122448, 'aaaa', 'K', 'aaa', 'Grave', 'Rafael Hernández', '1111122448-6567c688e98b2', '2023-11-29 18:17:29'),
-(8, 1111122448, 'test2', 'K', 'test', 'Grave', 'Rafael Hernández', '1111122448-6567c6cb1d625', '2023-11-29 18:18:35');
+(2, 1111122448, 'Llegada tarde al colegio por segunda vez.', 'K', 'Nuevamente injustificado.', 'Mediano', 'Carlos Enique Lara Meneses', '1111122448-6563baf59ea63', '2023-11-26 16:39:01');
 
 CREATE TABLE `parents_students` (
   `_id` int(11) NOT NULL,
@@ -62,7 +81,8 @@ CREATE TABLE `parents_students` (
 
 INSERT INTO `parents_students` (`_id`, `job`, `days_available`, `availability_start_time`, `availability_end_time`) VALUES
 (92674897, 'Lorem ipsum', 'Lunes,Miércoles,Jueves,Viernes', '09:00:00', '12:00:00'),
-(93618323, 'Prueba', '', '00:00:00', '00:00:00');
+(93618323, 'Prueba', 'Lunes,Martes,Viernes', '00:00:00', '00:00:00'),
+(2147483647, 'Docente', 'Lunes,Martes', '04:00:00', '02:00:00');
 
 CREATE TABLE `roles` (
   `_id` enum('teacher','parent','rector','secretary') NOT NULL,
@@ -89,22 +109,13 @@ INSERT INTO `students` (`_id`, `student`, `grade`, `parent_id`, `is_enabled`) VA
 
 CREATE TABLE `subjects` (
   `_id` varchar(30) NOT NULL,
-  `subject_name` varchar(50) NOT NULL,
+  `global_subject_id` varchar(30) NOT NULL,
   `subject_schedule` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
-INSERT INTO `subjects` (`_id`, `subject_name`, `subject_schedule`) VALUES
-('1111122448-6563b91d96d72', 'Matemáticas', '07:00:00'),
-('1111122448-6563baf59ea63', 'Matemáticas', '07:00:00'),
-('1111122448-6567c49bb3c12', 'Quia consectetur aut', '00:31:00'),
-('1111122448-6567c4c2f3922', 'test', '18:09:00'),
-('1111122448-6567c50c0af72', 'test', '07:00:00'),
-('1111122448-6567c58167e8f', 'aaa', '18:19:00'),
-('1111122448-6567c5d5927e4', 'aaa', '18:19:00'),
-('1111122448-6567c6793efad', 'aaa', '18:19:00'),
-('1111122448-6567c67b616ea', 'aaa', '18:19:00'),
-('1111122448-6567c688e98b2', 'aaa', '18:19:00'),
-('1111122448-6567c6cb1d625', 'test', '18:18:00');
+INSERT INTO `subjects` (`_id`, `global_subject_id`, `subject_schedule`) VALUES
+('1111122448-656818921149d', 'geom-do', '02:10:00'),
+('1111122448-656818cd211bd', 'eticval-do', '02:10:00');
 
 CREATE TABLE `users` (
   `_id` int(11) NOT NULL,
@@ -118,16 +129,17 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`_id`, `name`, `lastname`, `telephone`, `email`, `password`, `role`) VALUES
 (1, 'Rafael', 'Hernández', '3012834716', 'rafaelhernandez@gmail.com', '$2y$10$odAqXs1rTW9JrO6C820r6.IVmcOpJPitzfDeTYo0D28Dx.ocjDKVC', 'rector'),
-(65701167, 'Luas', 'asssss', '3178342234', 'jrcs@gmail.com', '$2y$10$cDLIYtKqGaZ5wOdxe7SvC.uVdnc5/ymvnm3GpF2AVgo5X5UsRR3kG', 'parent'),
-(92674897, 'Luas', 'Porter', '3287492744', 'spa@gmail.com', '$2y$10$K5BVRXejXdvfTI9STX2Yn.nNS9/VQl9rb7ZTZzqHj08vxjbGbiqmC', 'parent'),
 (93173722, 'Carlos Enrique', 'Lara Meneses', '3129487283', 'Clara@itfip.edu.co', '$2y$10$Ptj7IJKgGys0/A29r6b0...wI20FAROrkcf4PC6IoMtb7Np5rRq7q', 'teacher'),
 (93618323, 'Acudiente', 'Prueba', '3124826422', 'acudienteprueba@gmail.com', '$2y$10$6CWqwU.lo2/394PtlIOmnOJu5GK3bhUn0CzIowgqYW6CaEhj0kmpu', 'parent'),
-(657011672, 'Luas', 'asssss', '3178342234', 'jrcss@gmail.com', '$2y$10$GbczjSpz2lKyRrrcoWyJNOjfcUNmtLs60OWNg8d6eIpm3aUrXBCyG', 'parent');
+(2147483647, 'Ricardo', 'Andrés', '7289843844', 'padre@gmail.com', '$2y$10$bluaTcteoGZBNgNFQyJ9luPLBP/bYn/bZpxdSIDqUuOaBu4Blib1G', 'parent');
 
 
 ALTER TABLE `citations`
   ADD PRIMARY KEY (`_id`),
   ADD KEY `student_id` (`student_id`);
+
+ALTER TABLE `global_subjects`
+  ADD PRIMARY KEY (`_id`);
 
 ALTER TABLE `grades`
   ADD PRIMARY KEY (`_id`);
@@ -150,7 +162,8 @@ ALTER TABLE `students`
   ADD KEY `parent_id` (`parent_id`);
 
 ALTER TABLE `subjects`
-  ADD PRIMARY KEY (`_id`);
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `global_subject_id` (`global_subject_id`);
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`_id`),
@@ -158,19 +171,19 @@ ALTER TABLE `users`
 
 
 ALTER TABLE `citations`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `notations`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `parents_students`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93618324;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 ALTER TABLE `students`
   MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111122449;
 
 ALTER TABLE `users`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=657011673;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 
 ALTER TABLE `citations`
@@ -183,6 +196,9 @@ ALTER TABLE `notations`
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`grade`) REFERENCES `grades` (`_id`),
   ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `parents_students` (`_id`);
+
+ALTER TABLE `subjects`
+  ADD CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`global_subject_id`) REFERENCES `global_subjects` (`_id`);
 
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`_id`);
