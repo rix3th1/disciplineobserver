@@ -64,7 +64,7 @@ class ViewObserverController extends BaseController {
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+        throw new Exception("El estudiante no fué encontrado por una de las siguientes razones: Ha sido expulsado o el acudiente no tiene al estudiante registrado.");
       }
 
       // Renderizar la vista de seleccionar estudiante
@@ -130,7 +130,7 @@ class ViewObserverController extends BaseController {
 
       // Si no existe, mostramos un error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+        throw new Exception("El estudiante no fué encontrado por una de las siguientes razones: Ha sido expulsado o el acudiente no tiene al estudiante registrado.");
       }
       
       // Si existe, obtenemos las anotaciones del estudiante

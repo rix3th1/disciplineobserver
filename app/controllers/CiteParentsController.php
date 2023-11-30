@@ -73,7 +73,7 @@ class CiteParentsController extends BaseController {
 
     //   // Si no esta registrado, mostrar mensaje de error
     //   if (!$studentFound) {
-    //     throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+    //     throw new Exception("El estudiante no fué encontrado por una de las siguientes razones: Ha sido expulsado o el acudiente no tiene al estudiante registrado.");
     //   }
 
     //   // Renderizar la vista de seleccionar estudiante
@@ -136,7 +136,7 @@ class CiteParentsController extends BaseController {
 
       // Si no esta registrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+        throw new Exception("El estudiante no fué encontrado por una de las siguientes razones: Ha sido expulsado o el acudiente no tiene al estudiante registrado.");
       }
       // Obtener el número total de citaciones que lleva el esrudiante
       $totalCitations = $this->citationsModelInstance->getNumberOfCitations($studentFound->_id);
@@ -247,7 +247,7 @@ class CiteParentsController extends BaseController {
 
       // El estudiante no fue encontrado, mostrar mensaje de error
       if (!$studentFound) {
-        throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
+        throw new Exception("El estudiante no fué encontrado por una de las siguientes razones: Ha sido expulsado o el acudiente no tiene al estudiante registrado.");
       }
 
       // Generamos un id unico para la asignatura

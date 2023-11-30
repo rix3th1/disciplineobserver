@@ -25,14 +25,15 @@
 							<label for="verification_code" class="form-label text-primary fw-light">
 								CÓDIGO DE VERIFICACIÓN
 							</label>
-							<input type="number" name="verification_code"
-								class="form-control bg-secondary fw-light form-control-lg h-75" placeholder="Codigo enviado a {{email}}"
+							<input type="number" name="verification_code" id="verification_code" class="form-control bg-secondary fw-light form-control-lg h-75" placeholder="{% if email %}Código enviado a {{email}}{% else %}Código de verificación{% endif %}"
 								autocomplete="off" autofocus required>
 						</div>
+							
 
 						<div class="col-md-12 text-center">
 							<button class="btn btn-primary btn-lg fw-bold">
 								Verificar
+								<i class="far fa-check-square"></i>
 							</button>
 						</div>
 					</form>

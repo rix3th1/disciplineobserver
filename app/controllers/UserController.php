@@ -110,7 +110,7 @@ class UserController extends BaseController {
       }
 
       // Actualizar la contraseña en la base de datos
-      $passwordChanged = $this->userModelInstance->updatePassword($_SESSION['verification_pending']['email'] ?? NULL, $_POST['password']);
+      $passwordChanged = $this->userModelInstance->updatePassword($_SESSION['verification_pending']['email'] ?? "", $_POST['password']);
 
       // Si la contraseña fue actualizada mostramos la página de exito
       if ($passwordChanged) {
@@ -120,6 +120,8 @@ class UserController extends BaseController {
         
         // Limpiar la sesión  de verificación pendiente
         $_SESSION['verification_pending'] = [];
+
+        echo "<script>setTimeout(()=>window.location.href='/',2000)</script>";
       }
 
     } catch (Exception $e) {
@@ -138,7 +140,7 @@ class UserController extends BaseController {
       $this->sessionModelInstance->sessionStart();
 
       // Verificar que el cádigo de verificación sea correcto
-      if ((int) $_SESSION['verification_pending']['code'] !== (int) $_POST['verification_code']) {
+      if (empty($_SESSION['verification_pending']) || (int) $_SESSION['verification_pending']['code'] !== (int) $_POST['verification_code']) {
         throw new Exception("El codigo de verificación es incorrecto");
       }
 
@@ -150,7 +152,7 @@ class UserController extends BaseController {
       echo $this->twig->render('request-code.twig', [
         'title' => 'Error',
         'error' => $error,
-        'email' => $_SESSION['verification_pending']['email']
+        'email' => $_SESSION['verification_pending']['email'] ?? ""
       ]);
     }
   }
