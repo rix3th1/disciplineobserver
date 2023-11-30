@@ -111,7 +111,7 @@
 										</div>
 									</div>
 
-									<div class="col-xl-4">
+									<div class="col-xl-3">
 										<div class="card border-0">
 											<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 												<span class="h5">Nombre del Docente</span>
@@ -122,18 +122,25 @@
 										</div>
 									</div>
 
-									<div class="col-xl-4">
+									<div class="col-xl-3">
 										<div class="card border-0">
 											<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 												<span class="h5">Asignatura</span>
 											</div>
 											<div class="card-body p-0">
-												<textarea name="subject_name" class="form-control rounded-1 rounded-bottom-3" autocomplete="off" spellcheck="false" disabled>{{studentData.subject_name}}</textarea>
+													<select name="global_subject_id" id="global_subject_id" class="form-select form-select-lg rounded-1 rounded-bottom-3" disabled>
+														<option value="">Seleccione</option>
+														{% for subj in global_subjects %}
+															{% set selected = subj._id == studentData.subject_id ? 'selected' : '' %}
+
+															<option value="{{subj._id}}" {{selected}}>{{subj.subject_name}}</option>
+														{% endfor %}
+													</select>
 											</div>
 										</div>
 									</div>
 
-									<div class="col-xl-4">
+									<div class="col-xl-3">
 										<div class="card border-0">
 											<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
 												<span class="h5">Hora Asignatura</span>

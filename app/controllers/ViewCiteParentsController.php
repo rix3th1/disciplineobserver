@@ -8,7 +8,8 @@ use App\Middlewares\AuthMiddleware;
 use App\Models\{
   GradesModel,
   CitationsModel,
-  StudentsModel
+  StudentsModel,
+  GlobalSubjectModel,
 };
 
 class ViewCiteParentsController extends BaseController {
@@ -16,6 +17,7 @@ class ViewCiteParentsController extends BaseController {
   protected StudentsModel $studentsModelInstance;
   protected GradesModel $gradesModelInstance;
   protected CitationsModel $citationsModelInstance;
+  protected GlobalSubjectModel $globalSubjectModelInstance;
 
   public function __construct()
   {
@@ -27,6 +29,7 @@ class ViewCiteParentsController extends BaseController {
     $this->studentsModelInstance = new StudentsModel;
     $this->gradesModelInstance = new GradesModel;
     $this->citationsModelInstance = new CitationsModel;
+    $this->globalSubjectModelInstance = new GlobalSubjectModel;
 
     // Verificar si el usuario está logueado
     $this->authMiddlewareInstance->handle();
@@ -157,12 +160,16 @@ class ViewCiteParentsController extends BaseController {
       $citationFound = $this->citationsModelInstance->findCitationsByStudent($studentFound->_id);
       $totalCitations = count($citationFound);
 
+      // Obtener todas las asignaturas globales de la institución
+      $global_subjects = $this->globalSubjectModelInstance->getAllGlobalSubjects();
+
       // Mostramos la página de todas las citaciones de ese estudiante
       echo $this->twig->render('visualizing-citations.twig', [
         'title' => 'Ver citaciones a padres de familia en el Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'observerStudent' => $citationFound,
         'totalCitations' => $totalCitations,
+        'global_subjects' => $global_subjects,
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();

@@ -8,7 +8,8 @@ use App\Middlewares\AuthMiddleware;
 use App\Models\{
   GradesModel,
   NotationsModel,
-  StudentsModel
+  StudentsModel,
+  GlobalSubjectModel,
 };
 
 class ViewObserverController extends BaseController {
@@ -16,6 +17,7 @@ class ViewObserverController extends BaseController {
   protected GradesModel $gradesModelInstance;
   protected NotationsModel $notationsModelInstance;
   protected StudentsModel $studentsModelInstance;
+  protected GlobalSubjectModel $globalSubjectModelInstance;
 
   public function __construct()
   {
@@ -27,6 +29,7 @@ class ViewObserverController extends BaseController {
     $this->gradesModelInstance = new GradesModel;
     $this->notationsModelInstance = new NotationsModel;
     $this->studentsModelInstance = new StudentsModel;
+    $this->globalSubjectModelInstance = new GlobalSubjectModel;
 
     // Validar que el usuario esté logueado
     $this->authMiddlewareInstance->handle();
@@ -134,6 +137,9 @@ class ViewObserverController extends BaseController {
       $notationFound = $this->notationsModelInstance->findNotationsByStudent($studentFound->_id);
       $totalNotations = count($notationFound);
 
+      // Obtener todas las asignaturas globales de la institución
+      $global_subjects = $this->globalSubjectModelInstance->getAllGlobalSubjects();
+
       // Renderizar la vista con las anotaciones del estudiante
       echo $this->twig->render('visualizing-observer.twig', [
         'title' => 'Ver Observador del estudiante',
@@ -141,6 +147,7 @@ class ViewObserverController extends BaseController {
         'observerStudent' => $notationFound,
         'success' => $_SESSION['success_msg'] ?? null,
         'totalNotations' => $totalNotations,
+        'global_subjects' => $global_subjects,
       ]);
 
       $_SESSION['success_msg'] = null;

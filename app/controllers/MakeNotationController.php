@@ -10,7 +10,8 @@ use App\Models\{
   GradesModel,
   StudentsModel,
   NotationsModel,
-  SubjectModel
+  SubjectModel,
+  GlobalSubjectModel,
 };
 
 class MakeNotationController extends BaseController {
@@ -19,6 +20,7 @@ class MakeNotationController extends BaseController {
   protected StudentsModel $studentsModelInstance;
   protected NotationsModel $notationsModelInstance;
   protected SubjectModel $subjectModelInstance;
+  protected GlobalSubjectModel $globalSubjectModelInstance;
 
   public function __construct()
   {
@@ -31,6 +33,7 @@ class MakeNotationController extends BaseController {
     $this->studentsModelInstance = new StudentsModel;
     $this->notationsModelInstance = new NotationsModel;
     $this->subjectModelInstance = new SubjectModel;
+    $this->globalSubjectModelInstance = new GlobalSubjectModel;
 
     // Validamos que el usuario este logueado
     $this->authMiddlewareInstance->handle();
@@ -132,13 +135,17 @@ class MakeNotationController extends BaseController {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
+      // Obtener todas las asignaturas globales de la institución
+      $global_subjects = $this->globalSubjectModelInstance->getAllGlobalSubjects();
+
       // Pero si existe, mostramos la página de hacer anotaciones
       echo $this->twig->render('making-notation.twig', [
         'title' => 'Anotación en el Observador',
         'userLogged' => $_SESSION['user_discipline_observer'],
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_id' => $studentFound->_id,
-        'totalNotations' => $totalNotations
+        'totalNotations' => $totalNotations,
+        'global_subjects' => $global_subjects
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -149,7 +156,8 @@ class MakeNotationController extends BaseController {
         'title' => 'Error',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
-        'grades' => $grades
+        'grades' => $grades,
+        'global_subjects' => $global_subjects
       ]);
     }
   }
@@ -188,8 +196,8 @@ class MakeNotationController extends BaseController {
         throw new Exception('Ingrese el nombre del docente a cargo de la asignatura');
       }
 
-      if (empty($_POST['subject_name'])) {
-        throw new Exception('Ingrese el nombre de la asignatura');
+      if (empty($_POST['global_subject_id'])) {
+        throw new Exception('Seleccione la asignatura');
       }
 
       if (empty($_POST['subject_schedule'])) {
@@ -215,7 +223,7 @@ class MakeNotationController extends BaseController {
       // Vamos a guardar la asignatura en la base de datos
       $newSubject = $this->subjectModelInstance->create(
         $subject_id,
-        $_POST['subject_name'],
+        $_POST['global_subject_id'],
         $_POST['subject_schedule'],
       );
 

@@ -146,8 +146,13 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="subject_name" id="subject_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required></textarea>
-										<label for="subject_name" class="form-label">
+										<select name="global_subject_id" id="global_subject_id" class="form-select form-select-lg bg-secondary rounded-1 rounded-bottom-3" required>
+											<option value="">Seleccione</option>
+											{% for subj in global_subjects %}
+											<option value="{{subj._id}}">{{subj.subject_name}}</option>
+											{% endfor %}
+										</select>
+										<label for="notation" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
 									</div>

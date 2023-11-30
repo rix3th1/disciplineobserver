@@ -50,7 +50,7 @@ class NotationsModel extends BaseModel {
     // Este cálculo sirve para que el nÚmero de filas se muestren en orden ascendente
     $statement = $this->db->query("SET @row_number = 0");
     // Preparamos la consulta para que reciba el id del estudiante
-    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, S._id, NOTA.notation, NOTA.severity_level, S.student, NOTA.testimony, NOTA.created_at, NOTA.teacher_name, SUBJ.subject_name, SUBJ.subject_schedule FROM notations as NOTA INNER JOIN students as S ON NOTA.student_id = S._id INNER JOIN subjects as SUBJ ON SUBJ._id = NOTA.subject_id WHERE S._id = ? ORDER BY NOTA.created_at DESC");
+    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, S._id, NOTA.notation, NOTA.severity_level, S.student, NOTA.testimony, NOTA.created_at, NOTA.teacher_name, GS._id as subject_id, GS.subject_name, SUBJ.subject_schedule FROM notations as NOTA INNER JOIN students as S ON NOTA.student_id = S._id INNER JOIN subjects as SUBJ ON SUBJ._id = NOTA.subject_id INNER JOIN global_subjects as GS ON GS._id = SUBJ.global_subject_id WHERE S._id = ? ORDER BY NOTA.created_at DESC");
     // Ejecutar la consulta
     $statement->execute([$_id]);
     // Devolver los resultados

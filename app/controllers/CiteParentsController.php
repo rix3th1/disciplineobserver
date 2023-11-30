@@ -12,7 +12,8 @@ use App\Models\{
   NotationsModel,
   CitationsModel,
   SubjectModel,
-  EmailSenderModel
+  GlobalSubjectModel,
+  EmailSenderModel,
 };
 
 class CiteParentsController extends BaseController {
@@ -23,6 +24,7 @@ class CiteParentsController extends BaseController {
   protected CitationsModel $citationsModelInstance;
   protected EmailSenderModel $emailSenderModelInstance;
   protected SubjectModel $subjectModelInstance;
+  protected GlobalSubjectModel $globalSubjectModelInstance;
 
   public function __construct()
   {
@@ -37,6 +39,7 @@ class CiteParentsController extends BaseController {
     $this->citationsModelInstance = new CitationsModel;
     $this->emailSenderModelInstance = new EmailSenderModel;
     $this->subjectModelInstance = new SubjectModel;
+    $this->globalSubjectModelInstance = new GlobalSubjectModel;
 
     // Validar que el usuario este logueado
     $this->authMiddlewareInstance->handle();
@@ -138,6 +141,9 @@ class CiteParentsController extends BaseController {
       // Obtener el número total de citaciones que lleva el esrudiante
       $totalCitations = $this->citationsModelInstance->getNumberOfCitations($studentFound->_id);
 
+      // Obtener todas las asignaturas globales de la institución
+      $global_subjects = $this->globalSubjectModelInstance->getAllGlobalSubjects();
+
       // Si el estudiante existe en la base de datos, mostrar la página de citación
       echo $this->twig->render('citing-parents.twig', [
         'title' => 'Citación de padres de familia',
@@ -146,7 +152,8 @@ class CiteParentsController extends BaseController {
         '_emailParent' => $studentFound->parent_email,
         '_nameParent' => $studentFound->parent_name . ' ' . $studentFound->parent_lastname,
         '_id' => $studentFound->_id,
-        'totalCitations' => $totalCitations
+        'totalCitations' => $totalCitations,
+        'global_subjects' => $global_subjects
       ]);
     } catch (Exception $e) {
       $error = $e->getMessage();
@@ -157,7 +164,8 @@ class CiteParentsController extends BaseController {
         'title' => 'Error',
         'userLogged' => $_SESSION['user_discipline_observer'],
         'error' => $error,
-        'grades' => $grades
+        'grades' => $grades,
+        'global_subjects' => $global_subjects
       ]);
     }
   }
@@ -208,8 +216,8 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese el nombre del docente a cargo de la asignatura');
       }
 
-      if (empty($_POST['subject_name'])) {
-        throw new Exception('Ingrese el nombre de la asignatura');
+      if (empty($_POST['global_subject_id'])) {
+        throw new Exception('Seleccione la asignatura');
       }
 
       if (empty($_POST['subject_schedule'])) {
@@ -242,14 +250,12 @@ class CiteParentsController extends BaseController {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
-      var_dump($_POST);
-
       // Generamos un id unico para la asignatura
       $subject_id = uniqid($studentFound->_id . '-');
       // Vamos a guardar la asignatura en la base de datos
       $newSubject = $this->subjectModelInstance->create(
         $subject_id,
-        $_POST['subject_name'],
+        $_POST['global_subject_id'],
         $_POST['subject_schedule'],
       );
 
