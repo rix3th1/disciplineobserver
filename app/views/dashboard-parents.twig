@@ -51,14 +51,24 @@
 				</thead>
 				<tbody>
 					{% for parent in parents %}
+						{% set days_available = parent.days_available|split(',') %}
+						{% set last_day = days_available|last %}
+						{% set days_available_not_last = days_available|slice(0, -1)|join(', ') %}
+
+						{% if days_available|length > 1 %}
+							{% set days_available = days_available_not_last ~ ' y ' ~ last_day %}
+						{% else %}
+							{% set days_available = last_day %}
+						{% endif %}
+						
 						<tr>
 							<td>{{parent._id}}</td>
 							<td>{{parent.email}}</td>
 							<td>{{parent.name ~ " " ~ parent.lastname}}
 							</td>
 							<td>{{parent.job}}</td>
-							<td>{{parent.days_available}}</td>
-							<td>{{parent.availability_start_time ~ " - " ~ parent.availability_end_time}}</td>
+							<td>{{days_available}}</td>
+							<td>de: {{parent.availability_start_time|date("g:iA")}} a: {{parent.availability_end_time|date("g:iA")}}</td>
 							<td>
 								<form action="/administrar/editar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">

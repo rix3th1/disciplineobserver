@@ -83,7 +83,7 @@
 										<div class="row g-3">
 											<div class="col-md-12">
 												<div class="d-flex align-items-center justify-content-center gap-3">
-													{% set days_available = parent.days_available | split(',') %}
+													{% set days_available = parent.days_available|split(',') %}
 													{% set all_days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"] %}
 
 													{% for day in all_days %}

@@ -253,4 +253,21 @@
 			</div>
 		</div>
 	</div>
+
+	{% set _days_available = _days_available|split(',') %}
+	{% set last_day = _days_available|last %}
+	{% set _days_available_not_last = _days_available|slice(0, -1)|join(', ') %}
+
+	{% if _days_available|length > 1 %}
+		{% set _days_available = _days_available_not_last ~ ' y ' ~ last_day %}
+	{% else %}
+		{% set _days_available = last_day %}
+	{% endif %}
+
+	<div class="position-fixed bottom-0 start-0 mb-4 ms-4">
+    <button type="button" class="btn btn-secondary py-2" data-bs-toggle="popover" data-bs-title="Disponibilidad Acudiente" data-bs-placement="top" data-bs-content="{{_days_available}} de: {{_availability_time[0]}} a: {{_availability_time[1]}}">
+			Ver Disponibilidad Acudiente
+			<i class="far fa-calendar"></i>
+		</button>
+	<div>
 {% endblock %}

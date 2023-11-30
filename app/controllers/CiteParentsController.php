@@ -151,6 +151,11 @@ class CiteParentsController extends BaseController {
         '_studentInfo' => $studentFound->student . ' de ' . $grade->grade . ' grado',
         '_emailParent' => $studentFound->parent_email,
         '_nameParent' => $studentFound->parent_name . ' ' . $studentFound->parent_lastname,
+        '_days_available' => $studentFound->days_available,
+        '_availability_time' => [
+          DateTime::createFromFormat('H:i:s', $studentFound->availability_start_time)->format('g:iA'),
+          DateTime::createFromFormat('H:i:s', $studentFound->availability_end_time)->format('g:iA'),
+        ],
         '_id' => $studentFound->_id,
         'totalCitations' => $totalCitations,
         'global_subjects' => $global_subjects
