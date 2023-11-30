@@ -38,8 +38,8 @@ class AdminStudentsController extends BaseController {
      * obtener los estudiantes por grado y lo vamos a manejar de manera
      * diferente.
      */
-    if (!empty($_GET["aria_current"])) {
-      if ($_GET["aria_current"] === "make-notation" || $_GET["aria_current"] === "cite-parents") {
+    if (!empty($_GET["aria_current"]) && $_SESSION['user_discipline_observer']['role_id'] !== 'parent') {
+      if (($_GET["aria_current"] === "make-notation" || $_GET["aria_current"] === "cite-parents" || $_GET["aria_current"] === "view-cite-parents" || $_GET["aria_current"] === "view-observer")) {
         if (!empty($_GET['grade'])) {
           // obtener los estudiantes concidentes por grado
           $students = $this->studentsModelInstance->getStudentByGrade($_GET['grade']);

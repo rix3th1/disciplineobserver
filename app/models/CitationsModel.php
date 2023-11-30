@@ -40,7 +40,7 @@ class CitationsModel extends BaseModel {
     // Establecemos un contador de citaciones
     $statement = $this->db->query("SET @row_number = 0");
     // Preparamos la consulta
-    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, CIT.student_id as _id, NOTA.notation, S.student, S.grade, NOTA.testimony, CIT.msg_parent, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, U._id as parent_id, NOTA.teacher_name, SUBJ.subject_name, SUBJ.subject_schedule, CIT.resolved FROM citations as CIT INNER JOIN students as S ON CIT.student_id = S._id INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id INNER JOIN notations as NOTA ON CIT.student_id = NOTA.student_id AND CIT.created_at = NOTA.created_at INNER JOIN subjects as SUBJ ON SUBJ._id = NOTA.subject_id WHERE S._id = ? ORDER BY NOTA.created_at DESC");
+    $statement = $this->db->prepare("SELECT @row_number:=@row_number+1 as number, CIT.student_id as _id, NOTA.notation, NOTA.severity_level, S.student, S.grade, NOTA.testimony, CIT.msg_parent, U.name as parent_name, U.lastname as parent_lastname, U.email as parent_email, U._id as parent_id, NOTA.teacher_name, SUBJ.subject_name, SUBJ.subject_schedule, CIT.resolved FROM citations as CIT INNER JOIN students as S ON CIT.student_id = S._id INNER JOIN parents_students as PS ON S.parent_id = PS._id INNER JOIN users as U ON U._id = PS._id INNER JOIN notations as NOTA ON CIT.student_id = NOTA.student_id AND CIT.created_at = NOTA.created_at INNER JOIN subjects as SUBJ ON SUBJ._id = NOTA.subject_id WHERE S._id = ? ORDER BY NOTA.created_at DESC");
     // Ejecutamos la consulta
     $statement->execute([$_id]);
     // Retornamos los resultados

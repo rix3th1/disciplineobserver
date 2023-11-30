@@ -38,6 +38,7 @@
 
 				<div class="container-fluid px-4">
 					<form method="post" class="row g-1 observer-data-ipt">
+
 						<div class="col-xl-3">
 							<div class="card border-0">
 								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
@@ -46,6 +47,27 @@
 								<div class="card-body p-0">
 									<div class="form-floating">
 										<textarea name="notation" id="notation" class="form-control bg-secondary form-control-lg rounded-1 rounded-bottom-3" placeholder="Ingrese la anotación" autocomplete="off" spellcheck="false" required></textarea>
+										<label for="notation" class="form-label">
+											<i class="fa fa-pencil-alt"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3">
+							<div class="card border-0">
+								<div class="card-header rounded-1 rounded-top-3 bg-primary text-center mb-1">
+									<span class="h5">Gravedad Observación</span>
+								</div>
+								<div class="card-body p-0">
+									<div class="form-floating">
+										<select name="severity_level" id="severity_level" class="form-select form-select-lg bg-secondary rounded-1 rounded-bottom-3" required>
+											<option value="">Seleccione</option>
+											<option value="Grave">Grave</option>
+											<option value="Mediano">Mediano</option>
+											<option value="Leve">Leve</option>
+										</select>
 										<label for="notation" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>
@@ -174,7 +196,7 @@
 								</div>
 								<div class="card-body p-0">
 									<div class="form-floating">
-										<textarea name="teacher_name" id="teacher_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required></textarea>
+										<textarea name="teacher_name" id="teacher_name" class="form-control bg-secondary" placeholder="Ingrese el nombre del padre de familia" autocomplete="off" spellcheck="false" required>{% if userLogged is defined %}{{userLogged.name ~ " " ~ userLogged.lastname}}{% endif %}</textarea>
 										<label for="teacher_name" class="form-label">
 											<i class="fa fa-pencil-alt"></i>
 										</label>

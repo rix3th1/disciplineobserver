@@ -57,14 +57,14 @@
 							<td>
 								<form action="/administrar/editar/profesores" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{teacher._id}}">
-									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Docente">
+									<button class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Docente">
 										<i class="far fa-edit"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/eliminar/profesores" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{teacher._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Docente">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Docente">
 										<i class="fas fa-minus-circle"></i>
 									</button>
 								</form>

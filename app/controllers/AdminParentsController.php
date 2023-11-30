@@ -75,8 +75,16 @@ class AdminParentsController extends RegisterController {
         throw new Exception('Ingrese los apellidos');
       }
 
-      if (empty($_POST['availability'])) {
-        throw new Exception('Ingrese su horario disponible');
+      if (empty($_POST['days_available'])) {
+        throw new Exception('Marque los días en los que se encuentra disponible');
+      }
+
+      if (empty($_POST['availability_start_time'])) {
+        throw new Exception('Ingrese su horario de disponibilidad');
+      }
+      
+      if (empty($_POST['availability_end_time'])) {
+        throw new Exception('Ingrese su horario de disponibilidad');
       }
       
       if (empty($_POST['job'])) {
@@ -103,6 +111,8 @@ class AdminParentsController extends RegisterController {
         throw new Exception("El formato del correo es incorrecto");
       }
 
+      $days_available = implode(',', $_POST['days_available']);
+
       $parentEdited = $this->parentsModelInstance->updateParent(
         $_POST['_id'],
         $_POST['name'],
@@ -110,7 +120,9 @@ class AdminParentsController extends RegisterController {
         $_POST['telephone'],
         $_POST['email'],
         $_POST['job'],
-        $_POST['availability']
+        $days_available,
+        $_POST['availability_start_time'],
+        $_POST['availability_end_time'],
       );
 
       if ($parentEdited) {

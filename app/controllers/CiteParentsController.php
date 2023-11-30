@@ -180,6 +180,10 @@ class CiteParentsController extends BaseController {
         throw new Exception('Ingrese la anotación del estudiante al observador');
       }
 
+      if (empty($_POST['severity_level'])) {
+        throw new Exception('Ingrese la gravedad de la observación');
+      }
+
       if (empty($_POST['student'])) {
         throw new Exception('Ingrese el nombre del estudiante');
       }
@@ -238,6 +242,8 @@ class CiteParentsController extends BaseController {
         throw new Exception("El estudiante no fué encontrado en la base de datos del observador o ha sido deshabilitado.");
       }
 
+      var_dump($_POST);
+
       // Generamos un id unico para la asignatura
       $subject_id = uniqid($studentFound->_id . '-');
       // Vamos a guardar la asignatura en la base de datos
@@ -253,6 +259,7 @@ class CiteParentsController extends BaseController {
         $_POST['notation'],
         $_GET['grade'],
         $_POST['testimony'],
+        $_POST['severity_level'],
         $_POST['teacher_name'],
         $subject_id,
       );

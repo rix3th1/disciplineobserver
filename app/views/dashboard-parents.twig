@@ -45,6 +45,7 @@
 						<th>Nombre</th>
 						<th>Empleo</th>
 						<th>Disponibilidad</th>
+						<th>Horario</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
@@ -56,18 +57,19 @@
 							<td>{{parent.name ~ " " ~ parent.lastname}}
 							</td>
 							<td>{{parent.job}}</td>
-							<td>{{parent.availability}}</td>
+							<td>{{parent.days_available}}</td>
+							<td>{{parent.availability_start_time ~ " - " ~ parent.availability_end_time}}</td>
 							<td>
 								<form action="/administrar/editar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">
-									<button class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Acudiente">
+									<button class="btn btn-secondary btn-sm" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Editar Datos Acudiente">
 										<i class="far fa-edit"></i>
 									</button>
 								</form>
 
 								<form action="/administrar/eliminar/padres-de-familia" method="post" class="d-inline">
 									<input type="hidden" name="_id" value="{{parent._id}}">
-									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm rounded-circle" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Padre de Familia">
+									<button type="submit" onclick="return confirm('Estás seguro que deseas eliminarlo?')" class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="Eliminar <b>Definitivamente</b> el Padre de Familia">
 										<i class="fas fa-minus-circle"></i>
 									</button>
 								</form>

@@ -6,13 +6,17 @@ class ParentsModel extends BaseModel {
   public function create(
     string $_id,
     string $job,
-    string $availability
+    string $days_available,
+    string $availability_start_time,
+    string $availability_end_time,
   ): bool {
-    $statement = $this->db->prepare("INSERT INTO parents_students (_id, job, availability) VALUES (?, ?, ?)");
+    $statement = $this->db->prepare("INSERT INTO parents_students (_id, job, days_available, availability_start_time, availability_end_time) VALUES (?, ?, ?, ?, ?)");
     return $statement->execute([
       $_id,
       $job,
-      $availability
+      $days_available,
+      $availability_start_time,
+      $availability_end_time,
     ]);
   }
 
@@ -29,11 +33,13 @@ class ParentsModel extends BaseModel {
     string $telephone,
     string $email,
     string $job,
-    string $availability
+    string $days_available,
+    string $availability_start_time,
+    string $availability_end_time,
   ): bool
   {
     $statement = $this->db->prepare("UPDATE users SET name = ?, lastname = ?, telephone = ?, email = ? WHERE _id = ?");
-    $statement2 = $this->db->prepare("UPDATE parents_students SET job = ?, availability = ? WHERE _id = ?");
+    $statement2 = $this->db->prepare("UPDATE parents_students SET job = ?, days_available = ?, availability_start_time = ?, availability_end_time = ? WHERE _id = ?");
 
     return $statement->execute([
       $name,
@@ -43,7 +49,9 @@ class ParentsModel extends BaseModel {
       $_id
     ]) && $statement2->execute([
       $job,
-      $availability,
+      $days_available,
+      $availability_start_time,
+      $availability_end_time,
       $_id
     ]);
   }
@@ -63,7 +71,7 @@ class ParentsModel extends BaseModel {
   public function getParentById(string $_id): object | bool
   {
     $statement = $this->db->prepare("SELECT 
-    U._id, U.name, U.lastname, U.telephone, U.email, PS.job, PS.availability FROM users U INNER JOIN parents_students PS ON U._id = PS._id WHERE U.role = 'parent' AND U._id = ?");
+    U._id, U.name, U.lastname, U.telephone, U.email, PS.job, PS.days_available, PS.availability_start_time, PS.availability_end_time FROM users U INNER JOIN parents_students PS ON U._id = PS._id WHERE U.role = 'parent' AND U._id = ?");
     $statement->execute([$_id]);
     return $statement->fetchObject();
   }

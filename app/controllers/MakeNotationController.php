@@ -172,6 +172,10 @@ class MakeNotationController extends BaseController {
         throw new Exception('Ingrese la anotación del estudiante al observador');
       }
 
+      if (empty($_POST['severity_level'])) {
+        throw new Exception('Ingrese la gravedad de la observación');
+      }
+
       if (empty($_POST['student'])) {
         throw new Exception('Ingrese el nombre del estudiante');
       }
@@ -221,6 +225,7 @@ class MakeNotationController extends BaseController {
         $_POST['notation'],
         $_GET['grade'],
         $_POST['testimony'],
+        $_POST['severity_level'],
         $_POST['teacher_name'],
         $subject_id,
       );

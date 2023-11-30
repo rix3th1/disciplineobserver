@@ -88,8 +88,8 @@ class ViewCiteParentsController extends BaseController {
       if ($_SESSION["user_discipline_observer"]["role_id"] === "parent") {
         $studentFound = $this->studentsModelInstance->getStudentByParentWithCitation($_SESSION["user_discipline_observer"]["id"]);
       } else {
-        // Verificar si el estudiante esta registrado en la base de datos del observador
-        $studentFound = $this->studentsModelInstance->getStudentEnabledByDocumentOrNameWithCitation($_GET['search']);
+        header(sprintf('Location: /administrar/estudiantes?grade=%s&aria_current=%s', urlencode($_GET['grade']), urlencode("view-cite-parents")));
+        exit;
       }
 
       // Si no esta registrado, mostrar mensaje de error

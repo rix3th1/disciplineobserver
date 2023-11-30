@@ -18,7 +18,8 @@ input[type='number'] {
 }
 
 .observer-data-ipt textarea,
-.observer-data-ipt input {
+.observer-data-ipt input,
+.observer-data-ipt select {
   resize: none !important;
   min-height: 100px !important;
   max-height: 300px !important;
@@ -28,7 +29,8 @@ input[type='number'] {
 }
 
 .observer-data-ipt textarea:disabled,
-.observer-data-ipt input:disabled {
+.observer-data-ipt input:disabled,
+.observer-data-ipt select:disabled {
   cursor: not-allowed;
 }
 

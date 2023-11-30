@@ -62,16 +62,69 @@
 						</div>
 					</div>
 					{% if aria_current[1] == 'parents' %}
+						<div class="col-md-12">
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="text" name="job" class="form-control bg-secondary form-control-lg" placeholder="Trabajo del Acudiente" required>
+									<label for="job" class="form-label">Empleo</label>
+								</div>
+							</div>
+
+							{# <input type="datetime-local" name="availability" class="form-control bg-secondary form-control-lg" placeholder="Fecha de Disponibilidad" required>
+							<label for="availability" class="form-label">Disponibilidad</label> #}
+						</div>
+						
 						<div class="col-md-6">
 							<div class="form-floating">
-								<input type="datetime-local" name="availability" class="form-control bg-secondary form-control-lg" placeholder="Fecha de Disponibilidad" required>
-								<label for="availability" class="form-label">Disponibilidad</label>
+								<!-- Button trigger availability modal -->
+								<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#availabilityModal">
+									Disponibilidad
+									<i class="far fa-calendar"></i>
+								</button>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-floating">
-								<input type="text" name="job" class="form-control bg-secondary form-control-lg" placeholder="Trabajo del Acudiente" required>
-								<label for="job" class="form-label">Empleo</label>
+
+						<!-- Availability Modal -->
+						<div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="availabilityModalLabel">Horario de Disponibilidad</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="row g-3">
+											<div class="col-md-12">
+												<div class="d-flex align-items-center justify-content-center gap-3">
+													{% set all_days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"] %}
+
+													{% for day in all_days %}
+														<input type="checkbox" value="{{day}}" class="btn-check" name="days_available[]" id="{{day}}" autocomplete="off">
+														<label class="btn" for="{{day}}">{{day}}</label>
+													{% endfor %}
+												</div>
+											</div>
+											<div class="col-md-6 px-3 text-center mt-4">
+												<label for="availability_time" class="form-label">Desde:</label>
+												<input type="time" name="availability_start_time" class="form-control bg-secondary form-control-lg" placeholder="Hora de Disponibilidad" required>
+											</div>
+											<div class="col-md-6 px-3 text-center mt-4">
+												<label for="availability_time" class="form-label">Hasta:</label>
+												<input type="time" name="availability_end_time" class="form-control bg-secondary form-control-lg" placeholder="Hora de Disponibilidad" required>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+											Cerrar
+											<i class="fas fa-times-circle"></i>
+										</button>
+										<button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal">
+											Guardar Cambios
+											<i class="fas fa-check-double"></i>
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					{% endif %}

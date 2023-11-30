@@ -121,15 +121,23 @@ class RegisterController extends BaseController {
       if (strlen($_GET['telephone']) !== 10) {
         throw new Exception("El número de telefono debe tener 10 dígitos");
       }
-
+      
       if ($_POST['identification'] === 'parent') {
         // validaciones para padres de familia
         if (empty($_GET['job'])) {
           throw new Exception('Ingrese su empleo');
         }
-        if (empty($_GET['availability'])) {
-          throw new Exception('Ingrese su disponibilidad');
+        if (empty($_GET['days_available'])) {
+          throw new Exception('Marque los días en los que se encuentra disponible');
         }
+        if (empty($_GET['availability_start_time'])) {
+          throw new Exception('Ingrese su horario de disponibilidad');
+        }
+        if (empty($_GET['availability_end_time'])) {
+          throw new Exception('Ingrese su horario de disponibilidad');
+        }
+
+        $days_available = implode(',', $_GET['days_available']);
       }
 
 
@@ -180,7 +188,9 @@ class RegisterController extends BaseController {
         $parent_created = $this->parentsModelInstance->create(
           $_GET['_id'],
           $_GET['job'],
-          $_GET['availability']
+          $days_available,
+          $_GET['availability_start_time'],
+          $_GET['availability_end_time'],
         );
 
         if (!$parent_created) {
